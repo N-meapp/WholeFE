@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body{
+    background: #ff5a540a;
+    /* font-family: "Plus Jakarta Sans", serif; */
+    font-family: primary-font;
+}
+
+@font-face {
+    font-family: primary-font;
+    src: url(./assets/Fonts/Comfortaa-Light.ttf);
+}
+
+@font-face {
+    font-family: primary-font-heavy;
+    src: url(./assets/Fonts/Mont-HeavyDEMO.otf);
+}   
