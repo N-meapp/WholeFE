@@ -1,22 +1,37 @@
 import { useState } from "react"
 import CategorySuggestionButton from "../../Components/Buttons/CategorySuggestionButton"
 import { categoryList } from "../../constants/strings"
+import loafer from "../../assets/Images/category/loafer.jpg"
+import sneakers from "../../assets/Images/category/sneakers.jpg"
+import { category } from "../../constants/cards"
+import CategoryCard from "../../Components/Category/CategoryCard"
 
 
 export default function CategorySuggestions(){
 
-    const [category,setCategory] = useState(categoryList)
+    const [categories,setCategories] = useState(categoryList)
 
     return(
         <>
-            <div className="mt-14 w-[90%] mx-auto flex gap-2 flex-wrap justify-center">
-                {category.map((cat)=>{
+        {/* for web */}
+            <div className="mt-14 w-[90%] mx-auto gap-2 flex-wrap justify-center md:flex hidden">
+                {categories.map((cat)=>{
                     return(
                         <>
                             <CategorySuggestionButton category={cat} />
                         </>
                     )
                 })}
+            </div>
+
+            {/* for mobile */}
+            <div className="mt-24 w-[90%] h-fit justify-between flex mx-auto md:hidden ">
+            {category.map((category)=>{
+                return(
+                    <CategoryCard category={category} />
+                )
+            })}
+
             </div>
         </>
     )

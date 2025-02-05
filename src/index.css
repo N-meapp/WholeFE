@@ -19,3 +19,18 @@ body{
     font-family: primary-font-heavy;
     src: url(./assets/Fonts/Mont-HeavyDEMO.otf);
 }   
+
+
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    scrollbar-width: none; /* For Firefox */
+  }
+
+
+  .custom-shadow{
+    box-shadow: 4px 5px 5px black;
+  }

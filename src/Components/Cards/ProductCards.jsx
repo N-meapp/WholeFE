@@ -17,19 +17,19 @@ export default function ProductCards({ card }) {
     <>
       <div onClick={()=>{
         handleOnclick()
-      }} className="w-48 h-full  flex flex-col rounded-xl shadow-xl hover:shadow-none transition-all cursor-pointer">
+      }} className="md:w-48 w-36 h-full  flex flex-col rounded-xl shadow-xl hover:shadow-none transition-all cursor-pointer">
         <img
-          className="h-48 object-cover object-center rounded-t-xl"
+          className=" md:h-48 h-32 object-cover object-center rounded-t-xl"
           src={card.images[0]}
         ></img>
         <div className="bg-[#ffffff] rounded-b-xl w-full text-center content-center h-32 p-2">
           <h1 className="font-bold text-lg text-[#535353]">{card.name}</h1>
           <div className="flex flex-wrap gap-4 justify-center">
-            {card.minPrize && card.maxPrize ? (
-              <h1 className="font-semibold">{`₹ ${card.minPrize}-${card.maxPrize}`}</h1>
+            {card.minprice && card.maxprice ? (
+              <h1 className="font-semibold">{`₹ ${card.minprice}-${card.maxprice}`}</h1>
             ) : (
               <h1 className="font-semibold">{`₹ ${
-                card.minPrize ? card.minPrize : card.maxPrize
+                card.minprice ? card.minprice : card.maxprice
               }`}</h1>
             )}
             {/* <h1 className='line-through text-gray-500 font-semibold'>₹ 3500</h1> */}

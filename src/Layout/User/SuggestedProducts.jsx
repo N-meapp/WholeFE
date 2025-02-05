@@ -13,7 +13,7 @@ export default function SuggestedProducts() {
 
   return (
     <>
-      <div className="mt-14 w-[90%] mx-auto h-auto mb-24">
+      <div className="mt-4 md:mt-14 w-[90%] mx-auto h-auto mb-24">
         <div className="w-full flex gap-10 items-center">
           {/* <h1 className="font-bold text-xl py-3 px-4 rounded-full bg-[#ff5a54] text-white cursor-pointer">Top offers</h1> */}
           <ActiveInactiveTabs
@@ -24,8 +24,8 @@ export default function SuggestedProducts() {
           {/* <ActiveInactiveTabs title={'Top products'} isActive={selectedTab=='Top products'?true:false} changeTab={changeTab} />
                 <ActiveInactiveTabs title={'Newly arrivals'} isActive={selectedTab=='Newly arrivals'?true:false} changeTab={changeTab} /> */}
         </div>
-        <div className="w-full h-full mt-12 pt-12 pb-12 bg-[#bebebe1c] rounded-xl text-center">
-          <div className="w-full h-full flex gap-8 flex-wrap justify-center ">
+        <div className='w-full h-full md:mt-12 mt-8 md:pt-12 pt-4 md:pb-12 pb-4 bg-[#bebebe1c] rounded-xl text-center'>
+                <div className="w-full h-full flex gap-8 flex-wrap justify-center">
             {selectedTab == "Suggested products"
               ? productCards.map((card) => {
                   return (
