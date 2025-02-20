@@ -1,31 +1,44 @@
-import Home from './Pages/User/Home'
-import Navbar from './Layout/User/Navbar'
-import Footer from './Layout/User/Footer'
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import ProductDetails from './Pages/User/ProductDetails'
-import Cart from './Pages/User/Cart'
-// import Dashboard from './Pages/Admin/Dashboard'
-
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import Home from './Pages/User/Home';
+import Navbar from './Layout/User/Navbar';
+import Footer from './Layout/User/Footer';
+import ProductDetails from './Pages/User/ProductDetails';
+import Cart from './Pages/User/Cart';
+import AdminHome from './admin/Pages/Home/AdminHome';
+import AdminLogin from './admin/Pages/AdminLogin/AdminLogin';
 
 function App() {
+  return (
+    <Router>
+      <Content />
+    </Router>
+  );
+}
+
+function Content() {
+  let location = useLocation();
 
   return (
     <>
-    <Router>
-    <Navbar />
+ 
+      {location.pathname !== '/admin' && location.pathname !== '/admin_login' && <Navbar />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product-details" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
-        {/* <Route path="/dashboard/*" element={<Dashboard />} />
-        <Route path="/auth/*" element={<Auth />} /> */}
+        <Route path="/admin" element={<AdminHome />} />
+        <Route path="/admin_login" element={<AdminLogin />} />
         {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
-        
       </Routes>
-    <Footer />
-    </Router>
+
+
+      {location.pathname !== '/admin' && location.pathname !== '/admin_login' && <Footer />}
+
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+

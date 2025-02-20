@@ -1,7 +1,5 @@
 
 
-
-
 export const offerCards = [
     {
         name:'Nike shoe for sale',
