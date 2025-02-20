@@ -41,7 +41,7 @@ const ImageMagnifier = ({
     return <div className="relative inline-block cursor-zoom-in">
         <img
             src={src}
-            className='h-96 w-full max-w-full rounded-xl object-contain object-center md:h-96'
+            className=' w-full max-w-full rounded-xl object-contain object-center md:h-96'
             width={width}
             height={height}
             alt={alt}
