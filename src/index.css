@@ -34,3 +34,25 @@ body{
   .custom-shadow{
     box-shadow: 4px 5px 5px black;
   }
+
+
+  .transition-bottom{
+    transition: bottom 5s ease, top 5s ease;
+  }
+
+
+  .swal2-container {
+    backdrop-filter: blur(10px);
+  }
+
+
+  .toast-blur{
+    backdrop-filter: blur(5px); /* Adjust the blur amount */
+  background-color: rgba(255, 255, 255, 0.8); /* Optional: Semi-transparent background */
+  color: black; /* Optional: Ensure text is readable */
+  }
+
+
+  .popins{
+    font-family: "Plus Jakarta Sans", serif;
+  }

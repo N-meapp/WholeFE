@@ -3,18 +3,31 @@ import logo from "../../assets/Images/shopping-cart.png";
 import profileImage from "../../assets/Images/profile/profile-1.jpg";
 import { Slider } from "@material-tailwind/react";
 import SideBar from "./SideBar";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import BottomNavBar from "./BottomNavbar";
+import { getSearchedOutput } from "../../api/productApi";
+import { SearchContext } from "../../main";
 
 export default function Navbar() {
   const [isSideBar, setIsSideBar] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const { searchKey, setSearchKey } = useContext(SearchContext);
 
   const navigate = useNavigate();
 
   const handleNav = () => {
     navigate("/cart");
+  };
+
+  const handleSearch = (value) => {
+    setSearchKey(value)
+    if(value){
+      navigate('/list')
+    }else{
+      navigate('/')
+    }
   };
 
   return (
@@ -28,9 +41,12 @@ export default function Navbar() {
             <div className="items-center h-full w-full flex gap-2">
               <div className="w-full relative">
                 <input
+                  onChange={(e) => {
+                    handleSearch(e.target.value);
+                  }}
                   type="message"
                   className="md:py-3 py-2 pr-8 border-[1px] border-[#ff5a5442] rounded-full w-full md:px-6 px-3 font-light md:text-base text-sm text-black placeholder:text-[#0000009c]"
-                  placeholder="Search for needs..."
+                  placeholder="Search your needs..."
                 ></input>
 
                 <div className="content-center absolute h-full md:right-1 right-2 top-0 w-fit ">
@@ -93,9 +109,11 @@ export default function Navbar() {
 
         <SideBar setIsSideBar={setIsSideBar} isSideBar={isSideBar} />
         <div className="md:hidden">
-        <BottomNavBar />
+          <BottomNavBar />
         </div>
       </div>
+      {/* <div className="w-full h-full absolute bg-[#ffffff]">
+      </div> */}
     </>
   );
 }

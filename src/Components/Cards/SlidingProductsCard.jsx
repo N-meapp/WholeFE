@@ -2,9 +2,8 @@ import { useNavigate } from "react-router-dom";
 import img from "../../assets/Images/products/shoeOne.png"
 import { useState } from "react";
  
-export default function ProductCards({ card }) {
+export default function SlidingProductsCard({ card }) {
   
-console.log('cardddd.......');
 
   
 
@@ -20,7 +19,7 @@ console.log('cardddd.......');
     <>
       <div onClick={()=>{
         handleOnclick()
-      }} className="md:w-48 w-full h-full mb-6 md:mb-0  flex flex-col rounded-xl shadow-lg hover:shadow-none transition-all cursor-pointer">
+      }} className="md:w-48 w-36 h-full md:mb-0  flex flex-col rounded-xl shadow-lg hover:shadow-none transition-all cursor-pointer">
         <img
   className="md:h-48 h-48 object-cover object-center rounded-t-xl"
   src={card?.product_images?.[0] || img}  // Use default image if undefined

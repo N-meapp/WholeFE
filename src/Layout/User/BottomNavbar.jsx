@@ -10,28 +10,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import profileImage from "../../assets/Images/profile/profile-1.jpg";
 import { useNavigate } from "react-router-dom";
+import SideBar from "./SideBar";
 
 export default function BottomNavBar() {
-  const [selectedTab, setSelectedTab] = useState(()=>{
-    const path = window.location.pathname; 
-const segments = path.split("/").filter(Boolean); 
-const pageName = segments[0];
+  const [isSideBar, setIsSideBar] = useState(false);
 
-if(pageName){
-  return pageName
-}else{
-  return 'home'
-}
+  console.log(isSideBar);
 
-    
+  const [selectedTab, setSelectedTab] = useState(() => {
+    const path = window.location.pathname;
+    const segments = path.split("/").filter(Boolean);
+    const pageName = segments[0];
+
+    if (pageName) {
+      return pageName;
+    } else {
+      return "home";
+    }
   });
 
-  const handleNav = useNavigate()
-
+  const handleNav = useNavigate();
 
   return (
     <>
-      <div className="w-full h-16 bg-[#ffffff] fixed bottom-0 flex justify-evenly items-center z-50 ">
+      <div className="w-full h-16 bg-[#ffffff] fixed bottom-0 flex justify-evenly items-center z-[100]">
         <div
           onClick={() => {
             setSelectedTab("home");
@@ -68,12 +70,19 @@ if(pageName){
             </svg>
           )}
 
-          <h1 className={`text-xs ${selectedTab =="home"?'black':'text-[#00000062]'}`}>Home</h1>
+          <h1
+            className={`text-xs ${
+              selectedTab == "home" ? "black" : "text-[#00000062]"
+            }`}
+          >
+            Home
+          </h1>
         </div>
 
         <div
           onClick={() => {
             setSelectedTab("orders");
+            handleNav('/order-list')
           }}
           className="text-center justify-items-center"
         >
@@ -114,17 +123,44 @@ if(pageName){
             </svg>
           )}
 
-          <h1 className={`text-xs ${selectedTab =="orders"?'black':'text-[#00000062]'}`}>Orders</h1>
+          <h1
+            className={`text-xs ${
+              selectedTab == "orders" ? "black" : "text-[#00000062]"
+            }`}
+          >
+            Orders
+          </h1>
         </div>
 
         <div className="text-center">
-          <button
-            onClick={() => {
-              setIsSideBar(true);
-            }}
-            className=" font-bold text-base rounded-full h-14 w-14 bg-[#ff5a54] text-white bg-center bg-cover mb-10 shadow-lg"
-            style={{ backgroundImage: `url(${profileImage})` }}
-          ></button>
+          {isSideBar ? (
+            <div onClick={() => {
+                setIsSideBar(!isSideBar);
+              }} className="cursor-pointer transition-all rounded-full h-14 w-14 content-center justify-items-center bg-[#ffffff] text-white bg-center bg-cover mb-10 shadow-lg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="black"
+                className="size-8"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                setIsSideBar(!isSideBar);
+              }}
+              className=" font-bold text-base rounded-full transition-all h-14 w-14 text-white bg-center bg-cover mb-10 shadow-lg"
+              style={{ backgroundImage: `url(${profileImage})` }}
+            ></button>
+          )}
         </div>
 
         <div
@@ -165,7 +201,13 @@ if(pageName){
             </svg>
           )}
 
-          <h1 className={`text-xs ${selectedTab =="cat"?'black':'text-[#00000062]'}`}>Category</h1>
+          <h1
+            className={`text-xs ${
+              selectedTab == "cat" ? "black" : "text-[#00000062]"
+            }`}
+          >
+            Category
+          </h1>
         </div>
 
         <div
@@ -203,9 +245,16 @@ if(pageName){
             </svg>
           )}
 
-          <h1 className={`text-xs ${selectedTab =="cart"?'text:[black] ':'text-[#00000062]'}`}>Cart</h1>
+          <h1
+            className={`text-xs ${
+              selectedTab == "cart" ? "text:[black] " : "text-[#00000062]"
+            }`}
+          >
+            Cart
+          </h1>
         </div>
       </div>
+      <SideBar setIsSideBar={setIsSideBar} isSideBar={isSideBar} />
     </>
   );
 }

@@ -1,4 +1,4 @@
-export default function PriceRange({range}){
+export default function     PriceRange({range}){
 
     const handleRange =()=>{
         if(range.from && range.to){

@@ -25,14 +25,25 @@ export default function CategorySuggestions(){
             </div>
 
             {/* for mobile */}
-            <div className="mt-24 w-[90%] h-fit justify-between flex mx-auto md:hidden ">
+            {/* <div className="mt-24 w-[90%] h-fit justify-between flex mx-auto md:hidden ">
             {category.map((category)=>{
                 return(
                     <CategoryCard category={category} />
                 )
             })}
 
-            </div>
+            </div> */}
+            <div className=" overflow-x-auto whitespace-nowrap scrollbar-hide mt-24 md:hidden block">
+  <div className="w-fit h-auto flex gap-3 px-[5%] pb-2">
+  {categories.map((cat)=>{
+                    return(
+                        <>
+                            <CategorySuggestionButton category={cat} />
+                        </>
+                    )
+                })}
+    </div>
+  </div>
         </>
     )
 }

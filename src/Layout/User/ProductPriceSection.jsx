@@ -1,14 +1,45 @@
+import { useState } from "react";
 import PriceRange from "../../Components/Buttons/PrizeRange";
+import ConfirmOrderModal from "../../Components/Modal/ConfirmOrderModal";
+import SuccessModal from "../../Components/Modal/SuccessModal";
+import { useNavigate } from "react-router-dom";
+import { placeOrder } from "../../api/productApi";
 
-export default function ProductpriceSection({ card }) {
+export default function ProductpriceSection({ card,handleCart,placeOrder }) {
+
+  const [isOrderConfirm,setIsOrderConfirm] = useState(false)
+  const [isOrder,setIsOrder] = useState(false)
+  const navigate = useNavigate()
+
+  const handlePlaceOrder = ()=>{
+    console.log('clickedd');
+    
+    setIsOrderConfirm(true)
+  }
+
+  const confirmOrder = () => {
+
+    placeOrder()
+    
+    setIsOrder(true)
+
+    setTimeout(() => {
+      setIsOrder(false)
+
+      navigate('/')
+      
+    },3000);
+
+  };
+
   return (
     <>
       <div className="md:w-2/5 h-fit md:mt-0 mt-8 rounded-xl shadow-xl bg-[#ffffff] p-12">
         <h1 className="font-semibold text-xl mb-5 text-[#4e4e4e]">
-          {card.name}
+          {card.product_name}
         </h1>
         <div className="w-full h-auto flex gap-5 justify-center flex-wrap">
-          {card?.priceRange?.map((range) => {
+          {card?.prize_range?.map((range) => {
             return (
               <>
                 <PriceRange range={range} />
@@ -20,13 +51,15 @@ export default function ProductpriceSection({ card }) {
           <h1 className="text-xs font-semibold">
             Total -{" "}
             <span className="py-3 px-5 text-white font-semibold rounded-full bg-green-400">
-              {card.stock} Pieces
+              {card.product_stock} Pieces
             </span>{" "}
           </h1>
         </div>
         <div className="w-full h-auto md:flex gap-5 justify-between mt-10">
           <div className=" content-center mb-4 md:mb-0">
-            <button className="w-10 h-10 rounded-full bg-[#000000] items-center gap-2 hover:w-24 pl-2 hover:pr-3 transition-all flex duration-500 group">
+            <button onClick={()=>{
+              handleCart()
+            }} className="w-10 h-10 rounded-full bg-[#000000] items-center gap-2 hover:w-24 pl-2 hover:pr-3 transition-all flex duration-500 group">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -52,7 +85,9 @@ export default function ProductpriceSection({ card }) {
                 <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
               </svg>
             </button>
-            <button className="md:flex hidden py-3 px-5 bg-[#ff5a54] text-white rounded-full font-bold w-full justify-center md:w-fit gap-3 mt-5 lg:mt-0 items-center">
+            <button onClick={()=>{
+              handlePlaceOrder()
+            }} className="md:flex hidden py-3 px-5 bg-[#ff5a54] text-white rounded-full font-bold w-full justify-center md:w-fit gap-3 mt-5 lg:mt-0 items-center">
               <h1>Place order</h1>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +107,9 @@ export default function ProductpriceSection({ card }) {
       </div>
       <div className="md:hidden block px-12 md:relative sticky -mt-20 bottom-24">
 
-      <button className=" flex py-3 px-5 bg-[#ff5a54] text-white rounded-full font-bold w-full justify-center md:w-fit gap-3 items-center ">
+      <button onClick={()=>{
+              handlePlaceOrder()
+            }} className="flex py-3 px-5 bg-[#ff5a54] text-white rounded-full font-bold w-full justify-center md:w-fit gap-3 items-center ">
               <h1>Place order</h1>
               {/* <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +134,18 @@ export default function ProductpriceSection({ card }) {
               </svg>
             </button>
       </div>
+      <ConfirmOrderModal 
+      setOpenModal={setIsOrderConfirm}
+        openModal={isOrderConfirm}
+        message={"Confirm order?"}
+        subMessage={"You can modify it later if needed."}
+        confirmOrder={confirmOrder} />
+        <SuccessModal 
+        setOpenModal={setIsOrder}
+        openModal={isOrder}
+        message={"Order placed"}
+        subMessage={"Order placed successfully!"}
+         />
     </>
   );
 }
