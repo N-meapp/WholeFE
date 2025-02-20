@@ -1,3 +1,48 @@
+// <<<<<<< sub
+
+// import React from 'react';
+// import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+// import Home from './Pages/User/Home';
+// import Navbar from './Layout/User/Navbar';
+// import Footer from './Layout/User/Footer';
+// import ProductDetails from './Pages/User/ProductDetails';
+// import Cart from './Pages/User/Cart';
+// import AdminHome from './admin/Pages/Home/AdminHome';
+// import AdminLogin from './admin/Pages/AdminLogin/AdminLogin';
+
+// function App() {
+//   return (
+//     <Router>
+//       <Content />
+//     </Router>
+//   );
+// }
+
+// function Content() {
+//   let location = useLocation();
+
+//   return (
+//     <>
+ 
+//       {location.pathname !== '/admin' && location.pathname !== '/admin_login' && <Navbar />}
+      
+//       <Routes>
+//         <Route path="/" element={<Home />} />
+//         <Route path="/product-details" element={<ProductDetails />} />
+//         <Route path="/cart" element={<Cart />} />
+//         <Route path="/admin" element={<AdminHome />} />
+//         <Route path="/admin_login" element={<AdminLogin />} />
+//         {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+//       </Routes>
+
+
+//       {location.pathname !== '/admin' && location.pathname !== '/admin_login' && <Footer />}
+// =======
+
+
+
+
+
 import Home from "./Pages/User/Home";
 import Navbar from "./Layout/User/Navbar";
 import Footer from "./Layout/User/Footer";
@@ -56,20 +101,3 @@ function App() {
 
 export default App;
 
-
-
-
-{/* <Router>
-        {user?.token && user?.user ? <Navbar /> : null}
-        <Routes>
-          <Route
-            path="/"
-            element={user?.token && user?.user ? <Home /> : <Login />}
-          />
-          <Route path="/product-details" element={<ProductDetails />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/list" element={<ProductsList />} />
-          <Route path="/order-list" element={<OrderList />} />
-        </Routes>
-        {user?.token && user?.user ? <Footer /> : null}
-      </Router> */}
