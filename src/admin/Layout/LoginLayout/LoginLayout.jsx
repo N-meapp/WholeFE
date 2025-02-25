@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const LoginLayout = () => {
+    const navitage = useNavigate()
   return (
     <>
     
@@ -39,7 +41,7 @@ const LoginLayout = () => {
                             </div>
                 
                             <div class="mt-7">
-                                <button class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                <button onClick={()=>navitage('/admin')} class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                     Login
                                 </button>
                             </div>
