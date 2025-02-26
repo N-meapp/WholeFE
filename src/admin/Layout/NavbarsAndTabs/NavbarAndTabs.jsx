@@ -17,7 +17,7 @@ const NavbarAndTabs = () => {
 
 
   const handleLogout = () => {
-    dispatch({ type: "ADMINLOGOUT" }); // Clears both user and admin
+    dispatch({ type: "ADMIN_LOGOUT" }); // Clears both user and admin
 };
 
   const dispatch = useDispatch();

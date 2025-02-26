@@ -63,6 +63,7 @@ import OrderList from "./Pages/User/OrderList";
 
 function App() {
   const user = useSelector((state) => state.user.user);
+  const admin = useSelector((state) => state.admin.admin);
 
   console.log(user, "uuuseeerrr");
 
@@ -70,7 +71,7 @@ function App() {
 
     
     <>
-    {user?.token && user?.admin ?
+    {admin?.token && admin?.admin ?
       <Router>
         <Routes>
           <Route path="/admin" element={<AdminHome />} />
