@@ -4,6 +4,28 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL ;
 
+
+export const AdminLogin = async (username, password)=>{
+    const data = {
+        username: username,
+        password: password
+    }
+    try {
+         
+        const result = await axios.post(`${BASE_URL}Login/`, data);
+
+        if(result.data.user_id && result.data.username){
+                return result?.data;
+        }else{
+            return false;
+        }
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 // priduct table Api requests
 export const fetchProductTableList = async (setFetchedData) => {
     try {

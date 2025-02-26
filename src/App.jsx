@@ -67,15 +67,26 @@ function App() {
   console.log(user, "uuuseeerrr");
 
   return (
+
+    
     <>
+    {user?.token && user?.admin ?
       <Router>
         <Routes>
           <Route path="/admin" element={<AdminHome />} />
-          <Route path="/admin_login" element={<AdminLogin />} />
+          {/* <Route path="/admin_login" element={<AdminLogin />} /> */}
           {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </Routes>
-      </Router>
+      </Router> :
 
+      <Router>
+      <Routes>
+        <Route path="/admin_login" element={<AdminLogin />} />
+        <Route path="*" element={<Navigate to="/admin_login" replace />} />
+      </Routes>
+    </Router>
+
+}
 
       {user?.token && user?.user ?
 

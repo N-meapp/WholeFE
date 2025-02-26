@@ -6,13 +6,21 @@ import OrdersTable from "../../Components/OrdersTable/OrdersTable";
 import SearchBox from "../../Components/SearchBox/SearchBox";
 import CategoryList from "../../Components/CategoryList/CategoryList";
 import Enquery from "../../Components/Enquery/Enquery";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavbarAndTabs = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const [activeTab, setActiveTab] = useState('dashboard');
 
+  const admin = useSelector((state) => state.admin.admin);
+
+
+  const handleLogout = () => {
+    dispatch({ type: "ADMINLOGOUT" }); // Clears both user and admin
+};
+
+  const dispatch = useDispatch();
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -175,7 +183,7 @@ const NavbarAndTabs = () => {
           alt="Avatar"
         />
         <span className="text-gray-600 font-medium truncate max-w-[7.5rem] dark:text-neutral-400">
-          Ashif kt
+        {admin?.admin}
         </span>
         <svg
           className={`hs-dropdown-open:rotate-180 size-4 ${isDropdownOpen ? "rotate-180" : ""}`}
@@ -219,7 +227,7 @@ const NavbarAndTabs = () => {
             >
               Downloads
             </a>
-            <a
+            <a onClick={handleLogout}
               className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-red-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700"
               href="#"
             >

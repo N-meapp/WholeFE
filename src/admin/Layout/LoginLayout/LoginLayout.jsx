@@ -1,11 +1,47 @@
 import React from 'react'
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { AdminLogin } from '../../../api/adminApi';
+import { useDispatch } from 'react-redux';
 
 const LoginLayout = () => {
-    const navitage = useNavigate()
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    console.log(username, password, 'login form');
+    
+  const handleLogin = ()=>{
+    if (!username.trim() || !password.trim()) {
+        alert("Please fill in both fields.");
+        return;
+    }
+    try {
+
+            AdminLogin(username, password)
+            .then((result)=>{
+
+                if (result) {
+                    navigate("/admin");
+                    dispatch({ type: "SET_ADMIN", payload: {
+                        admin: result?.username || "Guest",
+                        token: result?.user_id || "NoToken",
+                      } });
+                }else{
+                    alert('Admin not fount')
+                }
+
+            })
+      
+
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+  }
   return (
     <>
-    
     <div class="font-sans">
             <div class="relative min-h-screen flex flex-col sm:justify-center items-center bg-gray-100 ">
                 <div class="relative sm:max-w-sm w-full">
@@ -18,11 +54,11 @@ const LoginLayout = () => {
                         <form method="#" action="#" class="mt-10">
                                            
                             <div>
-                                <input type="email" placeholder=" Enter username" class="p-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" />
+                                <input onChange={(e)=>setUsername(e.target.value)} type="email" placeholder=" Enter username" class="p-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" />
                             </div>
                 
                             <div class="mt-7">                
-                                <input type="password" placeholder="Enter password" class="p-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" />                           
+                                <input onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="Enter password" class="p-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" />                           
                             </div>
 
                             <div class="mt-7 flex">
@@ -41,7 +77,7 @@ const LoginLayout = () => {
                             </div>
                 
                             <div class="mt-7">
-                                <button onClick={()=>navitage('/admin')} class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                                <button onClick={handleLogin} class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                                     Login
                                 </button>
                             </div>
