@@ -22,7 +22,7 @@ const LoginLayout = () => {
             .then((result)=>{
 
                 if (result) {
-                    navigate("/admin");
+                    navigate("/admin_dashboard");
                     dispatch({ type: "SET_ADMIN", payload: {
                         admin: result?.username || "Guest",
                         token: result?.user_id || "NoToken",

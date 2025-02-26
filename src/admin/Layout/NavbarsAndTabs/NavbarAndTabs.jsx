@@ -7,17 +7,23 @@ import SearchBox from "../../Components/SearchBox/SearchBox";
 import CategoryList from "../../Components/CategoryList/CategoryList";
 import Enquery from "../../Components/Enquery/Enquery";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const NavbarAndTabs = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
 
+  const navigate = useNavigate()
+
   const admin = useSelector((state) => state.admin.admin);
 
 
   const handleLogout = () => {
     dispatch({ type: "ADMIN_LOGOUT" }); // Clears both user and admin
+    navigate('/admin')
+
+
 };
 
   const dispatch = useDispatch();
