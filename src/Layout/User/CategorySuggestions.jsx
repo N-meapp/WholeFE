@@ -1,15 +1,20 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CategorySuggestionButton from "../../Components/Buttons/CategorySuggestionButton"
 import { categoryList } from "../../constants/strings"
 import loafer from "../../assets/Images/category/loafer.jpg"
 import sneakers from "../../assets/Images/category/sneakers.jpg"
 import { category } from "../../constants/cards"
 import CategoryCard from "../../Components/Category/CategoryCard"
+import { fetchCategoryList } from "../../api/productApi"
 
 
 export default function CategorySuggestions(){
 
-    const [categories,setCategories] = useState(categoryList)
+    const [categories,setCategories] = useState([])
+
+    useEffect(()=>{
+        fetchCategoryList(setCategories)
+    },[])
 
     return(
         <>

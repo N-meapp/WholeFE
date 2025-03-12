@@ -10,6 +10,9 @@ import SuccessTick from "../SuccessTick";
 
 export default function SuccessModal({openModal, setOpenModal,message,subMessage}) {
 
+  console.log('uuuummmbbiiiiii');
+  
+
   return (
     <>
       <Modal show={openModal} className="bg-white/30 backdrop-blur-md sm:px-[5%] md:px-[20%] lg:px-[35%]" size="md" popup>

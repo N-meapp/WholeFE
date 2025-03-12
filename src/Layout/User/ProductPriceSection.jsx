@@ -4,11 +4,17 @@ import ConfirmOrderModal from "../../Components/Modal/ConfirmOrderModal";
 import SuccessModal from "../../Components/Modal/SuccessModal";
 import { useNavigate } from "react-router-dom";
 import { placeOrder } from "../../api/productApi";
+import TechnicalError from "../../Components/Modal/TechnicalError";
+import InvalidError from "../../Components/Modal/InvalidError";
+import CountInput from "../../Components/Inputs/CountInput";
+import HandleAddPlaceOrderAddress from "./HandleAddPlaceOrderAddress";
 
-export default function ProductpriceSection({ card,handleCart,placeOrder }) {
+export default function ProductpriceSection({ card,handleCart,handleOrder}) {
 
   const [isOrderConfirm,setIsOrderConfirm] = useState(false)
+  const [isError,setIsError] = useState(false)
   const [isOrder,setIsOrder] = useState(false)
+  const [count,setCount] = useState(1)
   const navigate = useNavigate()
 
   const handlePlaceOrder = ()=>{
@@ -19,16 +25,22 @@ export default function ProductpriceSection({ card,handleCart,placeOrder }) {
 
   const confirmOrder = () => {
 
-    placeOrder()
+    const resultStatus = handleOrder()
+
+    if(resultStatus){
+      setIsOrder(true)
+      setTimeout(() => {
+        setIsOrder(false)
+  
+        navigate('/')
+        
+      },3000);
+    }else{
+        setIsError(true)
     
-    setIsOrder(true)
+     
+    }
 
-    setTimeout(() => {
-      setIsOrder(false)
-
-      navigate('/')
-      
-    },3000);
 
   };
 
@@ -47,18 +59,22 @@ export default function ProductpriceSection({ card,handleCart,placeOrder }) {
             );
           })}
         </div>
-        <div className="h-56 w-full  border-y-2 mt-10 py-8">
+        <div className=" w-full  border-y-2 mt-10 py-8 flex-col flex gap-8">
+        <div className="flex items-center gap-2">
           <h1 className="text-xs font-semibold">
             Total -{" "}
-            <span className="py-3 px-5 text-white font-semibold rounded-full bg-green-400">
-              {card.product_stock} Pieces
-            </span>{" "}
           </h1>
+            <button className="py-3 px-5 text-xs text-white font-semibold rounded-full bg-green-400">
+              {card.product_stock} Pieces
+            </button>{" "}
+
+        </div>
+          <CountInput count={count} setCount={setCount} stock={card.product_stock} />
         </div>
         <div className="w-full h-auto md:flex gap-5 justify-between mt-10">
           <div className=" content-center mb-4 md:mb-0">
             <button onClick={()=>{
-              handleCart()
+              handleCart(count)
             }} className="w-10 h-10 rounded-full bg-[#000000] items-center gap-2 hover:w-24 pl-2 hover:pr-3 transition-all flex duration-500 group">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,18 +150,20 @@ export default function ProductpriceSection({ card,handleCart,placeOrder }) {
               </svg>
             </button>
       </div>
-      <ConfirmOrderModal 
+      <HandleAddPlaceOrderAddress 
       setOpenModal={setIsOrderConfirm}
         openModal={isOrderConfirm}
         message={"Confirm order?"}
         subMessage={"You can modify it later if needed."}
         confirmOrder={confirmOrder} />
+        
         <SuccessModal 
         setOpenModal={setIsOrder}
         openModal={isOrder}
         message={"Order placed"}
         subMessage={"Order placed successfully!"}
          />
+         <InvalidError setOpenModal={setIsError} openModal={isError} />
     </>
   );
 }

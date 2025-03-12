@@ -53,13 +53,27 @@ export default function ProfileEditor({
   };
 
   const handleSave = () => {
-    // updateUser({username:username,phone:phone})
-    toast.success("Address saved successfully!", {
-      onClose: () => {
-        setEditProfile(false);
-      },
-    });
+    updateUser({username:username,phone:phone},user.id).then((res)=>{
+      if(res){
+        console.log('hahahahahmmmmmaaa');
+        
+        toast.success("Address saved successfully!", {
+          onClose: () => {
+            setEditProfile(false);
+          },
+        });
+      }
+    })
+    console.log('hauuuuu');
   };
+
+  const onchangePhone = (value)=>{
+
+    // if(regex.test(value)){
+      // }
+      
+        setPhone(value);
+  }
 
   return (
     <>
@@ -122,10 +136,18 @@ export default function ProfileEditor({
               </div>
               <div className="w-full flex flex-col justify-evenly">
                 <input
+                onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                value={username}
                   className="w-full h-10 rounded-lg px-3 border border-[#b3adad60]"
                   placeholder="Name..."
                 ></input>
                 <input
+                onChange={(e) => {
+                      onchangePhone(e.target.value)
+                    }}
+                value={phone}
                   className="w-full h-10 rounded-lg px-3 border border-[#b3adad60]"
                   placeholder="Contact No..."
                 ></input>
@@ -151,7 +173,7 @@ export default function ProfileEditor({
                 <h1>Use current location</h1>
               </button>
             </div>
-            <button className="py-3 h-fit w-fit px-5 rounded-full bg-[#ff5a54] text-white font-bold absolute bottom-3 right-3">
+            <button onClick={handleSave} className="py-3 h-fit w-fit px-5 rounded-full bg-[#ff5a54] text-white font-bold absolute bottom-3 right-3">
               Save
             </button>
           </div>
@@ -209,7 +231,7 @@ export default function ProfileEditor({
                   ></input>
                   <input
                     onChange={(e) => {
-                      setPhone(e.target.value);
+                      onchangePhone(e.target.value)
                     }}
                     value={phone}
                     className="w-full h-10 rounded-lg px-3 border text-sm border-[#b3adad60] placeholder:text-sm"
@@ -238,7 +260,6 @@ export default function ProfileEditor({
                 <h1>Use current location</h1>
               </button>
             </div>
-
             <div className="flex gap-4 justify-end">
               <button
                 onClick={() => {

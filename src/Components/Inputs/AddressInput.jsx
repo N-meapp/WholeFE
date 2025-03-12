@@ -1,7 +1,7 @@
 import { Label } from "flowbite-react";
 import { useEffect, useState } from "react";
 
-export default function AddressInput({ empty,label, value, objKey,setCurrAddress,currAddress}) {
+export default function AddressInput({ empty,label, value, objKey,setCurrAddress,currAddress,setEmpty}) {
   const [field, setField] = useState(value?value:'');
   const [isEmpty,setIsEmpty] = useState(false)
 
@@ -13,10 +13,28 @@ export default function AddressInput({ empty,label, value, objKey,setCurrAddress
   },[empty,objKey])
 
   const handleChange =(e)=>{
-    setField(e.target.value)
-    setIsEmpty(false)
-    const tempObj = currAddress
-    tempObj[`${objKey}`] = e.target.value
+    let tempEmpty = empty
+
+    if(e.target.value.trim() === ''){
+      console.log('haiiiiii');
+      setIsEmpty(true)
+      setField(e.target.value)
+      tempEmpty.push(objKey)
+      setEmpty(tempEmpty)
+
+      
+    }else{
+      setField(e.target.value)
+      setIsEmpty(false)
+      const tempObj = currAddress
+      tempObj[`${objKey}`] = e.target.value
+      console.log(tempObj,'thisis temp objjjjj');
+      setCurrAddress(tempObj)
+      tempEmpty = tempEmpty.filter(obj => obj !== objKey)
+      setEmpty(tempEmpty)
+
+    }
+    
     
   }
   

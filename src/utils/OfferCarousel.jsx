@@ -1,6 +1,6 @@
 import { Carousel } from "@material-tailwind/react";
-import offerImageOne from "../assets/Images/offers/offer-one.jpg"
-import offerImageTwo from "../assets/Images/offers/offer-two.png"
+import offerImageOne from "../assets/Images/offers/offer-five.jpg"
+import offerImageTwo from "../assets/Images/offers/offer-four.jpg"
 import offerImageThree from "../assets/Images/offers/offer-three.png"
  
 export default function OfferCarusel() {

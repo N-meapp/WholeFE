@@ -4,7 +4,7 @@ import { useState } from "react";
  
 export default function ProductCards({ card }) {
   
-console.log('cardddd.......');
+console.log(card,'cardddd.......');
 
   
 
@@ -27,7 +27,7 @@ console.log('cardddd.......');
   alt="Product"></img>
 
         <div className="bg-[#ffffff] rounded-b-xl w-full text-center content-center  md:h-32 p-2">
-          <h1 className="font-bold text-sm md:text-lg text-[#535353] truncate">{card?.product_name}ddddd</h1>
+          <h1 className="font-bold text-sm md:text-lg text-[#535353] truncate">{card?.product_name}</h1>
           <div className="flex flex-wrap gap-2 md:gap-4 justify-center">
             {card?.prize_range?.length>1? (
               <h1 className="text-sm md:text-lg font-semibold">{`₹ ${card.prize_range[card?.prize_range?.length-1].price} - ${card.prize_range[0].price}`}</h1>
