@@ -10,13 +10,14 @@ const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 
 const CustomerTable = () => {
-  const [itemsPerPage, setItemsPerPage] = useState(6); // Default items per page
+  const [costumerTableData, setCostumerTableData] = useState([])
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [costumerTableData, setCostumerTableData] = useState([])
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
+  const [discount, setDiscount] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [selectedCustomer, setSelectedcustomer] = useState('')
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,23 +46,23 @@ const CustomerTable = () => {
   const currentItems = costumerTableData.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  // Change page
+
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(1); // Reset to first page
+    setCurrentPage(1);
   };
 
   const handleSubmit = async () => {
     try {
 
       if (password === confirmPassword) {
-        const response = await postCreatCostumer(userName, confirmPassword)
+        const response = await postCreatCostumer(userName, confirmPassword, discount)
         console.log("Upload successful:", response);
         fetchCustomerTableList(setCostumerTableData)
         setIsOpen(false)
-        // alert('Customer created successfully')
+
       } else {
         alert('password not matched!')
       }
@@ -88,6 +89,7 @@ const CustomerTable = () => {
     username: costumerTableData?.username || "",
     password: "",
     confirmPassword: "",
+    discount_individual: "",
   });
 
   const handleChange = (e) => {
@@ -102,7 +104,7 @@ const CustomerTable = () => {
     }
 
     try {
-      const response = await updateCustomer(selectedCustomer, formData.username, formData.password, setIsOpenEdit, window.alert);
+      const response = await updateCustomer(selectedCustomer, formData.username, formData.password, formData.discount_individual, setIsOpenEdit, window.alert);
       // setIsOpenEdit(false);  
       fetchCustomerTableList(setCostumerTableData)
       console.log(response);
@@ -116,8 +118,8 @@ const CustomerTable = () => {
 
 
   const filteredCustomers = costumerTableData.filter((customer) =>
-    (customer.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase()))
+  (customer.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -128,9 +130,9 @@ const CustomerTable = () => {
           <div class="flex items-center h-10 intro-y mb-2">
             <h2 class="mr-5 text-lg font-medium truncate">Customers</h2>
             <SearchBox
-            valuee={searchTerm}
-            onChangee={(e) => setSearchTerm(e.target.value)}
-             />
+              valuee={searchTerm}
+              onChangee={(e) => setSearchTerm(e.target.value)}
+            />
 
             {/* <input
               type="text"
@@ -154,6 +156,7 @@ const CustomerTable = () => {
                 <th className="p-4 text-left text-sm font-semibold text-black">Name and Image</th>
                 <th className="p-4 text-left text-sm font-semibold text-black">Block</th>
                 <th className="p-4 text-left text-sm font-semibold text-black">User Name</th>
+                <th className="p-4 text-left text-sm font-semibold text-black">Discount</th>
                 <th className="p-4 text-left text-sm font-semibold text-black">Action</th>
               </tr>
             </thead>
@@ -165,7 +168,7 @@ const CustomerTable = () => {
                   <tr key={item.id} className="odd:bg-blue-50">
                     <td className="p-4 text-sm">
                       <div className="flex items-center">
-                        <img src={`${BASE_URL}${item.profile_image}`} className="w-12 h-12 rounded-full object-cover" alt={item.username} />
+                        <img src={`${item.profile_image}`} className="w-12 h-12 rounded-full object-cover" alt={item.username} />
                         <div className="ml-4">
                           <p className="text-sm text-black">{item.username}</p>
                           <p className="text-xs text-gray-500">{item.permanent_adress}</p>
@@ -208,10 +211,9 @@ const CustomerTable = () => {
                       </label>
 
 
-
-
                     </td>
                     <td className="p-4 text-sm text-black">{item.username}</td>
+                    <td className="p-4 text-sm text-black">{item.discount_individual} %</td>
                     <td className="p-4">
                       <button className="mr-4" title="Edit" onClick={() => { setIsOpenEdit(true); setSelectedcustomer(item.id); }}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 fill-[#5764df] hover:fill-[#4e5ef0]"
@@ -312,6 +314,8 @@ const CustomerTable = () => {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         title="Create Costumer"
+        modalClass={"hs-overlay overflow-scroll fixed inset-0 z-[80] flex items-center justify-center"}
+        popupClass={"hs-overlay-animation-target scale-95 opacity-100 transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto bg-white rounded-2xl shadow-lg"}
         ModelContent={
           <>
             <form>
@@ -319,10 +323,23 @@ const CustomerTable = () => {
                 <input onChange={(e) => setUserName(e.target.value)} value={userName} type="text" class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="User Name" />
                 <input onChange={(e) => setPassword(e.target.value)} type="password" class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Passwprd" />
                 <input onChange={(e) => setConfirmPassword(e.target.value)} type="password" class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Passwprd" />
+                <input
+                  onChange={(e) => {
+                    let value = Number(e.target.value);
+                    if (value < 0) value = 0;
+                    if (value > 100) value = 100;
+                    setDiscount(value);
+                  }}
+                  value={discount}
+                  type="number"
+                  min="1"
+                  max="100"
+                  class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                  placeholder="Enter Discount (1-100%)"
+                />
+
               </div>
-
             </form>
-
           </>
         }
         submit={handleSubmit}
@@ -333,6 +350,8 @@ const CustomerTable = () => {
         isOpen={isOpenEdit}
         onClose={() => setIsOpenEdit(false)}
         title="Edit Customer"
+        modalClass={"hs-overlay overflow-scroll fixed inset-0 z-[80] flex items-center justify-center"}
+        popupClass={"hs-overlay-animation-target scale-95 opacity-100 transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto bg-white rounded-2xl shadow-lg"}
         ModelContent={
           <div className="max-w-full space-y-3 w-full p-3">
             <input
@@ -358,6 +377,25 @@ const CustomerTable = () => {
               onChange={handleChange}
               className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
               placeholder="Confirm Password"
+            />
+            <input
+              onChange={(e) => {
+                let value = Number(e.target.value);
+                if (value < 0) value = 0;
+                if (value > 100) value = 100;
+
+                setFormData((prevData) => ({
+                  ...prevData,
+                  discount_individual: value, // Update formData directly
+                }));
+              }}
+              value={formData.discount_individual} // Use formData
+              type="number"
+              min="1"
+              max="100"
+              name="discount_individual"
+              class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+              placeholder="Enter Discount (1-100%)"
             />
             <button
               onClick={handleUpdate}

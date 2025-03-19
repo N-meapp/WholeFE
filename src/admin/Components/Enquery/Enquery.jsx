@@ -11,10 +11,10 @@ const Enquery = () => {
 
 
     return (
-        <>
+        <div className='p-7'>
             {enqueryData.map((item) => (
 
-                <div class="flex w-full">
+                <div class="flex w-full mb-5">
                     <div
                         class="mr-5 flex h-10 min-h-[40px] min-w-[40px] items-center justify-center rounded-full bg-[#4a7fe8] dark:border dark:border-zinc-800">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
@@ -26,7 +26,7 @@ const Enquery = () => {
                         </svg>
                         </div>
                     <div
-                        class="rounded-xl border flex shadow-lg !max-h-max bg-[#fbfbfb] p-5 !px-[22px] !py-[22px] text-base font-normal leading-6 text-black backdrop-blur-xl dark:border-zinc-800 dark:!bg-white/5 dark:text-white md:text-base md:leading-[26px]">
+                        class="rounded-xl w-full border flex shadow-lg !max-h-max bg-[#fbfbfb] p-5 !px-[22px] !py-[22px] text-base font-normal leading-6 text-black backdrop-blur-xl dark:border-zinc-800 dark:!bg-white/5 dark:text-white md:text-base md:leading-[26px]">
                         <div class="text-base font-normal">
                             <p><strong>{item.username}</strong></p>
                             <div className='flex gap-3 w-full'>  <img
@@ -50,7 +50,7 @@ const Enquery = () => {
 
             ))}
 
-        </>
+        </div>
     )
 }
 
