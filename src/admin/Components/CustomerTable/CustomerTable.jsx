@@ -21,7 +21,9 @@ const CustomerTable = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [selectedCustomer, setSelectedcustomer] = useState('')
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectUpdateCustomer, setSelectUpdateCustomer] = useState([])
 
+console.log(selectUpdateCustomer, "select customerrr");
 
   useEffect(() => {
     fetchCustomerTableList(setCostumerTableData)
@@ -215,7 +217,12 @@ const CustomerTable = () => {
                     <td className="p-4 text-sm text-black">{item.username}</td>
                     <td className="p-4 text-sm text-black">{item.discount_individual} %</td>
                     <td className="p-4">
-                      <button className="mr-4" title="Edit" onClick={() => { setIsOpenEdit(true); setSelectedcustomer(item.id); }}>
+                      <button className="mr-4" title="Edit" onClick={() => { 
+                         setIsOpenEdit(true);
+                         setSelectUpdateCustomer(item);
+                         setSelectedcustomer(item.id); 
+                         
+                        }}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 fill-[#5764df] hover:fill-[#4e5ef0]"
                           viewBox="0 0 348.882 348.882">
                           <path
@@ -357,7 +364,7 @@ const CustomerTable = () => {
             <input
               type="text"
               name="username"
-              value={formData.username}
+              value={selectUpdateCustomer.username}
               onChange={handleChange}
               className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
               placeholder="User Name"

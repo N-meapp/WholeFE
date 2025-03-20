@@ -356,7 +356,7 @@ export const updateCustomer = async (customerId, username, password,discount_ind
 };
 
 
-export const singleOrderStatusUpdating = async (singleRejectedData) => {
+export const singleOrderStatusUpdating = async (singleRejectedData ,alert) => {
     try {
       const response = await api.patch(`Update_order_status/`, singleRejectedData);
       alert('upadetd')
@@ -371,7 +371,7 @@ export const singleOrderStatusUpdating = async (singleRejectedData) => {
 
   export const updateAcceptAllRejectAllStatus= async (AcceptAllRjectAllData, id) => {
     try {
-      const response = await api.patch(`${BASE_URL}Update_tracking/${AcceptAllRjectAllData.id}/`, AcceptAllRjectAllData);
+      const response = await api.patch(`${BASE_URL}Update_order_status/`, AcceptAllRjectAllData);
       alert('upadetd')
       return response.data;
     } catch (error) {

@@ -22,6 +22,9 @@ const NavbarAndTabs = () => {
 
   const handleLogout = () => {
     dispatch({ type: "ADMIN_LOGOUT" }); // Clears both user and admin
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    console.log("Logged out successfully!");
     navigate('/admin')
 
 

@@ -130,9 +130,9 @@ console.log(serchedData, "{searchOrders");
   const handleSubmit = async () => {
     try {
       const response = await singleOrderStatusUpdating(singleRejectedData)
-      console.log("updated successfully", response);
       fetchOrdersList(setOrderData)
       setIsOpen(false)
+      console.log("updated successfully", response);
     } catch (error) {
       console.log(error);
 
@@ -420,9 +420,9 @@ console.log(serchedData, "{searchOrders");
 
                 // Check order status conditions
                 const allNull = products.every((product) => product.order_status === "null");
-                const allAccepted = products.every((product) => product.order_status === "accepted");
-                const allRejected = products.every((product) => product.order_status === "rejected");
-                const rejectedCount = products.filter((product) => product.order_status === "rejected").length;
+                const allAccepted = products.every((product) => product.order_status === "Accept");
+                const allRejected = products.every((product) => product.order_status === "Reject");
+                const rejectedCount = products.filter((product) => product.order_status === "Reject").length;
                 const hasRejection = rejectedCount > 0; // At least one product is rejected
 
                 // Function to update all order statuses
@@ -583,7 +583,7 @@ console.log(serchedData, "{searchOrders");
                                         class="bg-gray-300 px-4 py-2 text-[#ff3232] rounded-xl">
                                         Reject
                                       </button>
-                                    ) : product.order_status === "accepted"? (
+                                    ) : product.order_status === "Accept"? (
                                       <p className='text-sm text-[#3abe2f]'>Accepetd</p>
                                     ):(
                                       <p className='text-sm text-[#e92f2f]'>Rejected</p>

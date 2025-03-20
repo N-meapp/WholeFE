@@ -43,14 +43,11 @@ const SelectBtn = ({ value, onChange }) => {
           <option value="Select" className="cursor-pointer">
             Select status
           </option>
-          <option value="packed" className="cursor-pointer">
+          <option value="Packed" className="cursor-pointer">
             Packed
           </option>
-          <option value="shipped" className="cursor-pointer">
+          <option value="Shipped" className="cursor-pointer">
             Shipped
-          </option>
-          <option value="devlivered" className="cursor-pointer">
-            Devlivered
           </option>
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
