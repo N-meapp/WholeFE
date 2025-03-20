@@ -9,6 +9,9 @@ const BASE_URL = import.meta.env.VITE_BASE_URL ;
 export const AdminLogin = async (username, password) => {
     const data = { username, password };
 
+    console.log(data,api,'adminnn logiinnn');
+    
+
     try {
         const result = await axios.post(`${BASE_URL}Login/`, data);
 
