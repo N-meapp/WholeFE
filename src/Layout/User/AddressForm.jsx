@@ -5,7 +5,8 @@ export default function AddressForm({
   setAddress,
   address,
   handleSaveAddress,
-  setIsEditAddress
+  setIsEditAddress,
+  userId
 }) {
   const [currAddress, setCurrAddress] = useState(
     address
@@ -23,20 +24,16 @@ export default function AddressForm({
   const [empty, setEmpty] = useState([]);
 
   const handleSave = () => {
-    const newEmptyFields = [];
 
-    for (const key in currAddress) {
-      if (!currAddress[key]) {
-        newEmptyFields.push(key);
-      }
+    console.log(empty,'emppppptyyy');
+    
+
+    if(empty.length==0){
+      console.log(currAddress,'curreaddress');
+      handleSaveAddress(currAddress)
     }
 
-    if (newEmptyFields.length == 0) {
-      handleSaveAddress(currAddress);
-      setAddress(currAddress);
-    } else {
-      setEmpty(newEmptyFields);
-    }
+    
   };
 
   return (
@@ -45,6 +42,7 @@ export default function AddressForm({
         <div className="w-3/5 h-fit p-10 pb-20 bg-[#ffffff] mx-auto rounded-xl relative">
         <div className="flex w-full mb-6 gap-2">
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -54,6 +52,7 @@ export default function AddressForm({
           />
 
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -65,6 +64,7 @@ export default function AddressForm({
 
         <div className="flex flex-col w-full gap-6 mb-4">
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -74,6 +74,7 @@ export default function AddressForm({
           />
 
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -82,6 +83,7 @@ export default function AddressForm({
             objKey="city"
           />
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -90,6 +92,7 @@ export default function AddressForm({
             objKey="housename"
           />
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -98,6 +101,7 @@ export default function AddressForm({
             objKey="roadname"
           />
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             value={currAddress?.landmark}
@@ -139,6 +143,7 @@ export default function AddressForm({
       <div className="w-full px-6 pt-14 md:hidden block">
         <div className="flex w-full mb-6 gap-2">
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -148,6 +153,7 @@ export default function AddressForm({
           />
 
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -159,6 +165,7 @@ export default function AddressForm({
 
         <div className="flex flex-col w-full gap-6 mb-4">
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -168,6 +175,7 @@ export default function AddressForm({
           />
 
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -176,6 +184,7 @@ export default function AddressForm({
             objKey="city"
           />
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -184,6 +193,7 @@ export default function AddressForm({
             objKey="housename"
           />
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             currAddress={currAddress}
@@ -192,6 +202,7 @@ export default function AddressForm({
             objKey="roadname"
           />
           <AddressInput
+          setEmpty={setEmpty}
             empty={empty}
             setCurrAddress={setCurrAddress}
             value={currAddress?.landmark}

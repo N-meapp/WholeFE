@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import img from "../../assets/Images/products/shoeOne.png"
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { addToHistory } from "../../api/productApi";
  
 export default function SlidingProductsCard({ card }) {
-  
+  const user = useSelector((state) => state.user.user);
+
 
   
 
@@ -11,7 +14,7 @@ export default function SlidingProductsCard({ card }) {
 
   const handleOnclick = ()=>{
     console.log('heelloooo');
-    
+    addToHistory(user.token,card?.product_category)
     navigate('/product-details',{state:card})
   }
 
@@ -27,9 +30,9 @@ export default function SlidingProductsCard({ card }) {
 
         <div className="bg-[#ffffff] rounded-b-xl w-full text-center content-center  md:h-32 p-2">
           <h1 className="font-bold text-sm md:text-lg text-[#535353] truncate">{card?.product_name}ddddd</h1>
-          <div className="flex flex-wrap gap-2 md:gap-4 justify-center">
+          <div className="flex flex-wrap gap-2 md:gap-4 justify-center whitespace-break-spaces">
             {card?.prize_range?.length>1? (
-              <h1 className="text-sm md:text-lg font-semibold">{`₹ ${card.prize_range[card?.prize_range?.length-1].price} - ${card.prize_range[0].price}`}</h1>
+              <h1 className="text-sm md:text-lg font-semibold">{`₹ ${card.prize_range[card?.prize_range?.length-1].prize} - ${card.prize_range[0].prize}`}</h1>
             ) : (
               <h1 className="text-sm md:text-lg font-semibold">{`₹ ${
                 card.product_minprice ? card.product_minprice : card.product_maxprice

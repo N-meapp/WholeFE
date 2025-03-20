@@ -29,17 +29,19 @@ export const userLogin = async (username, password) => {
 
 
 export const getUser = async (setData,id) => {
+
   
   try {
     const result = await axios.get(`${BASE_URL}Profile_update_custumer/${id}`);
 
+    console.log(result,'resulttttt.....iddddd');
     
 
     if(result.data){
-      console.log('log',result.data);
+
       setData(result.data)
       return result.data
-    }else{
+    }else{  
       return false
     }
     
@@ -56,9 +58,9 @@ export const getUser = async (setData,id) => {
 export const updateAddress = async (address,id) => {
   
   try {
-    const result = await axios.post(`${BASE_URL}Profile_update_custumer/${id}`,{address:address});
+    const result = await axios.patch(`${BASE_URL}Profile_update_custumer/${id}/`,{address:address});
     if(result.data){
-      console.log('log',result.data);
+
       return result.data
     }else{
       return false
@@ -71,12 +73,13 @@ export const updateAddress = async (address,id) => {
 
 
 
-export const updateUser = async (data,id) => {
+export const updateUser = async (data,id) => {  
+
   
   try {
-    const result = await axios.post(`${BASE_URL}Profile_update_custumer/${id}`,{data:data});
+    const result = await axios.patch(`${BASE_URL}Profile_update_custumer/${id}/`,{username:data.username,phone_number:data.phone});
     if(result.data){
-      console.log('log',result.data);
+
       return result.data
     }else{
       return false

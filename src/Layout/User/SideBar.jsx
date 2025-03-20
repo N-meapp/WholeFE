@@ -18,6 +18,8 @@ export default function SideBar({ setIsSideBar, isSideBar }) {
   const [isLogoutConfirm, setIsLogoutConfirm] = useState(false);
   const [isLogout, setIsLogout] = useState(false);
 
+  
+
   const handleNav = (path) => {
     console.log("haiiii");
 

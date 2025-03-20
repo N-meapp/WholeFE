@@ -1072,3 +1072,57 @@ export const category = [
   { name: "Flip-flops", image: "/src/assets/Images/category/flipflops.jpg" },
   { name: "Sports shoes", image: "/src/assets/Images/category/sports-shoes.jpg" },
 ];
+
+
+
+
+
+export const orders = [
+  {
+    userId:'sdfsdf',
+    address:'sdfsdfsdf',
+    orderId:'sdfsdfiijiffjiif',
+    date:'sdfowowowow',
+    totalAmount:'fsaaaaaaaaaaaa',
+    product:[{
+      productId:"product-id",
+      count:"1400",
+      amount:"1000000"
+    },
+    {
+      productId:"product-id",
+      count:"1400",
+      amount:"1000000"
+    },{
+      productId:"product-id",
+      count:"1400",
+      amount:"1000000"
+    }]
+  },{
+    userId:'sdfsdf',
+    address:'sdfsdfsdf',
+    orderId:'sdfsdfiijiffjiif',
+    date:'sdfowowowow',
+    totalAmount:'fsaaaaaaaaaaaa',
+    product:[{
+      productId:"product-id",
+      count:"1400",
+      amount:"1000000"
+    },{
+      productId:"product-id",
+      count:"1400",
+      amount:"1000000"
+    }]
+  },{
+    userId:'sdfsdf',
+    address:'sdfsdfsdf',
+    orderId:'sdfsdfiijiffjiif',
+    date:'sdfowowowow',
+    totalAmount:'fsaaaaaaaaaaaa',
+    product:[{
+      productId:"product-id",
+      count:"1400",
+      amount:"1000000"
+    }]
+  }
+]

@@ -11,12 +11,13 @@ import {
 } from "react-router-dom";
 import ProductDetails from "./Pages/User/ProductDetails";
 import Cart from "./Pages/User/Cart";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Login from "./Pages/User/Login";
 import ProductsList from "./Pages/User/ProductsList";
 import OrderList from "./Pages/User/OrderList";
 import { useSelect } from "@material-tailwind/react";
+import CategoryList from "./Pages/User/CategoryList";
 
 function App() {
   const user = useSelector((state) => state.user.user);
@@ -24,6 +25,7 @@ function App() {
 
   const path = window.location.pathname;
   // const admin = true;
+
 
   return (
     <>
@@ -38,7 +40,7 @@ function App() {
             :
             <>
             <Route path="/admin" element={<AdminLogin />} />
-            <Route path="*" element={<Navigate to="/admin" replace />} />    
+            <Route path="*" element={<Navigate to="/admin" replace />} />
             </>
             
           }
@@ -53,6 +55,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/list" element={<ProductsList />} />
             <Route path="/order-list" element={<OrderList />} />
+            <Route path="/category-list" element={<CategoryList />} />
             <Route path="*" element={<Home />} />
           </Routes>
           <Footer />
