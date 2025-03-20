@@ -1,48 +1,5 @@
-// <<<<<<< sub
-
-// import React from 'react';
-// import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-// import Home from './Pages/User/Home';
-// import Navbar from './Layout/User/Navbar';
-// import Footer from './Layout/User/Footer';
-// import ProductDetails from './Pages/User/ProductDetails';
-// import Cart from './Pages/User/Cart';
-// import AdminHome from './admin/Pages/Home/AdminHome';
-// import AdminLogin from './admin/Pages/AdminLogin/AdminLogin';
-
-// function App() {
-//   return (
-//     <Router>
-//       <Content />
-//     </Router>
-//   );
-// }
-
-// function Content() {
-//   let location = useLocation();
-
-//   return (
-//     <>
- 
-//       {location.pathname !== '/admin' && location.pathname !== '/admin_login' && <Navbar />}
-      
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/product-details" element={<ProductDetails />} />
-//         <Route path="/cart" element={<Cart />} />
-//         <Route path="/admin" element={<AdminHome />} />
-//         <Route path="/admin_login" element={<AdminLogin />} />
-//         {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
-//       </Routes>
-
-
-//       {location.pathname !== '/admin' && location.pathname !== '/admin_login' && <Footer />}
-// =======
-
-
-
-
-
+import AdminHome from "./admin/Pages/Home/AdminHome";
+import AdminLogin from "./admin/Pages/AdminLogin/AdminLogin";
 import Home from "./Pages/User/Home";
 import Navbar from "./Layout/User/Navbar";
 import Footer from "./Layout/User/Footer";
@@ -59,42 +16,55 @@ import { useSelector } from "react-redux";
 import Login from "./Pages/User/Login";
 import ProductsList from "./Pages/User/ProductsList";
 import OrderList from "./Pages/User/OrderList";
-// import Dashboard from './Pages/Admin/Dashboard'
+import { useSelect } from "@material-tailwind/react";
 
 function App() {
   const user = useSelector((state) => state.user.user);
+  const admin = useSelector((state) => state.admin.admin);
 
-  console.log(user, "uuuseeerrr");
+  const path = window.location.pathname;
+  // const admin = true;
 
   return (
     <>
-
-      {user?.token && user?.user ?
-
-      <>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product-details" element={<ProductDetails />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/list" element={<ProductsList />} />
-          <Route path="/order-list" element={<OrderList />} />          
-          <Route path="*" element={<Home />} />
-        </Routes>
-        <Footer />
-      </Router>
-      </>:
-      <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-      </>
-      }
-
+      {path.includes("admin") ? (
+        <Router>
+          <Routes>
+          {admin?.token && admin?.admin?
+          <>
+            <Route path="/admin_dashboard" element={<AdminHome />} />
+            <Route path="*" element={<Navigate to="/admin_dashboard" replace />} />    
+          </>
+            :
+            <>
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="*" element={<Navigate to="/admin" replace />} />    
+            </>
+            
+          }
+          </Routes>
+        </Router>
+      ) : user?.token && user?.user ? (
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product-details" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/list" element={<ProductsList />} />
+            <Route path="/order-list" element={<OrderList />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+          <Footer />
+        </Router>
+      ) : (
+        <Router>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      )}
     </>
   );
 }

@@ -17,11 +17,9 @@ export default function Login() {
 
   const handleSignIn = () => {
 
-  
 
     userLogin(username, password)
     .then( (result) => {
-
       
       if (result) {
 
@@ -37,8 +35,6 @@ export default function Login() {
           } });
         },2500);
     
-        
-
        
       }else{
         setIsError(true)
