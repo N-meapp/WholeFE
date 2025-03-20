@@ -1,17 +1,19 @@
 import React from "react";
 
-const Modal = ({ isOpen, onClose, title, ModelContent, submit }) => {
+const Modal = ({ isOpen, onClose, title, ModelContent, submit,modalClass,popupClass }) => {
   if (!isOpen) return null;
 
   return (
     <div
       id="hs-scale-animation-modal"
-      className="hs-overlay fixed inset-0 z-[80] flex items-center justify-center"
+      className={modalClass}
+      // "hs-overlay overflow-scroll fixed inset-0 z-[80] flex items-center justify-center"
       role="dialog"
       aria-labelledby="hs-scale-animation-modal-label"
-      style={{ 'background-color': 'rgba(0, 0, 0, .3)',  'backdrop-filter': 'saturate(180%) blur(10px)' }}
+      style={{ 'backgroundColor': 'rgba(0, 0, 0, .3)',  'backdropFilter': 'saturate(180%) blur(10px)' }}
     >
-      <div className="hs-overlay-animation-target scale-95 opacity-100 transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto bg-white rounded-2xl shadow-lg">
+      <div className={popupClass}>
+      {/* hs-overlay-animation-target scale-95 opacity-100 transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto bg-white rounded-2xl shadow-lg */}
         {/* Modal Header */}
         <div className="flex justify-between items-center py-3 px-4 border-b">
           <h3 id="hs-scale-animation-modal-label" className="font-bold text-gray-800">
@@ -51,7 +53,11 @@ const Modal = ({ isOpen, onClose, title, ModelContent, submit }) => {
                   >
                     Close
                   </button>
-                  <button onClick={submit}  className="py-2 px-3 text-sm font-medium rounded-xl bg-[#5764df] text-white hover:bg-[#434dac]">
+                  <button onClick={()=>{
+                    console.log('save button clicked');
+                    submit()
+                    
+                  }}  className="py-2 px-3 text-sm font-medium rounded-xl bg-[#5764df] text-white hover:bg-[#434dac]">
                     Save
                   </button>
                 </div>

@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { categoryDelete, categoryPostData, fetchCategorydata } from '../../../api/adminApi';
+import { fetchSliderAd, postSliderAd, sliderAdDelete } from '../../../api/adminApi';
+
 
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
-const CategoryList = () => {
+const SliderAdList = () => {
     const [file, setFile] = useState(null);
-    const [category, setCategory] = useState("");
-    const [categoryData, setCategoryData] = useState([])
+    const [sliderAd, setSliderAd] = useState([])
 
-    console.log(file, "fileeeee");
-    console.log(category, "datttttaaaaa cate");
     
 
     useEffect(() => {
-        fetchCategorydata(setCategoryData)
+        fetchSliderAd(setSliderAd)
     }, [])
 
 const handleFileChange = (event) => {
@@ -22,35 +20,30 @@ const handleFileChange = (event) => {
 };
 
 
-const handleInputChange = (event) => {
-    setCategory(event.target.value);
-};
-
-
 const handleSubmit = async (event) => {
     event.preventDefault();
     
-    if (!file || !category) {
-        alert("Please upload a file and enter a category.");
+    if (!file) {
+        alert("Please upload a file and enter a Slider.");
         return;
     }
 
     try {
-        const response = await categoryPostData(file, category);
+        const response = await postSliderAd(file,);
         console.log("Upload successful:", response);
         alert("File uploaded successfully!");
-        fetchCategorydata(setCategoryData)
+        fetchSliderAd(setSliderAd)
     } catch (error) {
         console.error("Upload failed:", error);
         alert(`Upload failed: ${error.response?.data?.message || "Please try again."}`);
     }
 };
 
-const handleDltCategory = async (id) => {
+const handleDltSlider = async (id) => {
     try {
-        const deletedId = await categoryDelete(id, window.alert); 
-        setCategoryData(prevData => prevData.filter(item => item.id !== deletedId));
-        fetchCategorydata(setCategoryData);
+        const deletedId = await sliderAdDelete(id, window.alert); 
+        setSliderAd(prevData => prevData.filter(item => item.id !== deletedId));
+        fetchSliderAd(setSliderAd)
     } catch (error) {   
         console.error("Error deleting category", error);
     }
@@ -97,14 +90,7 @@ const handleDltCategory = async (id) => {
                                     </label>
                                 </div>
 
-                                <input
-                                    type="text"
-                                    name="category"
-                                    placeholder="Add New Category"
-                                    className="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none shadow-lg"
-                                    value={category}
-                                    onChange={handleInputChange}
-                                />
+                
                             </div>
 
                             <button
@@ -130,14 +116,13 @@ const handleDltCategory = async (id) => {
                     </div>
                     <div class="bg-white shadow-lg rounded-xl overflow-hidden">
                         <ul class="divide-y divide-gray-200">
-                            {categoryData.map((item) => (
+                            {sliderAd.map((item) => (
                                 <li class="p-3 flex justify-between items-center user-card">
                                     <div class="flex items-center">
-                                        <img class="w-10 h-10 rounded-full" src={`${item.image}`} alt="Christy" />
-                                        <span class="ml-3 font-medium">{item.category_name}</span>
+                                        <img class="w-15 h-10 rounded-full" src={`${BASE_URL}${item.slider_image}`} alt="Christy" />
                                     </div>
                                     <div>
-                                        <button onClick={()=> handleDltCategory(item.id)} class="text-gray-500 hover:text-gray-700">
+                                        <button onClick={()=> handleDltSlider(item.id)} class="text-gray-500 hover:text-gray-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                             </svg>
@@ -153,4 +138,4 @@ const handleDltCategory = async (id) => {
     )
 }
 
-export default CategoryList;
+export default SliderAdList;

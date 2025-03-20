@@ -11,35 +11,38 @@ const LoginLayout = () => {
     const navigate = useNavigate();
     console.log(username, password, 'login form');
     
-  const handleLogin = ()=>{
-    if (!username.trim() || !password.trim()) {
-        alert("Please fill in both fields.");
-        return;
-    }
-    try {
-
-            AdminLogin(username, password)
-            .then((result)=>{
-
-                if (result) {
-                    navigate("/admin_dashboard");
-                    dispatch({ type: "SET_ADMIN", payload: {
+    const handleLogin = async () => {
+        if (!username.trim() || !password.trim()) {
+            alert("Please fill in both fields.");
+            return;
+        }
+        
+        try {
+            const result = await AdminLogin(username, password);  // Await the login function
+            
+            if (result) {
+                dispatch({
+                    type: "SET_ADMIN",
+                    payload: {
                         admin: result?.username || "Guest",
-                        token: result?.user_id || "NoToken",
-                      } });
-                }else{
-                    alert('Admin not fount')
-                }
+                        token: result?.access_token || "NoToken",
+                    },
+                });
+    
+                navigate("/admin_dashboard");
+            } else {
+                alert("Admin not found");
+            }
+    
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("An error occurred during login.");
+        }
+    };
+    
 
-            })
-      
 
-        
-    } catch (error) {
-        console.log(error);
-        
-    }
-  }
+
   return (
     <>
     <div class="font-sans">
@@ -54,7 +57,7 @@ const LoginLayout = () => {
                         <form method="#" action="#" class="mt-10">
                                            
                             <div>
-                                <input onChange={(e)=>setUsername(e.target.value)} type="email" placeholder=" Enter username" class="p-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" />
+                                <input onChange={(e)=>setUsername(e.target.value)} type="text" placeholder=" Enter username" class="p-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" />
                             </div>
                 
                             <div class="mt-7">                
