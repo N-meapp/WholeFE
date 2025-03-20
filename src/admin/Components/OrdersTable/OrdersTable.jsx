@@ -108,18 +108,18 @@ useEffect(()=>{
                 <td className="p-4 text-sm text-black">{item.paymentStatus}</td>
                 <td className="p-4">
 
-                {item.order_status === 'null' ? (
+                {item.order_status == 'null' ? (
     <SelectBtn
       value={item.order_status}
       onChange={(value) => updateOrderStatus(item.id, value)}
     />
-  ) : item.order_status === "accepted" ? (
+  ) : item.order_status == "accepted" ? (
     <SelectBtnTow
       value={item.order_status}
       onChange={(value) => updateOrderStatus(item.id, value)}
     />
   ) : (
-    <button class="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50 text-[#ff3232] rounded-xl" disabled>
+    <button class="bg-gray-300 px-4 py-2 cursor-not-allowed opacity-50 text-[#ff3232] rounded-xl" disabled>
     Rejected
   </button>
   )}

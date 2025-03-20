@@ -7,7 +7,8 @@ import ProductDetailingSection from "../../Layout/User/ProductDetailingSection";
 export default function ProductDetails() {
 
   useEffect(()=>{
-    scrollTo({top})
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
   },[])
 
   const location = useLocation();

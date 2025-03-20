@@ -48,7 +48,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="bg-[red] w-full h-auto relative">
+      <div className=" w-full h-auto relative">
         <div className="w-full h-auto overflow-hidden">
           <div className="w-full h-fit fixed z-50">
             <div className="lg:w-[70%] w-[90%] md:h-20 h-14 mx-auto bg-[#ffffff] md:mt-8 mt-4 rounded-full shadow-xl flex lg:gap-16 gap-5 md:px-12 px-2 ">
@@ -143,7 +143,7 @@ export default function Navbar() {
 
           <SideBar setIsSideBar={setIsSideBar} isSideBar={isSideBar} />
           <div className="md:hidden">
-            <BottomNavBar />
+            <BottomNavBar category={category} />
           </div>
         </div>
         

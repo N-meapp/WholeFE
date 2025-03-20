@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import ProductDetails from "./Pages/User/ProductDetails";
 import Cart from "./Pages/User/Cart";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Login from "./Pages/User/Login";
 import ProductsList from "./Pages/User/ProductsList";
@@ -25,6 +25,7 @@ function App() {
 
   const path = window.location.pathname;
   // const admin = true;
+
 
   return (
     <>

@@ -4,7 +4,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const fetchNewlyArrivals = async(setData)=>{
     try {
-        const result = await axios.get(`${BASE_URL}Newly_arrived`);
+        const result = await axios.get(`${BASE_URL}Newly_arrived/`);
         
         setData(result.data)
       } catch (err) {
@@ -12,10 +12,32 @@ export const fetchNewlyArrivals = async(setData)=>{
       }
 }
 
+export const fetchSuggestedProducts = async(setData,userId)=>{
 
-export const fetchTopProducts = async()=>{
+  console.log(userId,'useresidididi');
+  
+  try {
+      const result = await axios.get(`${BASE_URL}Search_history/`,{params: { user_id: userId }})
+        console.log(result,'suggested products......');
+        
+      setData(result.data)
+      if(result.data){
+        return true
+      }else{
+        return false
+      }
+    } catch (err) {
+      return false
+      console.error(err);
+    }
+}
+
+
+
+export const fetchTopProducts = async(setData)=>{
     try {
-        const result = await axios.get(`${BASE_URL}Top_products`);
+        const result = await axios.get(`${BASE_URL}Top_products/`);
+        console.log(result,'top products.....');
         
         setData(result.data)
       } catch (err) {
@@ -26,11 +48,33 @@ export const fetchTopProducts = async()=>{
 
 export const fetchAllProducts = async(setData)=>{
     try {
-        const result = await axios.get(`${BASE_URL}Newly_arrived`);
+        const result = await axios.get(`${BASE_URL}ProduclistView/`);
         setData(result.data)
       } catch (err) {
         console.error(err);
       }
+}
+
+export const fetchLimitedProducts = async(setData)=>{
+  try {
+      const result = await axios.get(`${BASE_URL}ProduclistViewlimit/`);
+      console.log('fetch limited products ....',result);
+      
+      setData(result.data)
+    } catch (err) {
+      console.error(err);
+    }
+}
+
+
+export const fetchSliderAdds = async(setData)=>{
+  try {
+      const result = await axios.get(`${BASE_URL}slider_Adds/`);
+      console.log('slider adds ....',result);
+      setData(result.data)
+    } catch (err) {
+      console.error(err);
+    }
 }
 
 
@@ -45,7 +89,7 @@ export const getSearchedOutput = async(setData,value)=>{
       console.log(result.data,'dddddddd');
       
       if(result.data.products){
-        setData(result.data.productsf)
+        setData(result.data.products)
       }else{
         setData([])
       }
@@ -57,14 +101,16 @@ export const getSearchedOutput = async(setData,value)=>{
 
 
 
-export const placeOrder = async(user,value)=>{
-  
-  console.log(value,user,'valueeeeeeeeeee');
-  
+export const placeOrder = async(userId,value,username)=>{
+    
 
+  console.log('valueeesidfifdisfdiisfd',value);
+  
+  
+  value.order_track = 'null'
   
   try {
-      const result = await axios.post(`${BASE_URL}order_products/`,{orders:value,user_id:user});
+      const result = await axios.post(`${BASE_URL}order_products/`,{orders:value,userid:userId,username:username});
       
       if(result.data){
         return true
@@ -78,6 +124,8 @@ export const placeOrder = async(user,value)=>{
 }
 
 
+
+
 export const listOrders = async(setData,userId)=>{
   console.log(userId,'uuuuser idd');
   
@@ -86,14 +134,17 @@ export const listOrders = async(setData,userId)=>{
       
       console.log(result,'sirathhhhhhhh');
       
-      if(result.data.results){
-        setData(result.data.results)
+      if(result.data){
+        setData(result.data)
+        return true
       }else{
         setData([])
+        return false
       }
     } catch (err) {
       console.error(err);
       setData([])
+      return false
     }
 }
 
@@ -221,7 +272,7 @@ export const fetchCategoryProducts = async(setData,category)=>{
 
 export const updateProductCount  = async(count,productId,userId)=>{
 
-  console.log(count,'cooouunnnttt');
+  console.log(count,productId,userId,'cooouunnnttt');
   
   
   
@@ -238,3 +289,160 @@ export const updateProductCount  = async(count,productId,userId)=>{
       return false
     }
 }
+
+export const cancelOrderProducts  = async(orderId,productId,userId)=>{
+  
+  console.log(orderId,productId,userId);
+
+  const data = {
+    order_id: orderId,
+    product_id: productId,
+    user_id: userId
+  }
+
+  
+  
+  try {
+      const result = await axios.delete(`${BASE_URL}CancelOrder/`,{data});
+
+      console.log(result,'rrreee');
+      
+            
+      if(result.data && result.status == 200){
+        return true
+      }else{
+        return false
+      }
+    } catch (err) {
+      console.error(err);
+      return false
+    }
+}
+
+
+export const cancelOrder  = async(orderId,userId)=>{
+  
+  console.log(orderId,userId);
+
+  const data = {
+    order_id: orderId,
+    user_id: userId
+  }
+
+  
+  
+  try {
+      const result = await axios.post(`${BASE_URL}CancelOrder/`,data);
+
+      console.log(result,'reeesutllll');
+      
+            
+      if(result.data && result.status == 200){
+        return true
+      }else{
+        return false
+      }
+    } catch (err) {
+      console.error(err);
+      return false
+    }
+}
+
+export const deleteCartProduct  = async(productId,userId)=>{
+  
+
+  const data = {
+    id:productId,
+    user_id:userId
+  }
+
+  
+  
+  try {
+      const result = await axios.delete(`${BASE_URL}Delete_all_cart/`,{data});
+
+      console.log(result,'reeesutllll');
+      
+            
+      if(result.data && result.status == 200){
+        return true
+      }else{
+        return false
+      }
+    } catch (err) {
+      console.error(err);
+      return false
+    }
+}
+
+
+
+export const addToHistory = async(user,category)=>{
+
+  
+  try {
+      const result = await axios.post(`${BASE_URL}Search_history/`,{user_id:user,term:category});
+      
+      if(result.data){
+        // setData(result.data.results)
+        return true
+      }else{
+        // setData([])
+       return false
+      }
+    } catch (err) {
+      console.error(err);
+      return false
+      // setData([])
+    }
+}
+
+export const getSingleProduct = async(productId)=>{
+
+  
+  try {
+      const result = await axios.get(`${BASE_URL}Product_updateanddelete/${productId}`);
+      console.log(result,'rrrreeee');
+      
+      if(result.data){
+        // setData(result.data.results)
+        return true
+      }else{
+        // setData([])
+       return false
+      }
+    } catch (err) {
+      console.error(err);
+      return false
+      // setData([])
+    }
+}
+
+
+export const sendEnquiry = async(user,productId,message)=>{
+  
+
+  const data = {
+    user_id:user,
+    product_id:productId,
+    message:message
+  }
+  
+  try {
+      const result = await axios.post(`${BASE_URL}Enquiry_send/`,data);
+      console.log(result,'ressuult');
+      
+      if(result.data){
+        // setData(result.data.results)
+        return true
+      }else{
+        // setData([])
+       return false
+      }
+    } catch (err) {
+      console.error(err);
+      return false
+      // setData([])
+    }
+}
+

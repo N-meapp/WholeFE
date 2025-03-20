@@ -1,91 +1,87 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ConfirmOrderModal from "../../Components/Modal/ConfirmOrderModal";
 import SuccessModal from "../../Components/Modal/SuccessModal";
 import InvalidError from "../../Components/Modal/InvalidError";
-import { clearCart, placeOrder } from "../../api/productApi";
+import { clearCart, placeOrder, sendEnquiry } from "../../api/productApi";
 import { useSelector } from "react-redux";
 import HandleAddPlaceOrderAddress from "./HandleAddPlaceOrderAddress";
+import { OrderContext, SearchContext } from "../../main";
+import SendEnquiryModal from "../../Components/Modal/SendEnquiryModal";
 
-export default function CartpriceDetailBox({ cart, bottomDifference, countPriceArray, setCountPriceArray,secondArray,setIsDeleted}) {
+export default function CartpriceDetailBox({
+  cart,
+  bottomDifference,
+  countPriceArray,
+  setCountPriceArray,
+  secondArray,
+  setIsDeleted,
+  setCart,
+  setIsEmpty,
+}) {
   const [isEqual, setIsEqual] = useState(false);
-  const [cartItem,setCartItem] = useState(false);
-  const [sum,setSum] = useState();
+  const [cartItem, setCartItem] = useState(false);
+  const [sum, setSum] = useState();
 
-  const [isOrderConfirm,setIsOrderConfirm] = useState(false)
-  const [isError,setIsError] = useState(false)
-  const [isOrder,setIsOrder] = useState(false)
+  const [isOrderConfirm, setIsOrderConfirm] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isOrder, setIsOrder] = useState(false);
   const user = useSelector((state) => state.user.user);
 
-
-  const handlePlaceOrder = ()=>{
-    
-    setIsOrderConfirm(true)
-    setSum(calculateTotal())  
-  }
+  const handlePlaceOrder = () => {
+    setIsOrderConfirm(true);
+    setSum(calculateTotal());
+  };
 
   const confirmOrder = (order) => {
-    console.log(order   ,'valueeeeee');
-    
-    const resultStatus = placeOrder(user.token,order)
-    if(resultStatus){
-      setIsOrderConfirm(false)
-      setIsOrder(true)
-      console.log('firruuuuuuu');
-      
-      setTimeout(() => {
-        setIsOrder(false)
-      },3000);
-    }else{
-        setIsError(true)
+    placeOrder(user.token, order, user.user).then((resultStatus) => {
+      if (resultStatus) {
+        setIsOrderConfirm(false);
+        setIsOrder(true);
+        console.log("firruuuuuuu");
+        setTimeout(() => {
+          setIsOrder(false);
+          setCart(null);
+          setIsEmpty(true);
+        }, 3000);
+      } else {
+        setIsError(true);
+      }
+    });
+  };
+
+  const checkStock = (count, price, stock) => {
+    console.log(stock, "stockkk");
+
+    if (count > stock) {
+      return "NA";
+    } else {
+      return count * price;
     }
   };
 
+  const calculateTotal = () => {
+    let totalAmount = 0;
 
-  const checkStock = (count,price,stock) =>{
+    for (let i = 0; i < countPriceArray?.length; i++) {
+      console.log(countPriceArray[i].count, countPriceArray[i].price);
 
-    console.log(stock,'stockkk');
-    
-
-    if(count>stock){
-      return 'NA'
-    }else{
-      return count * price
-    }
-  }
-
-
-  const calculateTotal =()=>{
-  
-
-      let totalAmount = 0
-
-      for (let i = 0; i < countPriceArray?.length; i++) {
-
-        console.log(countPriceArray[i].count,countPriceArray[i].price);
-
-        if(countPriceArray[i].count<=countPriceArray[i].stock){
-
-          totalAmount = totalAmount +  countPriceArray[i].count * countPriceArray[i].price
-        }
-        
-        
+      if (countPriceArray[i].count <= countPriceArray[i].stock) {
+        totalAmount =
+          totalAmount + countPriceArray[i].count * countPriceArray[i].price;
       }
+    }
 
-      return totalAmount
-  }
+    return totalAmount;
+  };
 
-
-  const handleClearCart =()=>{
+  const handleClearCart = () => {
     console.log(user);
-    
-    clearCart(user.token).then((res)=>{
-      console.log(res,'jummmm');
-      setIsDeleted(true)
-      
-    })
-  }
 
- 
+    clearCart(user.token).then((res) => {
+      console.log(res, "jummmm");
+      setIsDeleted(true);
+    });
+  };
 
   return (
     <>
@@ -100,31 +96,30 @@ export default function CartpriceDetailBox({ cart, bottomDifference, countPriceA
           id="price-card"
         >
           <div>
+            {countPriceArray?.map((item) => {
+              return (
+                <>
+                  <div className="w-5/6 md:w-3/4 h-auto mx-auto mb-10 flex order-1 items-center">
+                    <div className="w-1/2 h-full break-words content-center">
+                      <h1 className="text-[black] font-bold text-start text-sm md:text-base truncate ">
+                        {item.name}
+                      </h1>
+                    </div>
+                    <div className="w-1/3 h-full content-center">
+                      <h1 className="text-[#706f6f] font-bold text-end text-sm md:text-sm justify-self-center">
+                        {item?.count} x {item?.price}
+                      </h1>
+                    </div>
+                    <div className="w-1/3 h-full content-center">
+                      <h1 className="text-[#000000bd] font-bold text-end text-sm md:text-base w-fit bg-[#f1f1f1] p-2 rounded-lg float-right shadow-md">
+                        {checkStock(item?.count, item?.price, item?.stock)}
+                      </h1>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
 
-          {countPriceArray?.map((item)=>{
-            return(
-              <>
-            <div className="w-5/6 md:w-3/4 h-auto mx-auto mb-10 flex order-1 items-center">
-              <div className="w-1/2 h-full break-words content-center">
-                <h1 className="text-[black] font-bold text-start text-sm md:text-base truncate ">
-                  {item.name}
-                </h1>
-              </div>
-              <div className="w-1/3 h-full content-center">
-                <h1 className="text-[#706f6f] font-bold text-end text-sm md:text-sm justify-self-center">
-                  {item?.count} x {item?.price}
-                </h1>
-              </div>
-              <div className="w-1/3 h-full content-center">
-                <h1 className="text-[#000000bd] font-bold text-end text-sm md:text-base w-fit bg-[#f1f1f1] p-2 rounded-lg float-right shadow-md">
-                 {checkStock(item?.count,item?.price,item?.stock)}
-                </h1>
-              </div>
-            </div>
-              </>
-            )
-          })}
-          
             <div className="w-5/6 md:w-3/4 h-10 mx-auto  flex order-2">
               <div className="w-1/2 h-full">
                 <h1 className="text-[#33856c] font-bold text-start">
@@ -149,7 +144,7 @@ export default function CartpriceDetailBox({ cart, bottomDifference, countPriceA
               </div>
               <div className="w-1/2 h-full">
                 <h1 className="text-[black] font-extrabold text-end text-base md:text-lg">
-                {calculateTotal()}
+                  {calculateTotal()}
                 </h1>
               </div>
             </div>
@@ -159,9 +154,12 @@ export default function CartpriceDetailBox({ cart, bottomDifference, countPriceA
         <div className="w-full h-auto p-6 rounded-xl shadow-xl bg-[#ffffff] mt-10">
           <div className="w-full h-auto md:flex gap-5 justify-between">
             <div className=" content-center mb-4 md:mb-0">
-              <button onClick={()=>{
-                handleClearCart()
-              }} className="w-10 h-10 rounded-full bg-[#000000] items-center gap-2 hover:w-24 pl-2 hover:pr-3 transition-all flex duration-500 group">
+              <button
+                onClick={() => {
+                  handleClearCart();
+                }}
+                className="w-10 h-10 rounded-full bg-[#000000] items-center gap-2 hover:w-24 pl-2 hover:pr-3 transition-all flex duration-500 group"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -180,7 +178,12 @@ export default function CartpriceDetailBox({ cart, bottomDifference, countPriceA
             </div>
 
             <div className="lg:flex lg:gap-5 justify-items-center">
-              <button className="py-3 px-5 border-[#ff5a5442] border-[2px] text-black rounded-full font-bold flex w-full justify-center md:w-fit mb-16 md:mb-0 gap-3 items-center">
+              <button
+                onClick={() => {
+                  console.log("trueeee");
+                }}
+                className="py-3 px-5 border-[#ff5a5442] border-[2px] text-black rounded-full font-bold flex w-full justify-center md:w-fit mb-16 md:mb-0 gap-3 items-center"
+              >
                 <h1>Send Inquiry</h1>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +196,7 @@ export default function CartpriceDetailBox({ cart, bottomDifference, countPriceA
               </button>
               <button
                 onClick={() => {
-                  handlePlaceOrder()
+                  handlePlaceOrder();
                 }}
                 className="md:flex hidden py-3 px-5 bg-[#ff5a54] text-white rounded-full font-bold w-full justify-center md:w-fit gap-3 mt-5 lg:mt-0 items-center"
               >
@@ -216,9 +219,12 @@ export default function CartpriceDetailBox({ cart, bottomDifference, countPriceA
         </div>
       </div>
       <div className="md:hidden block px-6 md:relative sticky -mt-20 bottom-24">
-        <button onClick={() => {
-                  handlePlaceOrder()
-                }} className=" flex py-3 px-5 bg-[#ff5a54] text-white rounded-full font-bold w-full justify-center md:w-fit gap-3 items-center ">
+        <button
+          onClick={() => {
+            handlePlaceOrder();
+          }}
+          className=" flex py-3 px-5 bg-[#ff5a54] text-white rounded-full font-bold w-full justify-center md:w-fit gap-3 items-center "
+        >
           <h1>Place order</h1>
           {/* <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -251,6 +257,7 @@ export default function CartpriceDetailBox({ cart, bottomDifference, countPriceA
         subMessage={"You can modify it later if needed."}
         confirmOrder={confirmOrder}
         price={sum}
+        isSingleProduct={false}
       />
       <SuccessModal
         setOpenModal={setIsOrder}
@@ -262,10 +269,3 @@ export default function CartpriceDetailBox({ cart, bottomDifference, countPriceA
     </>
   );
 }
-
-
-
-
-
-
-  

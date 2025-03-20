@@ -18,6 +18,8 @@ export default function ProfileEditor({
 
   const fileInputRef = useRef(null);
 
+  // const user = useSelector((state) => state.user.user);
+
   const [username, setUsername] = useState(user?.username);
   const [phone, setPhone] = useState(user?.phone_number);
 

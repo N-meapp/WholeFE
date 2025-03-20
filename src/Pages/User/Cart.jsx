@@ -31,6 +31,11 @@ export default function Cart() {
     });
   }, [isDeleted]);
 
+  useEffect(()=>{
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+  },[])
+
   const handleCount = (arr) => {
     console.log(arr,'arrrrrrrrrr');
     
@@ -71,7 +76,8 @@ export default function Cart() {
   };
 
   const handleSetArray = (arr) => {
-    console.log("neeeeeeeee ddddhd", arr);
+    console.log(arr,'asrrrrr');
+    
 
     setCountPriceArray([...arr]);
   };
@@ -94,10 +100,13 @@ export default function Cart() {
               countPriceArray={countPriceArray}
               setCountPriceArray={setCountPriceArray}
               handleSetArray={handleSetArray}
+              setIsItemDeleted={setIsDeleted}
             />
             <CartpriceDetailBox
               setIsDeleted={setIsDeleted}
               cart={cartItems}
+              setCart={setCartItems}
+              setIsEmpty={setIsEmpty}
               bottomDifference={bottomDifference}
               countPriceArray={countPriceArray}
               setCountPriceArray={setCountPriceArray}

@@ -6,13 +6,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import AddressForm from "../../Layout/User/AddressForm";
 import { getUser } from "../../api/userApi";
 import { useSelector } from "react-redux";
 import AddressRadioButton from "../Others/AddressRadioButton";
-import { getCart} from "../../api/productApi";
+import { getCart, getSingleProduct } from "../../api/productApi";
+import { OrderContext } from "../../main";
 
 export default function ConfirmOrderModal({
   openModal,
@@ -22,99 +23,116 @@ export default function ConfirmOrderModal({
   confirmOrder,
   price,
   setIsAddressAdded,
-  addressArray
+  addressArray,
+  isSingleProduct
 }) {
   const [currentAddressSelected, setCurrentAddressSelected] = useState(-1);
   const [userData, setUserData] = useState();
   const user = useSelector((state) => state.user.user);
-  const [isEmpty,setIsEmpty] = useState(false)
-  const [cartItems,setCartItems] = useState()
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [cartItems, setCartItems] = useState();
   const [address, setAddress] = useState();
-
+  
 
   useEffect(() => {
-
     getUser(setUserData, user.token).then((res) => {
-
       setAddress(res?.address);
     });
   }, [openModal]);
 
-  const handleOrder =()=>{
-    let order = {}
-      getCart(setCartItems, user.token).then((res) => {
-  
-        if (res) {
-          
-          order.userid = user.token
-          order.address = getAddress()
-          order.order_id = getOrderId()
-          order.date = getDate()
-          order.final_amount = price
-          order.products = getProducts(res)
+  const handleOrder = async() => {
+    let order = {};
 
+    if(isSingleProduct){
+      console.log('single product.......',);
+
+
+          order = {
+            userid: user.token,
+            address: getAddress(),
+            order_id: getOrderId(),
+            date: getDate(),
+            final_amount: price,
+            products: [{product_id:isSingleProduct.productId,count:isSingleProduct.count,total_amount:price,order_status:'null'}],
+          };
+          
+        
+        
+    }else{
+      await getCart(setCartItems, user.token).then((res) => {
+        if (res) {
+          order = {
+            userid: user.token,
+            address: getAddress(),
+            order_id: getOrderId(),
+            date: getDate(),
+            final_amount: price,
+            products: getProducts(res),
+          };
+          console.log(order,'moneeeee');
+          
         } else {
           setIsEmpty(true);
         }
-
-        console.log(order);
-        
-
+  
       });
-    confirmOrder(order);
-  }
-
-
-  const getAddress = ()=>{
-    if(currentAddressSelected==-1){
-      return address
-    }else{
-      return addressArray[currentAddressSelected]
     }
-  }
 
-  const getOrderId = ()=>{
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-    const num1 = Math.floor(Math.random() * 10)
-    const num2 = Math.floor(Math.random() * 10)
-    const num3 = Math.floor(Math.random() * 10)
-
-    const string1 = alphabet[Math.floor(Math.random() * alphabet.length)]
-
-    const string2 = alphabet[Math.floor(Math.random() * alphabet.length)]
+    console.log(order,'this is ordererer');
     
-    const string3 = alphabet[Math.floor(Math.random() * alphabet.length)]
 
-    const code = `${num1}${string1}${num2}${string2}${num3}${string3}`
+    confirmOrder(order);
+  };
 
-    return code
-  }
+const getAddress = () => {
+    if (currentAddressSelected == -1) {
+      return address;
+    } else {
+      return addressArray[currentAddressSelected];
+    }
+  };
 
-  const getDate = ()=>{
+  const getOrderId = () => {
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const num1 = Math.floor(Math.random() * 10);
+    const num2 = Math.floor(Math.random() * 10);
+    const num3 = Math.floor(Math.random() * 10);
+
+    const string1 = alphabet[Math.floor(Math.random() * alphabet.length)];
+
+    const string2 = alphabet[Math.floor(Math.random() * alphabet.length)];
+
+    const string3 = alphabet[Math.floor(Math.random() * alphabet.length)];
+
+    const code = `${num1}${string1}${num2}${string2}${num3}${string3}`;
+
+    return code;
+  };
+
+  const getDate = () => {
     const now = new Date();
 
-return now.toDateString()
+    return now.toDateString();
+  };
 
-  }
-
-  const getProducts = (array) =>{
+  const getProducts = (array) => {
+    console.log(array,'is this the array?');
     
-    const tempArray = []
+    const tempArray = [];
 
     for (let i = 0; i < array.length; i++) {
-      let obj = {}
+      let obj = {};
 
-      obj.product_id = array[i].product_id
-      obj.count = array[i].total_count
-      obj.total_amount = array[i].total_amount
+      obj.product_id = array[i].product_id;
+      obj.count = array[i].total_count;
+      obj.total_amount = array[i].total_amount;
+      obj.order_status = 'null';
 
-      tempArray.push(obj)
-      
+      tempArray.push(obj);
     }
 
-    return tempArray
-
-  }
+    return tempArray;
+  };
 
   return (
     <>
@@ -134,15 +152,22 @@ return now.toDateString()
               select address
             </h1>
 
-
-    <AddressRadioButton currentAddressSelected={currentAddressSelected} address={address} status={-1} setCurrentAddressSelected={setCurrentAddressSelected}  />
-    {addressArray?.map((address,i)=>{
-      return(
-      <AddressRadioButton currentAddressSelected={currentAddressSelected} address={address} status={i} setCurrentAddressSelected={setCurrentAddressSelected} />
-      )
-    })}
-
-
+            <AddressRadioButton
+              currentAddressSelected={currentAddressSelected}
+              address={address}
+              status={-1}
+              setCurrentAddressSelected={setCurrentAddressSelected}
+            />
+            {addressArray?.map((address, i) => {
+              return (
+                <AddressRadioButton
+                  currentAddressSelected={currentAddressSelected}
+                  address={address}
+                  status={i}
+                  setCurrentAddressSelected={setCurrentAddressSelected}
+                />
+              );
+            })}
 
             <button
               onClick={() => {

@@ -1,10 +1,21 @@
 import { useState } from "react";
 import PriceRange from "../Buttons/PrizeRange";
 import CountInput from "../Inputs/CountInput";
+import { handleDeleteproduct } from "../../api/adminApi";
+import { deleteCartProduct } from "../../api/productApi";
+import { useNavigate } from "react-router-dom";
 
-export default function CartProductCard({ item,countPriceArray, setCountPriceArray , handleSetArray }) {
+export default function CartProductCard({ item,countPriceArray, setCountPriceArray , handleSetArray,handleDeleteCartProducts }) {
   const [count, setCount] = useState(item.total_count);
   
+  const navigate = useNavigate()
+
+  const handleDetailPage =()=>{
+
+    navigate('/product-details',{state:item})
+
+
+  }
 
 
   return (
@@ -38,7 +49,9 @@ export default function CartProductCard({ item,countPriceArray, setCountPriceArr
         </div>
 
         <CountInput count={count} setCount={setCount} productId={item?.product_id} countPriceArray={countPriceArray} setCountPriceArray={setCountPriceArray} priceRange={item.prize_range} handleSetArray={handleSetArray} />
-        <svg
+        <svg onClick={()=>{
+          handleDeleteCartProducts(item.product_id,item.user_id)
+        }}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
@@ -50,7 +63,9 @@ export default function CartProductCard({ item,countPriceArray, setCountPriceArr
             clipRule="evenodd"
           />
         </svg>
-        <button className="w-fit py-3 px-4 bg-[#ffffff] rounded-xl bottom-3 border ml-3 mb-3 mt-8 md:ml-0 md:mb-0 md:mt-0 md:absolute right-3  border-[#0000002d]">
+        <button onClick={()=>{
+          handleDetailPage()
+        }} className="w-fit py-3 px-4 bg-[#ffffff] rounded-xl bottom-3 border ml-3 mb-3 mt-8 md:ml-0 md:mb-0 md:mt-0 md:absolute right-3  border-[#0000002d]">
           details
         </button>
       </div>

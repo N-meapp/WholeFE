@@ -9,11 +9,15 @@ import { persistor, store } from './redux/app/store.js';
 // Create the context
 export const SearchContext = createContext();
 
+export const OrderContext = createContext();
+
+
 // Create a provider component
 const SearchProvider = ({ children }) => {
   const [searchKey, setSearchKey] = useState(null);
 
   return (
+    
     <SearchContext.Provider value={{searchKey, setSearchKey }}>
       {children}
     </SearchContext.Provider>

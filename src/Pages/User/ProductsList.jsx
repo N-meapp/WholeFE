@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../main";
 import { useNavigate } from "react-router-dom";
-import { getSearchedOutput } from "../../api/productApi";
+import { fetchAllProducts, getSearchedOutput } from "../../api/productApi";
 import ProductCards from "../../Components/Cards/ProductCards";
 import error from "../../assets/Images/errorImages/searchnotfound.svg"
 
@@ -18,10 +18,17 @@ export default function ProductsList() {
     console.log("pppppppppppppp");
     if (searchKey) {
       getSearchedOutput(setData, searchKey);
+      console.log('dataaaaaa,,aaaaaaa');
+      
     }else{
-        navigate('/')
+      fetchAllProducts(setData)
     }
   }, [searchKey]);
+
+  useEffect(()=>{
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+  },[])
 
 
   return (
@@ -37,11 +44,10 @@ export default function ProductsList() {
           </>):
       <div className="md:mt-32 mt-20 w-[90%] mx-auto h-auto md:mb-24 mb-8">
         <div className="w-full h-full md:mt-12 mt-8 md:pt-12 pt-4 md:pb-12 pb-4 md:bg-[#bebebe1c] rounded-xl text-center">
-          <div className="w-full h-full md:flex gap-3 md:gap-8 columns-2 md:flex-wrap justify-center">
-            {data?.map((card) => (
+        <div className="w-full h-full md:flex gap-3 md:gap-8 grid grid-flow-row grid-cols-2 sm:grid-cols-3 md:grid-cols-4 md:flex-wrap justify-center">
+        {data?.map((card) => (
               <ProductCards card={card} />
             ))}
-          
           </div>
         </div>
       </div>

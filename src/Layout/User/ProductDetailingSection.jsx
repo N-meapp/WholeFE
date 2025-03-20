@@ -30,7 +30,7 @@ export default function ProductDetailingSection({card}){
   const handleOrder = () =>{
     console.log(card,'hahahahaahhaah');
     
-    const resStatus = placeOrder(user.token,card)
+    const resStatus = placeOrder(user.token,card,user.user)
     console.log(resStatus,'res-status');
     return resStatus
   }

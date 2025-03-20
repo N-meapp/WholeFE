@@ -34,13 +34,14 @@ export const getUser = async (setData,id) => {
   try {
     const result = await axios.get(`${BASE_URL}Profile_update_custumer/${id}`);
 
+    console.log(result,'resulttttt.....iddddd');
     
 
     if(result.data){
 
       setData(result.data)
       return result.data
-    }else{
+    }else{  
       return false
     }
     

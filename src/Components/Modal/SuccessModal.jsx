@@ -9,8 +9,6 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import SuccessTick from "../SuccessTick";
 
 export default function SuccessModal({openModal, setOpenModal,message,subMessage}) {
-
-  console.log('uuuummmbbiiiiii');
   
 
   return (

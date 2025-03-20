@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import {updateProductCount } from "../../api/productApi";
 
-export default function CountInput({count,setCount,stock,productId ,countPriceArray, setCountPriceArray,priceRange,handleSetArray}){
+export default function CountInput({count,setCount,stock,productId ,countPriceArray, setCountPriceArray,priceRange,handleSetArray,isSingleProduct,setIsSingleProduct}){
 
   const user = useSelector((state) => state.user.user);
 
@@ -38,12 +38,17 @@ export default function CountInput({count,setCount,stock,productId ,countPriceAr
     
       const handleOnchange = (value) => {
         const status = isNumericString(value);
+
+        if(!value){
+          setCount(value)
+        }
     
         if (status) {
           setCount(value);
+          
           handleProductCount(value)
           updateProductCount(value,productId,user.token)
-        } 
+        }
       };
 
 
@@ -64,6 +69,7 @@ export default function CountInput({count,setCount,stock,productId ,countPriceAr
         }
 
         // setCountPriceArray(tempArray)
+        // if(handleSetarray)
         handleSetArray(tempArray)
 
       }

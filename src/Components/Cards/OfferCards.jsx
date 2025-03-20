@@ -1,14 +1,17 @@
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addToHistory } from "../../api/productApi";
 
 export default function OfferCards({ card }) {
 
-   
+  const user = useSelector((state) => state.user.user);
+
 
   const navigate = useNavigate()
 
   const handleOnclick = ()=>{
     console.log('heelloooo');
-    
+    addToHistory(user.token,card?.product_category)
     navigate('/product-details',{state:card})
   }
     

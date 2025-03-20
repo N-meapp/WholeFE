@@ -38,7 +38,7 @@ export default function CategorySuggestions(){
             })}
 
             </div> */}
-            <div className=" overflow-x-auto whitespace-nowrap scrollbar-hide mt-24 md:hidden block">
+            <div className=" overflow-x-auto whitespace-nowrap scrollbar-hide mt-10 md:hidden block">
   <div className="w-fit h-auto flex gap-3 px-[5%] pb-2">
   {categories.map((cat)=>{
                     return(

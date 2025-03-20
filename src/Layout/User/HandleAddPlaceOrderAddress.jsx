@@ -10,9 +10,9 @@ export default function HandleAddPlaceOrderAddress({
   subMessage,
   confirmOrder,
   price,
+  isSingleProduct
 }) {
 
-  console.log(openModal,'opennnnnnnnn - modalllll');
   
 
   const [addressArray,setAddressArray] = useState([])
@@ -47,6 +47,7 @@ export default function HandleAddPlaceOrderAddress({
         price={price}
         setIsAddressAdded={setIsAddressAdded}
         addressArray={addressArray}
+        isSingleProduct={isSingleProduct}
       />
     }
     </>
