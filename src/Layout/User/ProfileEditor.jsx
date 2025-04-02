@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 import { updateUser } from "../../api/userApi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
 
 export default function ProfileEditor({
   setEditProfile,
@@ -18,10 +19,21 @@ export default function ProfileEditor({
 
   const fileInputRef = useRef(null);
 
+  // const user = useSelector((state) => state.user.user);
+
   const [username, setUsername] = useState(user?.username);
   const [phone, setPhone] = useState(user?.phone_number);
+  const [imageFile,setImageFile] = useState()
 
-  const [profilePicture, setProfilePicture] = useState(defaultImage);
+  const dispatch = useDispatch()
+
+  const [profilePicture, setProfilePicture] = useState(()=>{
+    if(user.profile_image){
+      return user.profile_image
+    }else{
+      return defaultImage
+    }
+  });
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -29,6 +41,10 @@ export default function ProfileEditor({
 
   const handleFileChange = (file) => {
     if (file) {
+      console.log(file);
+
+      setImageFile(file)
+      
       const reader = new FileReader();
 
       // Event when file is read
@@ -53,13 +69,33 @@ export default function ProfileEditor({
   };
 
   const handleSave = () => {
-    // updateUser({username:username,phone:phone})
-    toast.success("Address saved successfully!", {
-      onClose: () => {
-        setEditProfile(false);
-      },
-    });
+    updateUser({username:username,phone:phone},user.id,imageFile).then((res)=>{
+      if(res){
+        console.log('hahahahahmmmmmaaa');
+
+        dispatch({ type: "SET_USER", payload: {
+          user: user?.username || "Guest",
+          token: user?.id || "NoToken",
+          profile:profilePicture || "no profile"
+        } });
+        
+        toast.success("Address saved successfully!", {
+          onClose: () => {
+            setEditProfile(false);
+          },
+        });
+      }
+    })
+    console.log('hauuuuu');
   };
+
+  const onchangePhone = (value)=>{
+
+    // if(regex.test(value)){
+      // }
+      
+        setPhone(value);
+  }
 
   return (
     <>
@@ -122,10 +158,18 @@ export default function ProfileEditor({
               </div>
               <div className="w-full flex flex-col justify-evenly">
                 <input
+                onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                value={username}
                   className="w-full h-10 rounded-lg px-3 border border-[#b3adad60]"
                   placeholder="Name..."
                 ></input>
                 <input
+                onChange={(e) => {
+                      onchangePhone(e.target.value)
+                    }}
+                value={phone}
                   className="w-full h-10 rounded-lg px-3 border border-[#b3adad60]"
                   placeholder="Contact No..."
                 ></input>
@@ -151,7 +195,7 @@ export default function ProfileEditor({
                 <h1>Use current location</h1>
               </button>
             </div>
-            <button className="py-3 h-fit w-fit px-5 rounded-full bg-[#ff5a54] text-white font-bold absolute bottom-3 right-3">
+            <button onClick={handleSave} className="py-3 h-fit w-fit px-5 rounded-full bg-[#ff5a54] text-white font-bold absolute bottom-3 right-3">
               Save
             </button>
           </div>
@@ -209,7 +253,7 @@ export default function ProfileEditor({
                   ></input>
                   <input
                     onChange={(e) => {
-                      setPhone(e.target.value);
+                      onchangePhone(e.target.value)
                     }}
                     value={phone}
                     className="w-full h-10 rounded-lg px-3 border text-sm border-[#b3adad60] placeholder:text-sm"
@@ -238,7 +282,6 @@ export default function ProfileEditor({
                 <h1>Use current location</h1>
               </button>
             </div>
-
             <div className="flex gap-4 justify-end">
               <button
                 onClick={() => {

@@ -3,6 +3,21 @@
 @tailwind utilities;
 
 
+/* Hide scrollbar for Chrome, Safari, and Edge */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for Internet Explorer and Edge */
+* {
+  -ms-overflow-style: none;
+}
+
 
 body{
     background: #ff5a540a;
@@ -56,3 +71,27 @@ body{
   .popins{
     font-family: "Plus Jakarta Sans", serif;
   }
+
+
+
+  .filling-box {
+    position: relative;
+    
+    overflow: hidden;
+  }
+  
+  .filling-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%; /* Start with no width */
+    height: 100%;
+    background-color: #21ab90;
+    transition: width 0.5s ease-in-out;
+  }
+  
+  .filling-box.filled::before {
+    width: 100%; /* Full width when class is added */
+  }
+  

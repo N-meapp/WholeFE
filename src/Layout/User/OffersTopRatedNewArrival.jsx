@@ -6,13 +6,13 @@ import ActiveInactiveTabs from '../../Components/Buttons/ActiveInactiveTabs'
 import OfferCards from '../../Components/Cards/OfferCards'
 import axios from 'axios'
 import SeeMoreButton from '../../Components/Buttons/SeeMoreButton'
-import { fetchNewlyArrivals } from '../../api/productApi'
+import { fetchNewlyArrivals, fetchTopProducts } from '../../api/productApi'
 
 export default function OffersTopRatedNewArrival(){
 
     const [newArraivals,setNewArraivals] = useState([])
     const [topProducts,setTopProducts] = useState([])
-    const [selectedTab,setSelectedTab] = useState('Newly arrivals')
+    const [selectedTab,setSelectedTab] = useState('Top products')
 
 
 
@@ -22,6 +22,7 @@ export default function OffersTopRatedNewArrival(){
     
         fetchNewlyArrivals(setNewArraivals);
         // fetchData(setTopProducts);
+        fetchTopProducts(setTopProducts)
 
 
     
@@ -48,7 +49,7 @@ export default function OffersTopRatedNewArrival(){
                 <ActiveInactiveTabs title={'Newly arrivals'} isActive={selectedTab=='Newly arrivals'?true:false} changeTab={changeTab} />
             </div>
             <div className='w-full h-full md:mt-12 mt-8 md:pt-12 pt-4 md:pb-12 pb-4 md:bg-[#bebebe1c] rounded-xl text-center'>
-                <div className="w-full h-full md:flex gap-3 md:gap-8 columns-2 md:flex-wrap justify-center">
+            <div className="w-full h-full md:flex gap-3 md:gap-8 grid grid-flow-row grid-cols-2 sm:grid-cols-3 md:grid-cols-4 md:flex-wrap justify-center">
 
 
                 {selectedTab=='Newly arrivals'?
@@ -61,7 +62,7 @@ export default function OffersTopRatedNewArrival(){
                 })
                 :
                 selectedTab=='Top products'?
-                newArraivals.map((card)=>{
+                topProducts.map((card)=>{
                     return(
                         <>
                         <ProductCards card={card} />

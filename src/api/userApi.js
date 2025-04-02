@@ -31,15 +31,14 @@ export const userLogin = async (username, password) => {
 export const getUser = async (setData,id) => {
   
   try {
+    
     const result = await axios.get(`${BASE_URL}Profile_update_custumer/${id}`);
-
     
 
     if(result.data){
-      console.log('log',result.data);
       setData(result.data)
       return result.data
-    }else{
+    }else{  
       return false
     }
     
@@ -56,9 +55,9 @@ export const getUser = async (setData,id) => {
 export const updateAddress = async (address,id) => {
   
   try {
-    const result = await axios.post(`${BASE_URL}Profile_update_custumer/${id}`,{address:address});
+    const result = await axios.patch(`${BASE_URL}Profile_update_custumer/${id}/`,{address:address});
     if(result.data){
-      console.log('log',result.data);
+
       return result.data
     }else{
       return false
@@ -71,12 +70,21 @@ export const updateAddress = async (address,id) => {
 
 
 
-export const updateUser = async (data,id) => {
+export const updateUser = async (data,id,imageFile) => {  
+
+  console.log(data,'dataaaaaaa');
+
+  const formData = new FormData();
+  formData.append("username", data.username);
+  formData.append("phone_number", data.phone);
+    formData.append("image", imageFile);
+
+
   
   try {
-    const result = await axios.post(`${BASE_URL}Profile_update_custumer/${id}`,{data:data});
+    const result = await axios.patch(`${BASE_URL}Profile_update_custumer/${id}/`,formData);
     if(result.data){
-      console.log('log',result.data);
+
       return result.data
     }else{
       return false

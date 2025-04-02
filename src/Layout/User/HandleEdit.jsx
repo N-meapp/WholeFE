@@ -14,11 +14,13 @@ export default function HandleEdit({ editProfile, setEditProfile }) {
 
   useEffect(() => {
     getUser(setProfile, user.token).then((res) => {
+      
+      
       if (!res) {
         setError(true);
       }
     });
-  }, [user.token]);
+  }, [user.token,]);
 
   return (
     <>

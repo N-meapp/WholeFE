@@ -16,7 +16,7 @@ export default function AddressEditor({
 
   const [location, setLocation] = useState({ latitude: null, longitude: null });
   const [error, setError] = useState(null);
-  const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState(user?.address);
 
   useEffect(() => {
     // if (navigator.geolocation) {
@@ -41,7 +41,7 @@ export default function AddressEditor({
   }, []);
 
   const handleSaveAddress = (data) => {
-    // updateAddress(data,user.id)
+    updateAddress(data, user.id);
     console.log("callledd");
 
     toast.success("Address saved successfully!", {
@@ -65,7 +65,12 @@ export default function AddressEditor({
             </div>
           ) : (
             <>
-              <AddressForm address={address} />
+              <AddressForm
+                etAddress={setAddress}
+                address={address}
+                handleSaveAddress={handleSaveAddress}
+                setIsEditAddress={setIsEditAddress}
+              />
             </>
           )}
         </>

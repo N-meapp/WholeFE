@@ -1,27 +1,26 @@
 import { useEffect } from "react";
 import CartProductCard from "../../Components/Cards/CartProductCard";
+import { deleteCartProduct } from "../../api/productApi";
 
-export default function CartProducts({ cart,setBottomDifference }) {
+export default function CartProducts({ cart,setBottomDifference,countPriceArray, setCountPriceArray,handleSetArray,setIsItemDeleted }) {
 
-    // window.addEventListener('scroll',()=>{
-    //     const bottomCard = document.getElementById('product-card')
-
-    //     const divBottom = bottomCard.getBoundingClientRect().bottom;
-    //     const viewportHeight = window.innerHeight;
-    //     const difference = viewportHeight - divBottom;
-    //     setBottomDifference(difference)
-    //     // console.log(difference);
-                
+  const handleDeleteCartProducts= async (productId,userId)=>{
+    console.log(productId,userId,'thiisisisi');
     
-    // })
+    await deleteCartProduct(productId,userId).then((res)=>{
+      
+      if(res){
+        setIsItemDeleted(true)
+      }
+    })
 
-
+  }
 
   return (
     <>
       <div className="md:w-7/12 w-full h-auto  gap-10" id="product-card">
         {cart.map((item) => {
-          return <CartProductCard item={item} />;
+          return <CartProductCard item={item} countPriceArray={countPriceArray} setCountPriceArray={setCountPriceArray} handleSetArray={handleSetArray} handleDeleteCartProducts={handleDeleteCartProducts} />;
         })}
       </div>
     </>

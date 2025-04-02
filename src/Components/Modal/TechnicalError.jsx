@@ -20,6 +20,7 @@ export default function TechnicalError({ openModal, setOpenModal }) {
       payload: {
         user: null,
         token: null,
+      profile:null
       },
     });
 

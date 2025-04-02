@@ -7,13 +7,17 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import profileImage from "../../assets/Images/profile/profile-1.jpg";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "./SideBar";
+import { fetchCategoryList } from "../../api/productApi";
+import { useSelector } from "react-redux";
 
 export default function BottomNavBar() {
   const [isSideBar, setIsSideBar] = useState(false);
+  const [isCategoryShow, setIsCategoryShow] = useState(false);
+  const [category, setCategory] = useState([]);
+  const user = useSelector((state) => state.user.user);
 
   console.log(isSideBar);
 
@@ -29,6 +33,15 @@ export default function BottomNavBar() {
     }
   });
 
+  useEffect(() => {
+    fetchCategoryList(setCategory);
+  }, []);
+
+  const handleEachCategory = (cat) => {
+    setIsCategoryShow(false);
+    handleNav("/category-list", { state: { category: cat } });
+  };
+
   const handleNav = useNavigate();
 
   return (
@@ -38,6 +51,7 @@ export default function BottomNavBar() {
           onClick={() => {
             setSelectedTab("home");
             handleNav("/");
+            setIsCategoryShow(false);
           }}
           className="text-center justify-items-center"
         >
@@ -82,7 +96,8 @@ export default function BottomNavBar() {
         <div
           onClick={() => {
             setSelectedTab("orders");
-            handleNav('/order-list')
+            handleNav("/order-list");
+            setIsCategoryShow(false);
           }}
           className="text-center justify-items-center"
         >
@@ -134,9 +149,12 @@ export default function BottomNavBar() {
 
         <div className="text-center">
           {isSideBar ? (
-            <div onClick={() => {
+            <div
+              onClick={() => {
                 setIsSideBar(!isSideBar);
-              }} className="cursor-pointer transition-all rounded-full h-14 w-14 content-center justify-items-center bg-[#ffffff] text-white bg-center bg-cover mb-10 shadow-lg">
+              }}
+              className="cursor-pointer transition-all rounded-full h-14 w-14 content-center justify-items-center bg-[#ffffff] text-white bg-center bg-cover mb-10 shadow-lg"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -158,7 +176,7 @@ export default function BottomNavBar() {
                 setIsSideBar(!isSideBar);
               }}
               className=" font-bold text-base rounded-full transition-all h-14 w-14 text-white bg-center bg-cover mb-10 shadow-lg"
-              style={{ backgroundImage: `url(${profileImage})` }}
+              style={{ backgroundImage: `url(${user.profile})` }}
             ></button>
           )}
         </div>
@@ -166,6 +184,7 @@ export default function BottomNavBar() {
         <div
           onClick={() => {
             setSelectedTab("cat");
+            setIsCategoryShow(!isCategoryShow);
           }}
           className="text-center justify-items-center"
         >
@@ -201,6 +220,27 @@ export default function BottomNavBar() {
             </svg>
           )}
 
+          <div
+            className={` ${
+              isCategoryShow ? "block" : "hidden"
+            }  shadow-lg absolute bottom-16 bg-white/75 backdrop-blur-md rounded-2xl p-4 text-center flex flex-col`}
+          >
+            {category?.map((cat) => {
+              return (
+                <>
+                  <button
+                    onClick={() => {
+                      handleEachCategory(cat.category_name);
+                    }}
+                    className="py-3 text-sm border-b"
+                  >
+                    {cat.category_name}
+                  </button>
+                </>
+              );
+            })}
+          </div>
+
           <h1
             className={`text-xs ${
               selectedTab == "cat" ? "black" : "text-[#00000062]"
@@ -214,6 +254,7 @@ export default function BottomNavBar() {
           onClick={() => {
             setSelectedTab("cart");
             handleNav("/cart");
+            setIsCategoryShow(false);
           }}
           className="text-center justify-items-center"
         >
