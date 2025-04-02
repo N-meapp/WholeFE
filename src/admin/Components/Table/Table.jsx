@@ -4,6 +4,7 @@ import Modal from '../Modal/Modal';
 import { SelectBtnModal } from '../SelectBtn/SelectBtn';
 import { useEffect } from 'react';
 import { CreatProduct, fetchCategorySelect, fetchProductTableList, handleDeleteproduct, ProductSerach, updateProduct } from '../../../api/adminApi';
+import { showToast } from "../../Toast/Toast";
 
 
 const Table = () => {
@@ -135,10 +136,12 @@ const Table = () => {
     try {
       const response = await CreatProduct(productName, productCount, selectedCategory, description, fields, images);
       console.log("Upload successful:", response);
+      showToast("success", "Created Product Successfully!");
       fetchProductTableList(setProductTableData)
       setIsOpen(false)
     } catch (error) {
       console.log(error);
+      showToast("error", "Somthing error Create product!");
     }
   }
 
@@ -146,11 +149,12 @@ const Table = () => {
     try {
       const response = await updateProduct(productName, productCount, selectedCategory, description, fields, selctProductId, newImageFile, existingImages)
       console.log("product update successful:", response);
+      showToast("success", "Updated Product Successfully!");
       fetchProductTableList(setProductTableData)
       setIsOpenEdit(false)
-      alert("product updated succesfully")
     } catch (error) {
       console.log(error);
+      showToast("error", "Somthing error Update product!");
     }
   }
 
@@ -159,8 +163,11 @@ const Table = () => {
       const deletedId = await handleDeleteproduct(id, window.alert);
       setProductTableData(prevData => prevData.filter(item => item.id !== deletedId))
       fetchProductTableList(setProductTableData)
+      showToast("success", "Deleted Product Successfully!");
+
     } catch (error) {
       console.log(error);
+      showToast("success", "An error occurred during Delete Product.");
     }
 
   }
@@ -475,21 +482,21 @@ const Table = () => {
                 {fields.map((field) => (
                   <div key={field.id} className="flex gap-1 mb-2">
                     <input
-                      type="text"
+                      type="number"
                       className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm"
                       placeholder="From"
                       value={field.from}
                       onChange={(e) => handleChange(field.id, "from", e.target.value)}
                     />
                     <input
-                      type="text"
+                      type="number"
                       className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm"
                       placeholder="To"
                       value={field.to}
                       onChange={(e) => handleChange(field.id, "to", e.target.value)}
                     />
                     <input
-                      type="text"
+                      type="number"
                       className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm"
                       placeholder="Rate"
                       value={field.rate}
@@ -635,21 +642,21 @@ const Table = () => {
                 {fields.map((field) => (
                   <div key={field.id} className="flex gap-1 mb-2">
                     <input
-                      type="text"
+                      type="number"
                       className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm"
                       placeholder="From"
                       value={field.from}
                       onChange={(e) => handleChange(field.id, "from", e.target.value)}
                     />
                     <input
-                      type="text"
+                      type="number"
                       className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm"
                       placeholder="To"
                       value={field.to}
                       onChange={(e) => handleChange(field.id, "to", e.target.value)}
                     />
                     <input
-                      type="text"
+                      type="number"
                       className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm"
                       placeholder="Rate"
                       value={field.rate}

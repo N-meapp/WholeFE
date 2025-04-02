@@ -5,6 +5,7 @@ import { SelectBtnModal } from '../SelectBtn/SelectBtn';
 import { useEffect } from 'react';
 import { customerDelete, fetchCustomerTableList, postCreatCostumer, updateCustomer, updateStatus } from '../../../api/adminApi';
 import { alert } from '@material-tailwind/react';
+import { showToast } from "../../Toast/Toast";
 
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
@@ -21,9 +22,8 @@ const CustomerTable = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [selectedCustomer, setSelectedcustomer] = useState('')
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectUpdateCustomer, setSelectUpdateCustomer] = useState([])
+  // const [selectUpdateCustomer, setSelectUpdateCustomer] = useState([])
 
-console.log(selectUpdateCustomer, "select customerrr");
 
   useEffect(() => {
     fetchCustomerTableList(setCostumerTableData)
@@ -62,11 +62,13 @@ console.log(selectUpdateCustomer, "select customerrr");
       if (password === confirmPassword) {
         const response = await postCreatCostumer(userName, confirmPassword, discount)
         console.log("Upload successful:", response);
+        showToast("success", "Created Customer Successfully!");
         fetchCustomerTableList(setCostumerTableData)
         setIsOpen(false)
 
       } else {
-        alert('password not matched!')
+        showToast("error", "password not matched!");
+        
       }
 
     } catch (error) {
@@ -79,9 +81,11 @@ console.log(selectUpdateCustomer, "select customerrr");
     try {
       const deletedId = await customerDelete(id, window.alert);
       setCostumerTableData(prevData => prevData.filter(item => item.id !== deletedId));
+      showToast("success", "Deleted Customer succsessfully");
       fetchCustomerTableList(setCostumerTableData);
     } catch (error) {
       console.error("Error deleting customer", error);
+      showToast("eroor", "Something error deleting Customer");
     }
   };
 
@@ -106,22 +110,29 @@ console.log(selectUpdateCustomer, "select customerrr");
     }
 
     try {
-      const response = await updateCustomer(selectedCustomer, formData.username, formData.password, formData.discount_individual, setIsOpenEdit, window.alert);
-      // setIsOpenEdit(false);  
+      const response = await updateCustomer(selectedCustomer, formData.username, formData.password, formData.discount_individual, setIsOpenEdit,);
+      setIsOpenEdit(false);  
       fetchCustomerTableList(setCostumerTableData)
+      showToast("success", "Updated Customer Successfully!");
       console.log(response);
 
     } catch (error) {
+      fetchCustomerTableList(setCostumerTableData)
       console.log("Error updating customer:", error);
+      showToast("error", ` ${error}: Somthing wrong updated Customer`);
       // alert("Update failed!");
     }
   };
 
 
+  // const filteredCustomers = costumerTableData?.filter((customer) =>
+  // (customer?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   customer?.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase()))
+  // );
 
-  const filteredCustomers = costumerTableData.filter((customer) =>
-  (customer.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredCustomers = (costumerTableData || [])?.filter((customer) =>
+    customer?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer?.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -217,12 +228,11 @@ console.log(selectUpdateCustomer, "select customerrr");
                     <td className="p-4 text-sm text-black">{item.username}</td>
                     <td className="p-4 text-sm text-black">{item.discount_individual} %</td>
                     <td className="p-4">
-                      <button className="mr-4" title="Edit" onClick={() => { 
-                         setIsOpenEdit(true);
-                         setSelectUpdateCustomer(item);
-                         setSelectedcustomer(item.id); 
-                         
-                        }}>
+                      <button className="mr-4" title="Edit" onClick={() => {
+                        setIsOpenEdit(true);
+                        setSelectedcustomer(item.id);
+
+                      }}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 fill-[#5764df] hover:fill-[#4e5ef0]"
                           viewBox="0 0 348.882 348.882">
                           <path
@@ -360,11 +370,13 @@ console.log(selectUpdateCustomer, "select customerrr");
         modalClass={"hs-overlay overflow-scroll fixed inset-0 z-[80] flex items-center justify-center"}
         popupClass={"hs-overlay-animation-target scale-95 opacity-100 transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto bg-white rounded-2xl shadow-lg"}
         ModelContent={
+          <>
+          <form>
           <div className="max-w-full space-y-3 w-full p-3">
             <input
               type="text"
               name="username"
-              value={selectUpdateCustomer.username}
+              value={formData.username}
               onChange={handleChange}
               className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
               placeholder="User Name"
@@ -404,14 +416,17 @@ console.log(selectUpdateCustomer, "select customerrr");
               class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
               placeholder="Enter Discount (1-100%)"
             />
-            <button
-              onClick={handleUpdate}
+            {/* <button
+              onClick={}
               className="w-full py-3 px-5 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600"
             >
               Update Customer
-            </button>
+            </button> */}
           </div>
+          </form>
+          </>
         }
+        submit={handleUpdate}
       />
 
     </>

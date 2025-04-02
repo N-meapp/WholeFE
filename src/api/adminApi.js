@@ -11,7 +11,6 @@ export const AdminLogin = async (username, password) => {
 
     console.log(data,api,'adminnn logiinnn');
     
-
     try {
         const result = await axios.post(`${BASE_URL}Login/`, data);
 
@@ -108,12 +107,11 @@ export const categoryPostData = async (file, category) => {
     }
 };
 
-export const categoryDelete = async (id, alert) => {
+export const categoryDelete = async (id) => {
     console.log(id, "id check");
     
     try {
         await api.delete(`Product_categoryUpdate/${id}/`);
-        alert('deleted')
         return id; 
        
     } catch (error) {
@@ -153,8 +151,11 @@ export const postCreatCostumer = async (userName,confirmPassword, discount)=>{
         formData.append('discount_individual', discount)
         console.log('creaateeeee costomerrrr', userName,confirmPassword);
         const response = await api.post(`Register/`, formData);
-        return response.data;
+        console.log(response, "jkgnfjsGNJDS");
+        
+        return response.data;   
     } catch (error) {
+        
         console.log(error);
         
     }
@@ -293,7 +294,7 @@ export const updateStatus = async (id, status) => {
 
 
 
-export const updateCustomer = async (customerId, username, password,discount_individual, setIsOpenEdit, alert) => {
+export const updateCustomer = async (customerId, username, password,discount_individual, setIsOpenEdit) => {
     try {
       const response = await api.patch(`Profile_update_custumer/${customerId}/`, {
         username,
@@ -362,7 +363,6 @@ export const updateCustomer = async (customerId, username, password,discount_ind
 export const singleOrderStatusUpdating = async (singleRejectedData ,alert) => {
     try {
       const response = await api.patch(`Update_order_status/`, singleRejectedData);
-      alert('upadetd')
       return response.data;
     } catch (error) {
         console.log(error);

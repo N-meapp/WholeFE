@@ -17,6 +17,7 @@ import Login from "./Pages/User/Login";
 import ProductsList from "./Pages/User/ProductsList";
 import OrderList from "./Pages/User/OrderList";
 import { useSelect } from "@material-tailwind/react";
+import { ToastContainer } from "react-toastify";
 import CategoryList from "./Pages/User/CategoryList";
 import { getUser } from "./api/userApi";
 import BlockModal from "./Components/Modal/BlockModal";
@@ -26,6 +27,9 @@ import { HomeContext } from "./main";
 function App() {
   const user = useSelector((state) => state.user.user);
   const admin = useSelector((state) => state.admin.admin);
+  const accesshToken = localStorage.getItem("accessToken");
+
+  console.log(accesshToken, "app.js access token");
   const {isHomePage,setIsHomePage} = useContext(HomeContext)
   const [data, setData] = useState();
   const [isBlocked, setIsBlocked] = useState();
@@ -49,23 +53,25 @@ function App() {
 
   return (
     <>
+ <ToastContainer />
       {path.includes("admin") ? (
         <Router>
           <Routes>
-            {admin?.token && admin?.admin ? (
-              <>
-                <Route path="/admin_dashboard" element={<AdminHome />} />
-                <Route
-                  path="*"
-                  element={<Navigate to="/admin_dashboard" replace />}
-                />
-              </>
-            ) : (
-              <>
-                <Route path="/admin" element={<AdminLogin />} />
-                <Route path="*" element={<Navigate to="/admin" replace />} />
-              </>
-            )}
+          {admin?.token && admin?.admin && accesshToken ?
+          
+          <>
+          
+            <Route path="/admin_dashboard" element={<AdminHome />} />
+            <Route path="*" element={<Navigate to="/admin_dashboard" replace />} />    
+          </>
+            :
+            <>
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="*" element={<Navigate to="/admin" replace />} />    
+            </>
+            
+          }
+
           </Routes>
         </Router>
       ) : isBlocked ? (
