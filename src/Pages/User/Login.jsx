@@ -32,6 +32,7 @@ export default function Login() {
           dispatch({ type: "SET_USER", payload: {
             user: result?.username || "Guest",
             token: result?.user_id || "NoToken",
+            profile:result?.profile_img || "no profile"
           } });
         },2500);
     

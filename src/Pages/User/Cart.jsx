@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { cart } from "../../constants/cards";
 import CartProducts from "../../Layout/User/CartProducts";
 import CartpriceDetailBox from "../../Layout/User/CartPriceDetailBox";
@@ -6,6 +6,7 @@ import { getCart } from "../../api/productApi";
 import { useSelector } from "react-redux";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import EmptyCart from "../../Components/EmptyCart";
+import { HomeContext } from "../../main";
 
 export default function Cart() {
   const [bottomDifference, setBottomDifference] = useState();
@@ -15,30 +16,29 @@ export default function Cart() {
   const [countPriceArray, setCountPriceArray] = useState();
   const [isTriggered, setIsTriggered] = useState();
   const [isEmpty, setIsEmpty] = useState();
-  const [isDeleted,setIsDeleted] = useState();
+  const [isDeleted, setIsDeleted] = useState();
+  const { isHomePage, setIsHomePage } = useContext(HomeContext);
 
   useEffect(() => {
     getCart(setCartItems, user.token).then((res) => {
-      
       if (!res) {
         console.log(res, "ressponseessss");
-        setIsEmpty(true); 
+        setIsEmpty(true);
         handleCount(res);
-      }else{
+      } else {
         handleCount(res);
       }
-
     });
   }, [isDeleted]);
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-
-  },[])
+    setIsHomePage(false)
+  }, []);
 
   const handleCount = (arr) => {
-    console.log(arr,'arrrrrrrrrr');
-    
+    console.log(arr, "arrrrrrrrrr");
+
     const tempArray = [];
     for (let i = 0; i < arr.length; i++) {
       const tempObj = {};
@@ -76,8 +76,7 @@ export default function Cart() {
   };
 
   const handleSetArray = (arr) => {
-    console.log(arr,'asrrrrr');
-    
+    console.log(arr, "asrrrrr");
 
     setCountPriceArray([...arr]);
   };
@@ -86,10 +85,7 @@ export default function Cart() {
     <>
       {isEmpty ? (
         <div className=" mx-auto h-screen">
-        <EmptyCart />
-        
-       
-
+          <EmptyCart />
         </div>
       ) : (
         <div className="w-full md:pt-36 pt-28">

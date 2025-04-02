@@ -19,7 +19,7 @@ export default function CategorySuggestions(){
     return(
         <>
         {/* for web */}
-            <div className="mt-14 w-[90%] mx-auto gap-2 flex-wrap justify-center md:flex hidden">
+            <div className="mt-8 w-[90%] mx-auto gap-2 flex-wrap justify-center md:flex hidden">
                 {categories.map((cat)=>{
                     return(
                         <>
@@ -38,7 +38,7 @@ export default function CategorySuggestions(){
             })}
 
             </div> */}
-            <div className=" overflow-x-auto whitespace-nowrap scrollbar-hide mt-10 md:hidden block">
+            <div className=" overflow-x-auto whitespace-nowrap scrollbar-hide mt-3 md:hidden block">
   <div className="w-fit h-auto flex gap-3 px-[5%] pb-2">
   {categories.map((cat)=>{
                     return(

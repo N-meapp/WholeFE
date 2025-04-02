@@ -16,6 +16,9 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
   const [isCancelClicked,setIsCancelClicked] = useState(false)
   const [isOrderRecieved,setisOrderRecieved] = useState(false)
 
+  console.log(order,'orderr');
+  
+
 
   const displayNames = () => {
     let names = "";

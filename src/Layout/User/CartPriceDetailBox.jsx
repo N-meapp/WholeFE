@@ -5,7 +5,6 @@ import InvalidError from "../../Components/Modal/InvalidError";
 import { clearCart, placeOrder, sendEnquiry } from "../../api/productApi";
 import { useSelector } from "react-redux";
 import HandleAddPlaceOrderAddress from "./HandleAddPlaceOrderAddress";
-import { OrderContext, SearchContext } from "../../main";
 import SendEnquiryModal from "../../Components/Modal/SendEnquiryModal";
 
 export default function CartpriceDetailBox({
@@ -184,7 +183,7 @@ export default function CartpriceDetailBox({
                 }}
                 className="py-3 px-5 border-[#ff5a5442] border-[2px] text-black rounded-full font-bold flex w-full justify-center md:w-fit mb-16 md:mb-0 gap-3 items-center"
               >
-                <h1>Send Inquiry</h1>
+                <h1>Send Enquiry</h1>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"

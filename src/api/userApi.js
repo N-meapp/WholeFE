@@ -29,16 +29,13 @@ export const userLogin = async (username, password) => {
 
 
 export const getUser = async (setData,id) => {
-
   
   try {
+    
     const result = await axios.get(`${BASE_URL}Profile_update_custumer/${id}`);
-
-    console.log(result,'resulttttt.....iddddd');
     
 
     if(result.data){
-
       setData(result.data)
       return result.data
     }else{  
@@ -73,11 +70,19 @@ export const updateAddress = async (address,id) => {
 
 
 
-export const updateUser = async (data,id) => {  
+export const updateUser = async (data,id,imageFile) => {  
+
+  console.log(data,'dataaaaaaa');
+
+  const formData = new FormData();
+  formData.append("username", data.username);
+  formData.append("phone_number", data.phone);
+    formData.append("image", imageFile);
+
 
   
   try {
-    const result = await axios.patch(`${BASE_URL}Profile_update_custumer/${id}/`,{username:data.username,phone_number:data.phone});
+    const result = await axios.patch(`${BASE_URL}Profile_update_custumer/${id}/`,formData);
     if(result.data){
 
       return result.data

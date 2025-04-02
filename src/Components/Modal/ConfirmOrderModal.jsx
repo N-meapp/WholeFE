@@ -13,7 +13,6 @@ import { getUser } from "../../api/userApi";
 import { useSelector } from "react-redux";
 import AddressRadioButton from "../Others/AddressRadioButton";
 import { getCart, getSingleProduct } from "../../api/productApi";
-import { OrderContext } from "../../main";
 
 export default function ConfirmOrderModal({
   openModal,
@@ -47,14 +46,17 @@ export default function ConfirmOrderModal({
       console.log('single product.......',);
 
 
-          order = {
-            userid: user.token,
-            address: getAddress(),
-            order_id: getOrderId(),
-            date: getDate(),
-            final_amount: price,
-            products: [{product_id:isSingleProduct.productId,count:isSingleProduct.count,total_amount:price,order_status:'null'}],
-          };
+      order = {
+        userid: user.token,
+        orders:{
+          address: getAddress(),
+          order_id: getOrderId(),
+          date: getDate(),
+          final_amount: price,
+          order_track:null,
+          products: [{product_id:isSingleProduct.productId,count:isSingleProduct.count,total_amount:price,order_status:'null'}],  
+        },
+      };
           
         
         
@@ -63,13 +65,15 @@ export default function ConfirmOrderModal({
         if (res) {
           order = {
             userid: user.token,
-            address: getAddress(),
-            order_id: getOrderId(),
-            date: getDate(),
-            final_amount: price,
-            products: getProducts(res),
+            orders:{
+              address: getAddress(),
+              order_id: getOrderId(),
+              date: getDate(),
+              final_amount: price,
+              order_track:null,
+              products: getProducts(res),
+            },
           };
-          console.log(order,'moneeeee');
           
         } else {
           setIsEmpty(true);

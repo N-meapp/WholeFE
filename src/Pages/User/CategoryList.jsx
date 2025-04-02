@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { SearchContext } from "../../main";
+import { HomeContext, SearchContext } from "../../main";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchCategoryProducts, getSearchedOutput } from "../../api/productApi";
 import ProductCards from "../../Components/Cards/ProductCards";
@@ -11,6 +11,8 @@ export default function CategoryList() {
   const { category } = location.state || {};
   console.log(category,'dccccea');
   const [isNotFound,setIsNotFound] = useState(false)
+    const { isHomePage, setIsHomePage } = useContext(HomeContext);
+  
   
 
 
@@ -30,7 +32,7 @@ if(!res){
 
   useEffect(()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
-
+setIsHomePage(false)
   },[])
 
 

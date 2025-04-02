@@ -1,5 +1,4 @@
-import profileImage from "../../assets/Images/profile/profile-1.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { getUser } from "../../api/userApi";
@@ -39,10 +38,10 @@ export default function Profile({ setIsEditProfile }) {
   return (
     <>
       <div className="w-fit mx-auto h-auto relative self-center">
-        <div className="w-32 h-32 bg-[#bcbcbd] rounded-full mx-auto mt-16">
+        <div className="w-32 h-32 rounded-full mx-auto mt-16">
           <img
             className="object-cover h-full w-full rounded-full"
-            src={profileImage}
+            src={user.profile}
           ></img>
         </div>
         <div

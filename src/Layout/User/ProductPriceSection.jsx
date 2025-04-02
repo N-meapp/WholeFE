@@ -42,7 +42,7 @@ export default function ProductpriceSection({ card, handleCart, handleOrder }) {
 
         setTimeout(() => {
           setIsOrder(false);
-          setCart(null);
+          // setCart(null);
           setIsEmpty(true);
         }, 3000);
       } else {
@@ -158,7 +158,7 @@ export default function ProductpriceSection({ card, handleCart, handleOrder }) {
               }}
               className="py-3 px-5 border-[#ff5a5442] border-[2px] text-black rounded-full font-bold flex w-full justify-center md:w-fit mb-10 md:mb-0 gap-3 items-center"
             >
-              <h1>Send Inquiry</h1>
+              <h1>Send Enquiry</h1>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

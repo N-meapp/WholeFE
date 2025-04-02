@@ -13,7 +13,13 @@ export default function SendEnquiryModal({ openModal, setOpenModal, handleSend }
     const handleOnclick=()=>{
         // setOpenModal(false)
         
-        handleSend(message)
+        // handleSend(message)
+
+        const shareUrl = "https://n-meapp.github.io/BuyselImageGalleryTest/image-share.html?v=2";
+        const message = "text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, !";
+        
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + " " + shareUrl)}`;
+        window.open(whatsappUrl, "_blank");
     }
 
   return (
@@ -21,7 +27,6 @@ export default function SendEnquiryModal({ openModal, setOpenModal, handleSend }
       <Modal
         show={openModal}
         className="bg-white/30 backdrop-blur-md sm:px-[5%] md:px-[20%] lg:px-[35%]"
-        size="md"
         onClose={() => setOpenModal(false)}
         popup
       >

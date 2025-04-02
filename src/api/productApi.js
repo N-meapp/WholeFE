@@ -70,8 +70,12 @@ export const fetchLimitedProducts = async(setData)=>{
 export const fetchSliderAdds = async(setData)=>{
   try {
       const result = await axios.get(`${BASE_URL}slider_Adds/`);
-      console.log('slider adds ....',result);
-      setData(result.data)
+      console.log('0000000000000slider adds ....00000000000000000000',result);
+      if(result){
+        
+        setData(result.data)
+      }
+
     } catch (err) {
       console.error(err);
     }
@@ -430,7 +434,7 @@ export const sendEnquiry = async(user,productId,message)=>{
   
   try {
       const result = await axios.post(`${BASE_URL}Enquiry_send/`,data);
-      console.log(result,'ressuult');
+      console.log(result,'enqiry send...');
       
       if(result.data){
         // setData(result.data.results)

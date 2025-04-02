@@ -13,7 +13,6 @@ import { getUser } from "../../api/userApi";
 import { useSelector } from "react-redux";
 import AddressRadioButton from "../Others/AddressRadioButton";
 import { getCart } from "../../api/productApi";
-import { OrderContext } from "../../main";
 import OrderProductsTable from "../Table/OrderProductsTable";
 
 export default function OrderProductsModal({products,orderId, openModal, setOpenModal,setIsOrderCanceled }) {

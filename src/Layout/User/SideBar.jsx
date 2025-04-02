@@ -4,7 +4,6 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import HandleEdit from "./HandleEdit";
 import { useState } from "react";
 import Profile from "./Profile";
-import profileImage from "../../assets/Images/profile/profile-1.jpg";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import LogoutModal from "../../Components/Modal/LogoutModal";
@@ -17,8 +16,6 @@ export default function SideBar({ setIsSideBar, isSideBar }) {
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isLogoutConfirm, setIsLogoutConfirm] = useState(false);
   const [isLogout, setIsLogout] = useState(false);
-
-  
 
   const handleNav = (path) => {
     console.log("haiiii");
@@ -41,6 +38,7 @@ export default function SideBar({ setIsSideBar, isSideBar }) {
         payload: {
           user: null,
           token: null,
+          profile: null,
         },
       });
       navigate("/");
@@ -56,12 +54,12 @@ export default function SideBar({ setIsSideBar, isSideBar }) {
               setIsSideBar(false);
             }
           }}
-          className={`w-screen backdrop-blur-sm bg-white/30 transition-all overflow-hidden h-screen fixed z-50 ${
+          className={`w-screen backdrop-blur-sm bg-white/30 transition-all overflow-hidden top-0 h-screen fixed z-50 ${
             isSideBar ? "bg-[#0000003d]" : "hidden"
           }`}
         ></div>
         <div
-          className={`transition-all duration-700 h-screen w-full md:w-96 bg-[#ffffff] fixed z-50 shadow-xl ${
+          className={`transition-all duration-700 h-screen w-full md:w-96 bg-[#ffffff] top-0 fixed z-50 shadow-xl ${
             isSideBar ? "right-0" : "md:-right-96 -right-[100vh]"
           }`}
         >
@@ -128,10 +126,13 @@ export default function SideBar({ setIsSideBar, isSideBar }) {
               <h1>Favorites</h1>
             </button>
             <div className="h-[1px] w-full bg-[#e7e7e7] rounded-full"></div>
-            <button onClick={()=>{
-              setIsEditProfile(false);
-              handleNav("/order-list");
-            }} className="w-full h-20 flex gap-2 items-center justify-center">
+            <button
+              onClick={() => {
+                setIsEditProfile(false);
+                handleNav("/order-list");
+              }}
+              className="w-full h-20 flex gap-2 items-center justify-center"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

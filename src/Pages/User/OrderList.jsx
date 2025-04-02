@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { listOrders } from "../../api/productApi";
 import { useSelector } from "react-redux";
 // import { orders } from "../../constants/cards";
 import EachOrder from "../../Components/Cards/EachOrder";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import EmptyOrder from "../../Components/EmptyOrder";
+import { HomeContext } from "../../main";
 
 export default function OrderList() {
   const [orders, setOrders] = useState([]);
 
   const [isOrderCanceled, setIsOrderCanceled] = useState(false);
+  const { isHomePage, setIsHomePage } = useContext(HomeContext);
 
   const user = useSelector((state) => state.user.user);
 
@@ -21,11 +23,12 @@ export default function OrderList() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsHomePage(false)
   }, []);
 
   return (
     <>
-      {orders.length < 0 ? (
+      {orders.length > 0 ? (
         <div className="w-full md:pt-36 pt-28">
           <div className="w-[90%] mx-auto md:px-10 md:pt-10 pt-2 md:mt-14 mt-2 pb-20 md:bg-[#bebebe1c] h-auto rounded-xl grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-3">
             {orders

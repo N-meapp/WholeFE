@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { SearchContext } from "../../main";
+import { HomeContext, SearchContext } from "../../main";
 import { useNavigate } from "react-router-dom";
 import { fetchAllProducts, getSearchedOutput } from "../../api/productApi";
 import ProductCards from "../../Components/Cards/ProductCards";
@@ -7,6 +7,8 @@ import error from "../../assets/Images/errorImages/searchnotfound.svg"
 
 export default function ProductsList() {
   const { searchKey, setSearchKey } = useContext(SearchContext);
+    const { isHomePage, setIsHomePage } = useContext(HomeContext);
+  
 
   const [data, setData] = useState([]);
 
@@ -27,7 +29,7 @@ export default function ProductsList() {
 
   useEffect(()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
-
+    setIsHomePage(false)
   },[])
 
 

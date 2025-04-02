@@ -12,7 +12,7 @@ export default function CategorySuggestionButton({category}){
         <>
         <div onClick={()=>{
             handleOnclick()
-        }} className="md:py-3 py-2 px-2 md:px-4 border-2 border-[#ff5a5463] w-fit rounded-full font-semibold text-xs md:text-base cursor-pointer">{category?.category_name}</div>
+        }} className="md:py-3 py-2 my-3 px-2 md:px-4 border-2 hover:bg-[black] transition-all hover:text-white border-[#f0ebeb] w-fit rounded-full shadow-lg text-xs md:text-base cursor-pointer">{category?.category_name}</div>
 
         </>
     )

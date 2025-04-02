@@ -28,8 +28,8 @@ export default function ProductsHorizontalSlider() {
 
   return (
     <>
-      <div className=" overflow-x-auto whitespace-nowrap scrollbar-hide mt-6 md:hidden block">
-        <div className="w-fit h-auto flex gap-3 px-[5%] pb-6">
+      <div className=" overflow-x-auto whitespace-nowrap scrollbar-hide py-3 md:hidden block ">
+        <div className="w-fit h-auto flex gap-3 px-[5%]">
           {data?.map((card) => {
             return <SlidingProductsCard card={card} />;
           })}

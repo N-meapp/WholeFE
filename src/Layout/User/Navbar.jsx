@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/Images/shopping-cart.png";
-import profileImage from "../../assets/Images/profile/profile-1.jpg";
 import { Slider } from "@material-tailwind/react";
 import SideBar from "./SideBar";
 import { useContext, useState } from "react";
@@ -8,14 +7,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import BottomNavBar from "./BottomNavbar";
 import { fetchCategoryList, getSearchedOutput } from "../../api/productApi";
-import { SearchContext } from "../../main";
+import { HomeContext, SearchContext } from "../../main";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const [isSideBar, setIsSideBar] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const { searchKey, setSearchKey } = useContext(SearchContext);
-  const [isCategoryShow,setIsCategoryShow] = useState(false)
-  const [category,setCategory] = useState([])
+  const [isCategoryShow, setIsCategoryShow] = useState(false);
+  const [category, setCategory] = useState([]);
+  const { isHomePage, setIsHomePage } = useContext(HomeContext);
+
+  const user = useSelector((state) => state.user.user);
 
   const navigate = useNavigate();
 
@@ -24,6 +27,17 @@ export default function Navbar() {
   };
 
   const handleSearch = (value) => {
+    const isAtTop =
+      window.scrollY === 0 || document.documentElement.scrollTop === 0;
+
+    // Detect if scrolling just started from 0px
+    console.log(isAtTop, "issatt topp");
+
+    if (isAtTop) {
+      console.log("shiiii");
+
+      window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+    }
     setSearchKey(value);
     if (value) {
       navigate("/list");
@@ -32,26 +46,30 @@ export default function Navbar() {
     }
   };
 
-  const handleCategory=()=>{
-    fetchCategoryList(setCategory)
-    if(isCategoryShow){
-      setIsCategoryShow(false)
-    }else{
-      setIsCategoryShow(true)
+  const handleCategory = () => {
+    fetchCategoryList(setCategory);
+    if (isCategoryShow) {
+      setIsCategoryShow(false);
+    } else {
+      setIsCategoryShow(true);
     }
-  }
+  };
 
-  const handleEachCategory = (cat)=>{
-    setIsCategoryShow(false)
-    navigate('/category-list', { state: { category: cat } });
-  }
+  const handleEachCategory = (cat) => {
+    setIsCategoryShow(false);
+    navigate("/category-list", { state: { category: cat } });
+  };
 
   return (
     <>
-      <div className=" w-full h-auto relative">
-        <div className="w-full h-auto overflow-hidden">
-          <div className="w-full h-fit fixed z-50">
-            <div className="lg:w-[70%] w-[90%] md:h-20 h-14 mx-auto bg-[#ffffff] md:mt-8 mt-4 rounded-full shadow-xl flex lg:gap-16 gap-5 md:px-12 px-2 ">
+      <div
+        className={`w-full h-auto z-50 ${
+          isHomePage ? "sticky top-0 " : "fixed top-3"
+        }`}
+      >
+        <div className={`w-full h-auto overflow-hidden -mt-[10px] ${isHomePage?'md:-mt-[66px]':''}`}>
+          <div className="w-full mb-44">
+            <div className="lg:w-[70%] w-[90%] md:h-20 h-14 mx-auto bg-[#ffffff] md:mt-8 mt-4 rounded-full shadow-xl flex lg:gap-16 gap-5 md:px-12 px-2">
               <div className=" h-full content-center">
                 <img className="lg:w-24 w-12" src={logo}></img>
               </div>
@@ -85,29 +103,44 @@ export default function Navbar() {
                   </div>
                 </div>
                 <div>
-                <div onClickCapture={()=>{
-                    handleCategory()
-                }} className="md:flex hidden gap-1 items-center cursor-pointer bg-[#ff5a54] rounded-full relative px-3">
-                  <button className="font-bold text-sm rounded-full py-3 h-fit w-fit border-[#ff5a5442]  text-[white]">
-                    category
-                  </button>
-                  <div className="w-fit h-fit p-1  rounded-full content-center text-center ">
-                    <FontAwesomeIcon icon={faCaretDown} className={`${isCategoryShow?'rotate-180':'rotate-0'} transition-all duration-300`} />
+                  <div
+                    onClickCapture={() => {
+                      handleCategory();
+                    }}
+                    className="md:flex hidden gap-1 items-center cursor-pointer bg-[#ff5a54] rounded-full relative px-3"
+                  >
+                    <button className="font-bold text-sm rounded-full py-3 h-fit w-fit border-[#ff5a5442]  text-[white]">
+                      category
+                    </button>
+                    <div className="w-fit h-fit p-1  rounded-full content-center text-center ">
+                      <FontAwesomeIcon
+                        icon={faCaretDown}
+                        className={`${
+                          isCategoryShow ? "rotate-180" : "rotate-0"
+                        } transition-all duration-300`}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className={` ${isCategoryShow?'block':'hidden'}  shadow-lg absolute mt-1 bg-white/75 backdrop-blur-md rounded-2xl p-4 text-center flex flex-col`}>
-                 {category?.map((cat)=>{
-                  return(
-                    <>
-                  <button onClick={()=>{
-                    handleEachCategory(cat.category_name)
-                  }} className="py-3 text-sm border-b">
-                    {cat.category_name}
-                  </button>
-                    </>
-                  )
-                 })}
-                </div>
+                  <div
+                    className={` ${
+                      isCategoryShow ? "block" : "hidden"
+                    }  shadow-lg absolute mt-1 bg-white/75 backdrop-blur-md rounded-2xl p-4 text-center flex flex-col`}
+                  >
+                    {category?.map((cat) => {
+                      return (
+                        <>
+                          <button
+                            onClick={() => {
+                              handleEachCategory(cat.category_name);
+                            }}
+                            className="py-3 text-sm border-b"
+                          >
+                            {cat.category_name}
+                          </button>
+                        </>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
@@ -134,8 +167,8 @@ export default function Navbar() {
                   onClick={() => {
                     setIsSideBar(true);
                   }}
-                  className=" font-bold text-base rounded-full h-12 w-12 bg-[#ff5a54] text-white bg-center bg-cover"
-                  style={{ backgroundImage: `url(${profileImage})` }}
+                  className=" font-bold text-base rounded-full h-12 w-12 text-white bg-center bg-cover"
+                  style={{ backgroundImage: `url(${user.profile})` }}
                 ></button>
               </div>
             </div>
@@ -146,7 +179,6 @@ export default function Navbar() {
             <BottomNavBar category={category} />
           </div>
         </div>
-        
       </div>
 
       {/* <div className="w-full h-full absolute bg-[#ffffff]">

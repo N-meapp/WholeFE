@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 import { updateUser } from "../../api/userApi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
 
 export default function ProfileEditor({
   setEditProfile,
@@ -22,8 +23,17 @@ export default function ProfileEditor({
 
   const [username, setUsername] = useState(user?.username);
   const [phone, setPhone] = useState(user?.phone_number);
+  const [imageFile,setImageFile] = useState()
 
-  const [profilePicture, setProfilePicture] = useState(defaultImage);
+  const dispatch = useDispatch()
+
+  const [profilePicture, setProfilePicture] = useState(()=>{
+    if(user.profile_image){
+      return user.profile_image
+    }else{
+      return defaultImage
+    }
+  });
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -31,6 +41,10 @@ export default function ProfileEditor({
 
   const handleFileChange = (file) => {
     if (file) {
+      console.log(file);
+
+      setImageFile(file)
+      
       const reader = new FileReader();
 
       // Event when file is read
@@ -55,9 +69,15 @@ export default function ProfileEditor({
   };
 
   const handleSave = () => {
-    updateUser({username:username,phone:phone},user.id).then((res)=>{
+    updateUser({username:username,phone:phone},user.id,imageFile).then((res)=>{
       if(res){
         console.log('hahahahahmmmmmaaa');
+
+        dispatch({ type: "SET_USER", payload: {
+          user: user?.username || "Guest",
+          token: user?.id || "NoToken",
+          profile:profilePicture || "no profile"
+        } });
         
         toast.success("Address saved successfully!", {
           onClose: () => {
