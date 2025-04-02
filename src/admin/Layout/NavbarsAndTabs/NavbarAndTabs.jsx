@@ -9,6 +9,7 @@ import Enquery from "../../Components/Enquery/Enquery";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SliderAdList from "../../Components/SliderAd/SliderAd";
+import { showToast } from "../../Toast/Toast";
 
 const NavbarAndTabs = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -26,7 +27,7 @@ const NavbarAndTabs = () => {
     localStorage.removeItem("refreshToken");
     console.log("Logged out successfully!");
     navigate('/admin')
-
+    showToast("error", "Logout Successfully!");
 
   };
 

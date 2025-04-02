@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { AdminLogin } from '../../../api/adminApi';
 import { useDispatch } from 'react-redux';
+import { showToast } from "../../Toast/Toast";
 
 const LoginLayout = () => {
     const [username, setUsername] = useState();
@@ -21,6 +22,7 @@ const LoginLayout = () => {
             const result = await AdminLogin(username, password);  // Await the login function
             
             if (result) {
+               
                 dispatch({
                     type: "SET_ADMIN",
                     payload: {
@@ -30,13 +32,15 @@ const LoginLayout = () => {
                 });
     
                 navigate("/admin_dashboard");
+                showToast("success", "Login Successfully!");
             } else {
-                alert("Admin not found");
+          
+                showToast("error", "Admin not found");
             }
     
         } catch (error) {
             console.error("Login error:", error);
-            alert("An error occurred during login.");
+            showToast("error", "An error occurred during login.");
         }
     };
     

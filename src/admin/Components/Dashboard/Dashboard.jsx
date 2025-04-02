@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { getDashboardData } from '../../../api/adminApi';
+import axios from 'axios';
 
 const Dashboard = () => {
 
@@ -9,7 +10,16 @@ const Dashboard = () => {
 
     useEffect(() => {
         getDashboardData(setDashboardData)
+        // refresh()
     }, [])
+
+
+    // const refresh = ()=>{
+    //     const refreshToken = localStorage.getItem("refreshToken");
+
+    //     const resp = axios.post("http://127.0.0.1:8000/api/refresh-token/", {refresh : refreshToken})
+
+    // }
 
     return (
         <div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { categoryDelete, categoryPostData, fetchCategorydata } from '../../../api/adminApi';
+import { showToast } from "../../Toast/Toast";
 
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
@@ -31,28 +32,33 @@ const handleSubmit = async (event) => {
     event.preventDefault();
     
     if (!file || !category) {
-        alert("Please upload a file and enter a category.");
+        showToast("info", "Please upload a file and enter a category.");
         return;
     }
 
     try {
         const response = await categoryPostData(file, category);
-        console.log("Upload successful:", response);
-        alert("File uploaded successfully!");
+         console.log("Upload successful:", response);
+          showToast("success", "Login Successfully!");
+          setFile(null)
+          setCategory("")
         fetchCategorydata(setCategoryData)
     } catch (error) {
         console.error("Upload failed:", error);
-        alert(`Upload failed: ${error.response?.data?.message || "Please try again."}`);
+        // alert(`Upload failed: ${error.response?.data?.message || "Please try again."}`);
+        showToast("error", `${error.response?.data?.message} somthing wrong create category!`);
     }
 };
 
 const handleDltCategory = async (id) => {
     try {
-        const deletedId = await categoryDelete(id, window.alert); 
+        const deletedId = await categoryDelete(id); 
         setCategoryData(prevData => prevData.filter(item => item.id !== deletedId));
+        showToast("success", "Category Deleted Successfully!");
         fetchCategorydata(setCategoryData);
     } catch (error) {   
         console.error("Error deleting category", error);
+        showToast("error", "Somthing wrong for delete category");
     }
 };
 

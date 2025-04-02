@@ -17,21 +17,29 @@ import Login from "./Pages/User/Login";
 import ProductsList from "./Pages/User/ProductsList";
 import OrderList from "./Pages/User/OrderList";
 import { useSelect } from "@material-tailwind/react";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const user = useSelector((state) => state.user.user);
   const admin = useSelector((state) => state.admin.admin);
+  const accesshToken = localStorage.getItem("accessToken");
+
+  console.log(accesshToken, "app.js access token");
+  
 
   const path = window.location.pathname;
   // const admin = true;
 
   return (
     <>
+ <ToastContainer />
       {path.includes("admin") ? (
         <Router>
           <Routes>
-          {admin?.token && admin?.admin?
+          {admin?.token && admin?.admin && accesshToken ?
+          
           <>
+          
             <Route path="/admin_dashboard" element={<AdminHome />} />
             <Route path="*" element={<Navigate to="/admin_dashboard" replace />} />    
           </>
