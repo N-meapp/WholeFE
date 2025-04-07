@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function CategorySuggestionButton({category}){
     const navigate = useNavigate()
-    console.log(category,'caajjajajjj');
 
     const handleOnclick =()=>{
         navigate('/category-list', { state: { category: category.category_name } });

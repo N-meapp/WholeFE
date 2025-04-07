@@ -26,6 +26,8 @@ export default function CartpriceDetailBox({
   const [isOrder, setIsOrder] = useState(false);
   const user = useSelector((state) => state.user.user);
 
+  
+
   const handlePlaceOrder = () => {
     setIsOrderConfirm(true);
     setSum(calculateTotal());
@@ -36,7 +38,6 @@ export default function CartpriceDetailBox({
       if (resultStatus) {
         setIsOrderConfirm(false);
         setIsOrder(true);
-        console.log("firruuuuuuu");
         setTimeout(() => {
           setIsOrder(false);
           setCart(null);
@@ -49,7 +50,9 @@ export default function CartpriceDetailBox({
   };
 
   const checkStock = (count, price, stock) => {
-    console.log(stock, "stockkk");
+
+    console.log(count,price,stock,'stockkk');
+    
 
     if (count > stock) {
       return "NA";
@@ -62,7 +65,6 @@ export default function CartpriceDetailBox({
     let totalAmount = 0;
 
     for (let i = 0; i < countPriceArray?.length; i++) {
-      console.log(countPriceArray[i].count, countPriceArray[i].price);
 
       if (countPriceArray[i].count <= countPriceArray[i].stock) {
         totalAmount =
@@ -74,10 +76,9 @@ export default function CartpriceDetailBox({
   };
 
   const handleClearCart = () => {
-    console.log(user);
+
 
     clearCart(user.token).then((res) => {
-      console.log(res, "jummmm");
       setIsDeleted(true);
     });
   };
@@ -179,7 +180,6 @@ export default function CartpriceDetailBox({
             <div className="lg:flex lg:gap-5 justify-items-center">
               <button
                 onClick={() => {
-                  console.log("trueeee");
                 }}
                 className="py-3 px-5 border-[#ff5a5442] border-[2px] text-black rounded-full font-bold flex w-full justify-center md:w-fit mb-16 md:mb-0 gap-3 items-center"
               >

@@ -43,7 +43,6 @@ export default function ConfirmOrderModal({
     let order = {};
 
     if(isSingleProduct){
-      console.log('single product.......',);
 
 
       order = {
@@ -82,7 +81,6 @@ export default function ConfirmOrderModal({
       });
     }
 
-    console.log(order,'this is ordererer');
     
 
     confirmOrder(order);
@@ -120,7 +118,6 @@ const getAddress = () => {
   };
 
   const getProducts = (array) => {
-    console.log(array,'is this the array?');
     
     const tempArray = [];
 

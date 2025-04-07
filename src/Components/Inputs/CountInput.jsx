@@ -77,12 +77,13 @@ export default function CountInput({count,setCount,stock,productId ,countPriceAr
 
       const findPrice = (countParam) =>{
         
+        
         let tempPrice = 0
         for (let j = 0; j < priceRange.length; j++) {
     
           if(priceRange[j].from<=countParam && countParam <=priceRange[j].to){
     
-            tempPrice = priceRange[j].prize;
+            tempPrice = priceRange[j].rate;
         
           }
     

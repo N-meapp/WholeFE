@@ -7,6 +7,7 @@ import OrderProductsModal from "../Modal/OrderProductsModal";
 import { cancelOrder } from "../../api/productApi";
 import { useSelector } from "react-redux";
 import CancelOrder from "../Modal/CancelOrder";
+
 import RecievedOrder from "../Modal/RecievedOrder";
 
 export default function EachOrder({ order,setIsOrderCanceled }) {
@@ -16,7 +17,10 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
   const [isCancelClicked,setIsCancelClicked] = useState(false)
   const [isOrderRecieved,setisOrderRecieved] = useState(false)
 
-  console.log(order,'orderr');
+
+  console.log(order,'this is an order');
+  
+
   
 
 
@@ -25,7 +29,6 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
     order.product_data.forEach((product, i) => {
       names = names + product.product_name;
 
-      console.log(i);
 
       if (i !== order.product_data.length - 1) {
         names = names + ", ";

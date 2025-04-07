@@ -10,7 +10,6 @@ export default function OfferCards({ card }) {
   const navigate = useNavigate()
 
   const handleOnclick = ()=>{
-    console.log('heelloooo');
     addToHistory(user.token,card?.product_category)
     navigate('/product-details',{state:card})
   }

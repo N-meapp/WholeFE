@@ -10,7 +10,6 @@ export default function ProductCards({ card }) {
   const navigate = useNavigate();
 
   const handleOnclick = () => {
-    console.log("heelloooo", card);
 
     addToHistory(user.token, card?.product_category);
     navigate("/product-details", { state: card });
@@ -18,30 +17,7 @@ export default function ProductCards({ card }) {
 
   return (
     <>
-      {/* <div onClick={()=>{
-        handleOnclick()
-      }} className="md:w-48 w-full h-full mb-6 md:mb-0  flex flex-col rounded-xl shadow-lg hover:shadow-none transition-all cursor-pointer bg-white">
-        <img
-  className="md:h-48 h-48 object-cover object-center rounded-t-xl"
-  src={card?.product_images?.[0] || img}  // Use default image if undefined
-  alt="Product"></img>
-
-        <div className="bg-[#ffffff] rounded-b-xl w-full text-center content-center  md:h-32 p-2">
-          <h1 className="font-bold text-sm md:text-lg text-[#535353] truncate">{card?.product_name}</h1>
-          <div className="flex flex-wrap gap-2 md:gap-4 justify-center">
-            {card?.prize_range?.length>1? (
-              <h1 className="text-sm md:text-lg font-semibold">{`₹ ${card.prize_range[card?.prize_range?.length-1].prize} - ${card.prize_range[0].prize}`}</h1>
-            ) : (
-              <h1 className="text-sm md:text-lg font-semibold">{`₹ ${
-                card.product_minprice ? card.product_minprice : card.product_maxprice
-              }`}</h1>
-            )}
-          </div>
-
-          <h1 className="text-sm md:text-lg font-semibold "><span className="text-xs text-[#e9cb22]">min. order :</span>{` ${card?.product_minOrder || 5}`}</h1>
-        </div>
-      </div> */}
-
+    
       <div
         onClick={() => {
           handleOnclick();
@@ -59,16 +35,12 @@ export default function ProductCards({ card }) {
             {card?.product_name}
           </h1>
           <div className="flex flex-wrap gap-2 md:gap-4 justify-center whitespace-break-spaces">
-            {card?.prize_range?.length > 1 ? (
-              <h1 className="text-xl md:text-lg font-semibold">{`₹ ${
-                card.prize_range[card?.prize_range?.length - 1].prize
-              } - ${card.prize_range[0].prize}`}</h1>
+            {card?.prize_range?.length>1? (
+              <h1 className="text-xl md:text-lg font-semibold">{`₹ ${card.prize_range[card?.prize_range?.length-1].rate} - ${card.prize_range[0].rate}`}</h1>
             ) : (
               <h1 className="text-lg md:text-lg font-semibold">{`₹ ${
-                card.product_minprice
-                  ? card.product_minprice
-                  : card.product_maxprice
-              }`}</h1>
+                card.prize_range[0].rate
+              }`}<span className="font-light text-sm">/pce</span></h1>
             )}
           </div>
 
@@ -77,7 +49,7 @@ export default function ProductCards({ card }) {
             {` ${card?.product_minOrder || 5}`}
           </h1>
         </div>
-        <button className="w-full py-2 bg-[#f1f1f1] rounded-xl font-bold text-xs flex gap-2 items-center justify-center">
+        <button className="w-full py-2 bg-[#f1f1f1] rounded-xl font-bold text-xs flex gap-2 items-center justify-center transition-all hover:text-white hover:bg-[#4d4c4c]">
           <h1>Add to </h1>
           <svg
             xmlns="http://www.w3.org/2000/svg"

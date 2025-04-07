@@ -20,10 +20,11 @@ export default function Login() {
 
     userLogin(username, password)
     .then( (result) => {
+
+      console.log(result,'ressuuttlll');
+      
       
       if (result) {
-
-        console.log(result,'sdfsdfsfd');
         
         setIsSuccess(true)
         

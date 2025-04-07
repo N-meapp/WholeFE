@@ -19,7 +19,6 @@ export default function BottomNavBar() {
   const [category, setCategory] = useState([]);
   const user = useSelector((state) => state.user.user);
 
-  console.log(isSideBar);
 
   const [selectedTab, setSelectedTab] = useState(() => {
     const path = window.location.pathname;

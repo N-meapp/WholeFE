@@ -3,7 +3,8 @@ import TechnicalError from "../../Components/Modal/TechnicalError";
 import { useSelector } from "react-redux";
 import { getUser } from "../../api/userApi";
 import AddressEditor from "./EditAddress";
-import ProfileEditor from "./profileEditor";
+import { ToastContainer } from "react-toastify";
+import ProfileEditor from "./ProfileEditor";
 
 export default function HandleEdit({ editProfile, setEditProfile }) {
   const [profile, setProfile] = useState(null); // Set initial state to null
@@ -12,9 +13,8 @@ export default function HandleEdit({ editProfile, setEditProfile }) {
 
   const user = useSelector((state) => state.user.user);
 
-  useEffect(() => {
+  useEffect(() => {  
     getUser(setProfile, user.token).then((res) => {
-      
       
       if (!res) {
         setError(true);
@@ -32,6 +32,7 @@ export default function HandleEdit({ editProfile, setEditProfile }) {
       )}
 
       <TechnicalError setOpenModal={setError} openModal={error} />
+     
     </>
   );
 }

@@ -25,11 +25,9 @@ export default function AddressForm({
 
   const handleSave = () => {
 
-    console.log(empty,'emppppptyyy');
     
 
     if(empty.length==0){
-      console.log(currAddress,'curreaddress');
       handleSaveAddress(currAddress)
     }
 
@@ -38,7 +36,7 @@ export default function AddressForm({
 
   return (
     <>
-      <div className="w-9/12 h-screen fixed z-50 content-center transition-all md:block hidden">
+      <div className="w-9/12 h-screen fixed z-50 content-center transition-all md:block hidden top-0">
         <div className="w-3/5 h-fit p-10 pb-20 bg-[#ffffff] mx-auto rounded-xl relative">
         <div className="flex w-full mb-6 gap-2">
           <AddressInput

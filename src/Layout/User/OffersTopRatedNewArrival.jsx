@@ -18,7 +18,6 @@ export default function OffersTopRatedNewArrival(){
 
 
     useEffect(() => {
-        
     
         fetchNewlyArrivals(setNewArraivals);
         // fetchData(setTopProducts);

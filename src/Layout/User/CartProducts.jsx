@@ -5,7 +5,6 @@ import { deleteCartProduct } from "../../api/productApi";
 export default function CartProducts({ cart,setBottomDifference,countPriceArray, setCountPriceArray,handleSetArray,setIsItemDeleted }) {
 
   const handleDeleteCartProducts= async (productId,userId)=>{
-    console.log(productId,userId,'thiisisisi');
     
     await deleteCartProduct(productId,userId).then((res)=>{
       

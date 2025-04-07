@@ -1,5 +1,4 @@
 export default function CategoryCard({category}){
-    console.log(category,'cattt');
     
     return(
         <>

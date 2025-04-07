@@ -31,11 +31,8 @@ export default function Navbar() {
       window.scrollY === 0 || document.documentElement.scrollTop === 0;
 
     // Detect if scrolling just started from 0px
-    console.log(isAtTop, "issatt topp");
 
     if (isAtTop) {
-      console.log("shiiii");
-
       window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
     }
     setSearchKey(value);
@@ -67,10 +64,19 @@ export default function Navbar() {
           isHomePage ? "sticky top-0 " : "fixed top-3"
         }`}
       >
-        <div className={`w-full h-auto overflow-hidden -mt-[10px] ${isHomePage?'md:-mt-[66px]':''}`}>
-          <div className="w-full mb-44">
+        <div
+          className={`w-full h-auto overflow-hidden -mt-[10px] ${
+            isHomePage ? "md:-mt-[66px]" : ""
+          }`}
+        >
+          <div className="w-full mb-8">
             <div className="lg:w-[70%] w-[90%] md:h-20 h-14 mx-auto bg-[#ffffff] md:mt-8 mt-4 rounded-full shadow-xl flex lg:gap-16 gap-5 md:px-12 px-2">
-              <div className=" h-full content-center">
+              <div
+                onClick={() => {
+                  navigate("/");
+                }}
+                className=" h-full content-center cursor-pointer"
+              >
                 <img className="lg:w-24 w-12" src={logo}></img>
               </div>
               <div className="items-center h-full w-full flex gap-2">

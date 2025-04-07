@@ -14,13 +14,9 @@ export default function ProductsList() {
 
   const navigate = useNavigate();
 
-  console.log("haiiiiiiii");
-
   useEffect(() => {
-    console.log("pppppppppppppp");
     if (searchKey) {
       getSearchedOutput(setData, searchKey);
-      console.log('dataaaaaa,,aaaaaaa');
       
     }else{
       fetchAllProducts(setData)

@@ -23,10 +23,8 @@ export default function TemporaryAddress({
     //   "roadname",
     //   "landmark"
     // ])
-    console.log(empty, "emppppptyyy");
     let tempArr = [];
     if (empty.length == 0) {
-      console.log(currAddress, "curreaddress");
       // handleSaveAddress(currAddress);
       tempArr = [...addressArray,currAddress]
       // setAddressArray(tempArr)

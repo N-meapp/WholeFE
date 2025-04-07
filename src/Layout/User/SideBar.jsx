@@ -18,7 +18,6 @@ export default function SideBar({ setIsSideBar, isSideBar }) {
   const [isLogout, setIsLogout] = useState(false);
 
   const handleNav = (path) => {
-    console.log("haiiii");
 
     setIsSideBar(false);
 
@@ -210,7 +209,7 @@ export default function SideBar({ setIsSideBar, isSideBar }) {
         }}
         className={`${
           isSideBar ? "block md:hidden" : "hidden"
-        } w-full h-screen fixed backdrop-blur-sm bg-white/30 z-[50] transition-all`}
+        } w-full h-screen fixed backdrop-blur-sm bg-white/30 z-[50] transition-all top-0`}
       ></div>
 
       {/* mobile view profile */}

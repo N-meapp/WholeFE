@@ -61,7 +61,6 @@ const CustomerTable = () => {
 
       if (password === confirmPassword) {
         const response = await postCreatCostumer(userName, confirmPassword, discount)
-        console.log("Upload successful:", response);
         showToast("success", "Created Customer Successfully!");
         fetchCustomerTableList(setCostumerTableData)
         setIsOpen(false)

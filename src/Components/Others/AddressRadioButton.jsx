@@ -8,14 +8,12 @@ export default function AddressRadioButton({
   status
 }) {
 
-    console.log(currentAddressSelected,'current addresss');
     
 
 
     const [isButtonSelected,setIsButtonSelected] = useState(false)
 
    const selectAddress = ()=>{
-    console.log('haiiiiiii',status);
     
         setCurrentAddressSelected(status)
     }

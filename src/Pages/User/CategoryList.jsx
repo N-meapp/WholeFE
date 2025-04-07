@@ -9,7 +9,6 @@ export default function CategoryList() {
   const [data, setData] = useState([]);
   const location = useLocation();
   const { category } = location.state || {};
-  console.log(category,'dccccea');
   const [isNotFound,setIsNotFound] = useState(false)
     const { isHomePage, setIsHomePage } = useContext(HomeContext);
   
@@ -19,7 +18,6 @@ export default function CategoryList() {
   useEffect(() => {
 
     fetchCategoryProducts(setData,category).then((res)=>{
-console.log('resssssponse',res);
 if(!res){
   setIsNotFound(true)
 }else{
@@ -49,8 +47,8 @@ setIsHomePage(false)
           </>):
       <div className="md:mt-32 mt-20 w-[90%] mx-auto h-auto md:mb-24 mb-8">
         <div className="w-full h-full md:mt-12 mt-8 md:pt-12 pt-4 md:pb-12 pb-4 md:bg-[#bebebe1c] rounded-xl text-center">
-          <div className="w-full h-full md:flex gap-3 md:gap-8 columns-2 md:flex-wrap justify-center">
-            {data?.map((card) => (
+        <div className="w-full h-full md:flex gap-3 md:gap-8 grid grid-flow-row grid-cols-2 sm:grid-cols-3 md:grid-cols-4 md:flex-wrap justify-center">
+        {data?.map((card) => (
               <ProductCards card={card} />
             ))}
           

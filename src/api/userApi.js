@@ -1,5 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import api from "./axiosInstance";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const userLogin = async (username, password) => {
@@ -11,11 +12,13 @@ export const userLogin = async (username, password) => {
   try {
     const result = await axios.post(`${BASE_URL}Login/`, data);
 
-    console.log(result);
 
     if (result.data.user_id && result.data.username) {
       
-        return result?.data;
+      localStorage.setItem("accessToken", result.data.access_token);
+      localStorage.setItem("refreshToken", result.data.refresh_token);
+
+      return result?.data;
     } else {
       return false;
     }
@@ -26,41 +29,15 @@ export const userLogin = async (username, password) => {
   }
 };
 
-
-
-export const getUser = async (setData,id) => {
-  
+export const getUser = async (setData, id) => {
   try {
-    
-    const result = await axios.get(`${BASE_URL}Profile_update_custumer/${id}`);
-    
+    const result = await api.get(`${BASE_URL}Profile_update_custumer/${id}`);
 
-    if(result.data){
-      setData(result.data)
-      return result.data
-    }else{  
-      return false
-    }
-    
-   
-  } catch (err) {
-    console.log(err);
-    return false;
-  }
-};
-
-
-
-
-export const updateAddress = async (address,id) => {
-  
-  try {
-    const result = await axios.patch(`${BASE_URL}Profile_update_custumer/${id}/`,{address:address});
-    if(result.data){
-
-      return result.data
-    }else{
-      return false
+    if (result.data) {
+      setData(result.data);
+      return result.data;
+    } else {
+      return false;
     }
   } catch (err) {
     console.log(err);
@@ -68,26 +45,42 @@ export const updateAddress = async (address,id) => {
   }
 };
 
+export const updateAddress = async (address, id) => {
+  try {
+    const result = await api.patch(
+      `${BASE_URL}Profile_update_custumer/${id}/`,
+      { address: address }
+    );
+    if (result.data) {
+      return result.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
 
-
-export const updateUser = async (data,id,imageFile) => {  
-
-  console.log(data,'dataaaaaaa');
+export const updateUser = async (data, id, imageFile) => {
 
   const formData = new FormData();
   formData.append("username", data.username);
   formData.append("phone_number", data.phone);
-    formData.append("image", imageFile);
+  formData.append("image", imageFile);
 
-
+  // console.log(data,imageFile,id,'thisis the code ');
   
-  try {
-    const result = await axios.patch(`${BASE_URL}Profile_update_custumer/${id}/`,formData);
-    if(result.data){
 
-      return result.data
-    }else{
-      return false
+  try {
+    const result = await api.patch(
+      `${BASE_URL}Profile_update_custumer/${id}/`,
+      formData
+    );
+    if (result.data) {
+      return result.data;
+    } else {
+      return false;
     }
   } catch (err) {
     console.log(err);

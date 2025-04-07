@@ -7,13 +7,14 @@ import { addToHistory } from "../../api/productApi";
 export default function SlidingProductsCard({ card }) {
   const user = useSelector((state) => state.user.user);
 
+console.log(card,'horizontal card');
+
 
   
 
   const navigate = useNavigate()
 
   const handleOnclick = ()=>{
-    console.log('heelloooo');
     addToHistory(user.token,card?.product_category)
     navigate('/product-details',{state:card})
   }
@@ -32,11 +33,11 @@ export default function SlidingProductsCard({ card }) {
           <h1 className=" text-sm md:text-lg text-[#535353] truncate">{card?.product_name}</h1>
           <div className="flex flex-wrap gap-2 md:gap-4 justify-center whitespace-break-spaces">
             {card?.prize_range?.length>1? (
-              <h1 className="text-xl md:text-lg font-semibold">{`₹ ${card.prize_range[card?.prize_range?.length-1].prize} - ${card.prize_range[0].prize}`}</h1>
+              <h1 className="text-xl md:text-lg font-semibold">{`₹ ${card.prize_range[card?.prize_range?.length-1].rate} - ${card.prize_range[0].rate}`}</h1>
             ) : (
               <h1 className="text-lg md:text-lg font-semibold">{`₹ ${
-                card.product_minprice ? card.product_minprice : card.product_maxprice
-              }`}</h1>
+                card.prize_range[0].rate
+              }`}<span className="font-light text-sm">/pce</span></h1>
             )}
           </div>
 

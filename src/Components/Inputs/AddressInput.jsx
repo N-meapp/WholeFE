@@ -5,7 +5,6 @@ export default function AddressInput({ empty,label, value, objKey,setCurrAddress
   const [field, setField] = useState(value?value:'');
   const [isEmpty,setIsEmpty] = useState(false)
 
-  console.log(empty,'is emptyyyy',objKey,isEmpty);
 
   useEffect(()=>{
     setIsEmpty(empty.includes(`${objKey}`))
@@ -16,7 +15,6 @@ export default function AddressInput({ empty,label, value, objKey,setCurrAddress
     let tempEmpty = empty
 
     if(e.target.value.trim() === ''){
-      console.log('haiiiiii');
       setIsEmpty(true)
       setField(e.target.value)
       tempEmpty.push(objKey)
@@ -28,7 +26,6 @@ export default function AddressInput({ empty,label, value, objKey,setCurrAddress
       setIsEmpty(false)
       const tempObj = currAddress
       tempObj[`${objKey}`] = e.target.value
-      console.log(tempObj,'thisis temp objjjjj');
       setCurrAddress(tempObj)
       tempEmpty = tempEmpty.filter(obj => obj !== objKey)
       setEmpty(tempEmpty)

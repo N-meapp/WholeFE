@@ -15,23 +15,21 @@ export default function ProfileEditor({
   user,
   setIsEditAddress,
 }) {
-  console.log(user, "sdfsf");
-
   const fileInputRef = useRef(null);
 
   // const user = useSelector((state) => state.user.user);
 
   const [username, setUsername] = useState(user?.username);
   const [phone, setPhone] = useState(user?.phone_number);
-  const [imageFile,setImageFile] = useState()
+  const [imageFile, setImageFile] = useState();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [profilePicture, setProfilePicture] = useState(()=>{
-    if(user.profile_image){
-      return user.profile_image
-    }else{
-      return defaultImage
+  const [profilePicture, setProfilePicture] = useState(() => {
+    if (user.profile_image) {
+      return user.profile_image;
+    } else {
+      return defaultImage;
     }
   });
 
@@ -41,16 +39,13 @@ export default function ProfileEditor({
 
   const handleFileChange = (file) => {
     if (file) {
-      console.log(file);
+      setImageFile(file);
 
-      setImageFile(file)
-      
       const reader = new FileReader();
 
       // Event when file is read
       reader.onload = () => {
         const imageUrl = reader.result; // The Base64 data URL
-        console.log("imagee ....", imageUrl); // You can use imageUrl as a src for an <img> tag
         setProfilePicture(imageUrl);
       };
 
@@ -59,8 +54,6 @@ export default function ProfileEditor({
   };
 
   const handleRemoveProfilePicture = () => {
-    console.log("haiiiii");
-
     setProfilePicture(defaultImage);
   };
 
@@ -69,37 +62,36 @@ export default function ProfileEditor({
   };
 
   const handleSave = () => {
-    updateUser({username:username,phone:phone},user.id,imageFile).then((res)=>{
-      if(res){
-        console.log('hahahahahmmmmmaaa');
+    updateUser({ username: username, phone: phone }, user.id, imageFile).then(
+      (res) => {
+        if (res) {
+          toast.success("Profile saved successfully!");
 
-        dispatch({ type: "SET_USER", payload: {
-          user: user?.username || "Guest",
-          token: user?.id || "NoToken",
-          profile:profilePicture || "no profile"
-        } });
-        
-        toast.success("Address saved successfully!", {
-          onClose: () => {
-            setEditProfile(false);
-          },
-        });
+          dispatch({
+            type: "SET_USER",
+            payload: {
+              user: user?.username || "Guest",
+              token: user?.id || "NoToken",
+              profile: profilePicture || "no profile",
+            },
+          });
+
+          setEditProfile(false);
+        }
       }
-    })
-    console.log('hauuuuu');
+    );
   };
 
-  const onchangePhone = (value)=>{
-
+  const onchangePhone = (value) => {
     // if(regex.test(value)){
-      // }
-      
-        setPhone(value);
-  }
+    // }
+
+    setPhone(value);
+  };
 
   return (
     <>
-      <div className="w-9/12 h-screen fixed z-50 content-center transition-all md:block hidden">
+      <div className="w-9/12 h-screen fixed z-50 top-0 content-center transition-all md:block hidden">
         <div className="w-3/5 h-fit p-10 pb-20 bg-[#ffffff] mx-auto rounded-xl relative">
           <div className="w-full h-full flex flex-col gap-4">
             <div className="h-fit w-full flex gap-4 ">
@@ -158,18 +150,18 @@ export default function ProfileEditor({
               </div>
               <div className="w-full flex flex-col justify-evenly">
                 <input
-                onChange={(e) => {
-                      setUsername(e.target.value);
-                    }}
-                value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                  value={username}
                   className="w-full h-10 rounded-lg px-3 border border-[#b3adad60]"
                   placeholder="Name..."
                 ></input>
                 <input
-                onChange={(e) => {
-                      onchangePhone(e.target.value)
-                    }}
-                value={phone}
+                  onChange={(e) => {
+                    onchangePhone(e.target.value);
+                  }}
+                  value={phone}
                   className="w-full h-10 rounded-lg px-3 border border-[#b3adad60]"
                   placeholder="Contact No..."
                 ></input>
@@ -195,7 +187,10 @@ export default function ProfileEditor({
                 <h1>Use current location</h1>
               </button>
             </div>
-            <button onClick={handleSave} className="py-3 h-fit w-fit px-5 rounded-full bg-[#ff5a54] text-white font-bold absolute bottom-3 right-3">
+            <button
+              onClick={handleSave}
+              className="py-3 h-fit w-fit px-5 rounded-full bg-[#ff5a54] text-white font-bold absolute bottom-3 right-3"
+            >
               Save
             </button>
           </div>
@@ -253,7 +248,7 @@ export default function ProfileEditor({
                   ></input>
                   <input
                     onChange={(e) => {
-                      onchangePhone(e.target.value)
+                      onchangePhone(e.target.value);
                     }}
                     value={phone}
                     className="w-full h-10 rounded-lg px-3 border text-sm border-[#b3adad60] placeholder:text-sm"
@@ -303,7 +298,17 @@ export default function ProfileEditor({
           </div>
         </div>
       </div>
-      <ToastContainer autoClose={2000} toastClassName="toast-blur" />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000} // in milliseconds
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }

@@ -10,6 +10,7 @@ import CountInput from "../../Components/Inputs/CountInput";
 import HandleAddPlaceOrderAddress from "./HandleAddPlaceOrderAddress";
 import { useSelector } from "react-redux";
 import SendEnquiryModal from "../../Components/Modal/SendEnquiryModal";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function ProductpriceSection({ card, handleCart, handleOrder }) {
   const [isOrderConfirm, setIsOrderConfirm] = useState(false);
@@ -21,24 +22,30 @@ export default function ProductpriceSection({ card, handleCart, handleOrder }) {
   const user = useSelector((state) => state.user.user);
   const [isEnquiryClicked, setIsEnquiryClicked] = useState(false);
 
-  console.log(card, "this is the card,,,,");
+  console.log(card,'each product detail');
+  
 
   const handlePlaceOrder = () => {
-    console.log(card);
-    setPrice(findPrice(card));
-    setIsOrderConfirm(true);
+    if(price!==0){
+      setPrice(findPrice(card));
+      setIsOrderConfirm(true);
+    }else{
+      toast.error("Please try again.", {
+        onClose: () => {
+          // Handle any cleanup if needed
+        },
+      });
+    }
   };
 
 
   const confirmOrder = (order) => {
-    console.log(order, "ordererere.....");
 
     placeOrder(user.token, order, user.user).then((resultStatus) => {
       if (resultStatus) {
         setIsOrderConfirm(false);
         setIsOrder(true);
 
-        console.log("firruuuuuuu");
 
         setTimeout(() => {
           setIsOrder(false);
@@ -52,38 +59,34 @@ export default function ProductpriceSection({ card, handleCart, handleOrder }) {
   };
 
   const findPrice = (item) => {
-    console.log(item);
+    console.log(item,'setitemmm');
+    
 
     let tempPrice = 0;
     for (let j = 0; j < item.prize_range.length; j++) {
-      console.log(
-        item.prize_range,
-        item.prize_range[j].from,
-        item.prize_range[j].to,
-        count
-      );
+      
+      console.log(item.prize_range[j]);
+      
 
       if (
         item.prize_range[j].from <= count &&
         count <= item.prize_range[j].to
       ) {
-        console.log(item.prize_range[j].prize, "hahahaha");
-        tempPrice = item.prize_range[j].prize;
+        tempPrice = item.prize_range[j].rate;
 
         // break;
       } else {
-        console.log("podddaaaaa");
       }
     }
+    console.log(tempPrice,count);
+    
     return tempPrice * count;
   };
 
   const handleSetArray = (arr) => {
-    console.log(arr, "asrrrrr");
   };
 
   const handleSend = (message) => {
-    console.log(message);
     sendEnquiry(user.token, card.id,message);
     
   };
@@ -245,6 +248,8 @@ export default function ProductpriceSection({ card, handleCart, handleOrder }) {
         setOpenModal={setIsEnquiryClicked}
         handleSend={handleSend}
       />
+            <ToastContainer autoClose={2000} toastClassName="toast-blur" />
+
     </>
   );
 }

@@ -12,7 +12,6 @@ export default function AddressEditor({
   isEditAddress,
   setIsEditAddress,
 }) {
-  console.log(user, "userss");
 
   const [location, setLocation] = useState({ latitude: null, longitude: null });
   const [error, setError] = useState(null);
@@ -42,7 +41,6 @@ export default function AddressEditor({
 
   const handleSaveAddress = (data) => {
     updateAddress(data, user.id);
-    console.log("callledd");
 
     toast.success("Address saved successfully!", {
       onClose: () => {

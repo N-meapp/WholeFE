@@ -41,7 +41,6 @@ export default function OrderProductsModal({products,orderId, openModal, setOpen
   }
 
   const cancelSelectedProducts =()=>{
-    console.log(selectedItems,'seleletere');
     
   }
 

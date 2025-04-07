@@ -23,7 +23,6 @@ export default function OrderProductsTable({
   const [status, setStatus] = useState(product.order_status);
   const [isAnyProductCancel, setIsAnyProductCancel] = useState(false);
 
-  console.log(product,'each product aree....');
   
 
   const confirmCanceled = async () => {

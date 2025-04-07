@@ -10,8 +10,6 @@ const CategoryList = () => {
     const [category, setCategory] = useState("");
     const [categoryData, setCategoryData] = useState([])
 
-    console.log(file, "fileeeee");
-    console.log(category, "datttttaaaaa cate");
     
 
     useEffect(() => {
@@ -38,7 +36,6 @@ const handleSubmit = async (event) => {
 
     try {
         const response = await categoryPostData(file, category);
-         console.log("Upload successful:", response);
           showToast("success", "Login Successfully!");
           setFile(null)
           setCategory("")

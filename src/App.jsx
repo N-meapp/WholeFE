@@ -29,7 +29,6 @@ function App() {
   const admin = useSelector((state) => state.admin.admin);
   const accesshToken = localStorage.getItem("accessToken");
 
-  console.log(accesshToken, "app.js access token");
   const {isHomePage,setIsHomePage} = useContext(HomeContext)
   const [data, setData] = useState();
   const [isBlocked, setIsBlocked] = useState();
@@ -62,7 +61,7 @@ function App() {
           <>
           
             <Route path="/admin_dashboard" element={<AdminHome />} />
-            <Route path="*" element={<Navigate to="/admin_dashboard" replace />} />    
+            <Route path="*" element={<Navigate to="/admin_dashboard" replace />} />
           </>
             :
             <>

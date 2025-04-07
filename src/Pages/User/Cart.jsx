@@ -22,7 +22,6 @@ export default function Cart() {
   useEffect(() => {
     getCart(setCartItems, user.token).then((res) => {
       if (!res) {
-        console.log(res, "ressponseessss");
         setIsEmpty(true);
         handleCount(res);
       } else {
@@ -37,12 +36,10 @@ export default function Cart() {
   }, []);
 
   const handleCount = (arr) => {
-    console.log(arr, "arrrrrrrrrr");
 
     const tempArray = [];
     for (let i = 0; i < arr.length; i++) {
       const tempObj = {};
-      console.log(arr[i], "boooooooooooooooooooo");
       tempObj.id = arr[i].product_id;
       tempObj.name = arr[i].product_name;
       tempObj.count = arr[i].total_count;
@@ -56,7 +53,7 @@ export default function Cart() {
   };
 
   const findPrice = (item) => {
-    console.log("haiiii");
+    
 
     let tempPrice = 0;
     for (let j = 0; j < item.prize_range.length; j++) {
@@ -64,19 +61,16 @@ export default function Cart() {
         item.prize_range[j].from <= item.total_count &&
         item.total_count <= item.prize_range[j].to
       ) {
-        console.log(item.prize_range[j].prize, "hahahaha");
-        tempPrice = item.prize_range[j].prize;
+        tempPrice = item.prize_range[j].rate;
 
         // break;
       } else {
-        console.log("podddaaaaa");
       }
     }
     return tempPrice;
   };
 
   const handleSetArray = (arr) => {
-    console.log(arr, "asrrrrr");
 
     setCountPriceArray([...arr]);
   };

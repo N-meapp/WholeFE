@@ -20,7 +20,8 @@
 
 
 body{
-    background: #ff5a540a;
+    /* background: #ff5a540a; */
+    background: #0000000a;
     /* font-family: "Plus Jakarta Sans", serif; */
     font-family: primary-font;
 }

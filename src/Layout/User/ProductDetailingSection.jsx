@@ -14,7 +14,6 @@ export default function ProductDetailingSection({card}){
   const handleCart = (count) =>{
     addToCart(card.id,count,user.token).then((res)=>{
       if(res){
-        console.log(res,'rrrreess');
         
         setIsAdded(true)
         setTimeout(() => {
@@ -28,17 +27,15 @@ export default function ProductDetailingSection({card}){
   }
 
   const handleOrder = () =>{
-    console.log(card,'hahahahaahhaah');
     
     const resStatus = placeOrder(user.token,card,user.user)
-    console.log(resStatus,'res-status');
     return resStatus
   }
   
     return(
         <>
-        <div className="w-full pt-36 h-auto">
-        <div className="w-[90%] mx-auto md:px-10 md:pt-10 pt-5 h-auto md:mt-14 mt-2 pb-20 md:bg-[#bebebe1c] rounded-xl items-center md:flex gap-6">
+        <div className="w-full pt-28 h-auto">
+        <div className="w-[90%] mx-auto md:px-10 md:pt-10 pt-5 h-auto md:mt-14 mt-2 pb-20  rounded-xl items-center md:flex gap-6">
           <ProductImageSection card={card} />
           <ProductpriceSection card={card} handleCart={handleCart} handleOrder={handleOrder} />
           <SuccessModal
