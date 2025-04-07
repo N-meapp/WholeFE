@@ -7,11 +7,6 @@ import { addToHistory } from "../../api/productApi";
 export default function SlidingProductsCard({ card }) {
   const user = useSelector((state) => state.user.user);
 
-console.log(card,'horizontal card');
-
-
-  
-
   const navigate = useNavigate()
 
   const handleOnclick = ()=>{

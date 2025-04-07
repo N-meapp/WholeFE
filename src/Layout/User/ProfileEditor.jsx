@@ -9,6 +9,7 @@ import { updateUser } from "../../api/userApi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
+import { showToast } from "../../admin/Toast/Toast";
 
 export default function ProfileEditor({
   setEditProfile,
@@ -64,8 +65,11 @@ export default function ProfileEditor({
   const handleSave = () => {
     updateUser({ username: username, phone: phone }, user.id, imageFile).then(
       (res) => {
+        // console.log(res, "rrrrrrrrrrrrrrrrrrrrrrr");
+        
         if (res) {
-          toast.success("Profile saved successfully!");
+          // toast.success("Profile saved successfully!");
+          showToast("success", "Profile saved successfully!");
 
           dispatch({
             type: "SET_USER",
@@ -298,7 +302,7 @@ export default function ProfileEditor({
           </div>
         </div>
       </div>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={2000} // in milliseconds
         hideProgressBar={false}
@@ -308,7 +312,7 @@ export default function ProfileEditor({
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      />
+      /> */}
     </>
   );
 }

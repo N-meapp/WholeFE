@@ -58,7 +58,7 @@ export default function SideBar({ setIsSideBar, isSideBar }) {
           }`}
         ></div>
         <div
-          className={`transition-all duration-700 h-screen w-full md:w-96 bg-[#ffffff] top-0 fixed z-50 shadow-xl ${
+          className={`transition-all duration-700 h-screen w-full overflow-auto md:w-96 bg-[#ffffff] top-0 fixed z-50 shadow-xl ${
             isSideBar ? "right-0" : "md:-right-96 -right-[100vh]"
           }`}
         >

@@ -26,6 +26,9 @@ export default function Login() {
       
       if (result) {
         
+
+        console.log(result,'resssullttt');
+        
         setIsSuccess(true)
         
         setTimeout(() => {
@@ -33,7 +36,7 @@ export default function Login() {
           dispatch({ type: "SET_USER", payload: {
             user: result?.username || "Guest",
             token: result?.user_id || "NoToken",
-            profile:result?.profile_img || "no profile"
+            profile:result?.profile_image || "no profile"
           } });
         },2500);
     

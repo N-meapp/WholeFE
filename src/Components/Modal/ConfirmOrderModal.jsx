@@ -46,15 +46,12 @@ export default function ConfirmOrderModal({
 
 
       order = {
-        userid: user.token,
-        orders:{
           address: getAddress(),
           order_id: getOrderId(),
           date: getDate(),
           final_amount: price,
           order_track:null,
           products: [{product_id:isSingleProduct.productId,count:isSingleProduct.count,total_amount:price,order_status:'null'}],  
-        },
       };
           
         
