@@ -20,8 +20,9 @@ const LoginLayout = () => {
         
         try {
             const result = await AdminLogin(username, password);  // Await the login function
+            console.log(result, "logon form");
             
-            if (result) {
+            if (result.user_type === "admin") {
                
                 dispatch({
                     type: "SET_ADMIN",

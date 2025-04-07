@@ -41,13 +41,18 @@ const handleSubmit = async (event) => {
     }
 };
 
+
+
+
 const handleDltSlider = async (id) => {
     try {
-        const deletedId = await sliderAdDelete(id, window.alert); 
+        const deletedId = await sliderAdDelete(id); 
         setSliderAd(prevData => prevData.filter(item => item.id !== deletedId));
+        showToast("success", "Slider Ad Deleted Successfully!");
         fetchSliderAd(setSliderAd)
     } catch (error) {   
         console.error("Error deleting category", error);
+        showToast("error", "Something Error fro Deleting Slider Ad");
     }
 };
 
@@ -116,12 +121,12 @@ const handleDltSlider = async (id) => {
                             </button>
                         </form>
                     </div>
-                    <div class="bg-white shadow-lg rounded-xl overflow-hidden">
-                        <ul class="divide-y divide-gray-200">
+                    <div className="bg-white shadow-lg rounded-xl overflow-hidden">
+                        <ul className="divide-y divide-gray-200">
                             {sliderAd.map((item) => (
-                                <li class="p-3 flex justify-between items-center user-card">
-                                    <div class="flex items-center">
-                                        <img class="w-15 h-10 rounded-full" src={`${BASE_URL}${item.slider_image}`} alt="Christy" />
+                                <li className="p-3 flex justify-between items-center user-card">
+                                    <div className="flex items-center">
+                                        <img className="w-20 h-10 object-cover rounded-xl" src={`${BASE_URL}${item.slider_image}`} alt="Christy" />
                                     </div>
                                     <div>
                                         <button onClick={()=> handleDltSlider(item.id)} class="text-gray-500 hover:text-gray-700">

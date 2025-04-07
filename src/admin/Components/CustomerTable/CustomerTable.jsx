@@ -12,7 +12,7 @@ const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 const CustomerTable = () => {
   const [costumerTableData, setCostumerTableData] = useState([])
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
@@ -42,10 +42,17 @@ const CustomerTable = () => {
     { id: 8, name: 'Sophia Johnson', email: 'sophia@example.com', block: false, username: 'gladys@example.com', price: 1700, image: 'https://readymadeui.com/profile_3.webp' },
     { id: 9, name: 'Liam Wilson', email: 'liam@example.com', block: false, username: 'gladys@example.com', price: 950, image: 'https://readymadeui.com/profile_5.webp' },
   ]);
-  const totalPages = Math.ceil(costumerTableData.length / itemsPerPage);
+
+  const filteredCustomers = (costumerTableData || [])?.filter((customer) =>
+    customer?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer?.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Pagination logic applied to filteredCustomers
+  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = costumerTableData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredCustomers.slice(indexOfFirstItem, indexOfLastItem);
 
 
 
@@ -68,7 +75,7 @@ const CustomerTable = () => {
 
       } else {
         showToast("error", "password not matched!");
-        
+
       }
 
     } catch (error) {
@@ -110,19 +117,31 @@ const CustomerTable = () => {
     }
 
     try {
-      const response = await updateCustomer(selectedCustomer, formData.username, formData.password, formData.discount_individual, setIsOpenEdit,);
-      setIsOpenEdit(false);  
-      fetchCustomerTableList(setCostumerTableData)
-      showToast("success", "Updated Customer Successfully!");
-      console.log(response);
+      const response = await updateCustomer(
+        selectedCustomer,
+        formData.username,
+        formData.password,
+        formData.discount_individual,
+        setIsOpenEdit
+      );
+
+      console.log(response, "update customers response");
+
+      if (response) {
+        setIsOpenEdit(false);
+        fetchCustomerTableList(setCostumerTableData);
+        showToast("success", "Updated Customer Successfully!");
+      } else {
+        throw new Error("No response received from server.");
+      }
 
     } catch (error) {
-      fetchCustomerTableList(setCostumerTableData)
       console.log("Error updating customer:", error);
-      showToast("error", ` ${error}: Somthing wrong updated Customer`);
-      // alert("Update failed!");
+      showToast("error", `Something went wrong: ${error.message || error}`);
+      fetchCustomerTableList(setCostumerTableData);
     }
   };
+
 
 
   // const filteredCustomers = costumerTableData?.filter((customer) =>
@@ -130,10 +149,10 @@ const CustomerTable = () => {
   //   customer?.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase()))
   // );
 
-  const filteredCustomers = (costumerTableData || [])?.filter((customer) =>
-    customer?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer?.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredCustomers = (costumerTableData || [])?.filter((customer) =>
+  //   customer?.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   customer?.permanent_address?.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
 
@@ -174,9 +193,8 @@ const CustomerTable = () => {
               </tr>
             </thead>
             <tbody className="whitespace-nowrap">
-              {filteredCustomers.length > 0 ? (
-                filteredCustomers.map((item) => (
-
+              {currentItems.length > 0 ? (
+                currentItems.map((item) => (
 
                   <tr key={item.id} className="odd:bg-blue-50">
                     <td className="p-4 text-sm">
@@ -271,8 +289,9 @@ const CustomerTable = () => {
         <div className="flex justify-between items-center mt-4">
           {/* Showing Text */}
           <div className="text-sm text-gray-500 flex-1">
-            Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, costumerTableData.length)} of {costumerTableData.length} entries
+            Showing {filteredCustomers.length === 0 ? 0 : indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredCustomers.length)} of {filteredCustomers.length} entries
           </div>
+
 
           {/* Pagination Controls */}
           <div className="flex items-center space-x-2">
@@ -338,8 +357,8 @@ const CustomerTable = () => {
             <form>
               <div class="max-w-full space-y-3 w-full p-3">
                 <input onChange={(e) => setUserName(e.target.value)} value={userName} type="text" class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="User Name" />
-                <input onChange={(e) => setPassword(e.target.value)} type="password" class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Passwprd" />
-                <input onChange={(e) => setConfirmPassword(e.target.value)} type="password" class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Passwprd" />
+                <input onChange={(e) => setPassword(e.target.value)} type="password" class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Password" />
+                <input onChange={(e) => setConfirmPassword(e.target.value)} type="password" class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Password" />
                 <input
                   onChange={(e) => {
                     let value = Number(e.target.value);
@@ -365,65 +384,68 @@ const CustomerTable = () => {
       {/* Costumer Edit Modal */}
       <Modal
         isOpen={isOpenEdit}
-        onClose={() => setIsOpenEdit(false)}
+        onClose={() => {
+          setIsOpenEdit(false)
+          setFormData({ username: '', password: '', })
+        }}
         title="Edit Customer"
         modalClass={"hs-overlay overflow-scroll fixed inset-0 z-[80] flex items-center justify-center"}
         popupClass={"hs-overlay-animation-target scale-95 opacity-100 transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto bg-white rounded-2xl shadow-lg"}
         ModelContent={
           <>
-          <form>
-          <div className="max-w-full space-y-3 w-full p-3">
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
-              placeholder="User Name"
-            />
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
-              placeholder="Password"
-            />
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
-              placeholder="Confirm Password"
-            />
-            <input
-              onChange={(e) => {
-                let value = Number(e.target.value);
-                if (value < 0) value = 0;
-                if (value > 100) value = 100;
+            <form>
+              <div className="max-w-full space-y-3 w-full p-3">
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="User Name"
+                />
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Password"
+                />
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Confirm Password"
+                />
+                <input
+                  onChange={(e) => {
+                    let value = Number(e.target.value);
+                    if (value < 0) value = 0;
+                    if (value > 100) value = 100;
 
-                setFormData((prevData) => ({
-                  ...prevData,
-                  discount_individual: value, // Update formData directly
-                }));
-              }}
-              value={formData.discount_individual} // Use formData
-              type="number"
-              min="1"
-              max="100"
-              name="discount_individual"
-              class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-              placeholder="Enter Discount (1-100%)"
-            />
-            {/* <button
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      discount_individual: value, // Update formData directly
+                    }));
+                  }}
+                  value={formData.discount_individual} // Use formData
+                  type="number"
+                  min="1"
+                  max="100"
+                  name="discount_individual"
+                  class="py-3 px-5 block w-full shadow-lg border-2 border-[#e8e8e8] rounded-full text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                  placeholder="Enter Discount (1-100%)"
+                />
+                {/* <button
               onClick={}
               className="w-full py-3 px-5 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600"
             >
               Update Customer
             </button> */}
-          </div>
-          </form>
+              </div>
+            </form>
           </>
         }
         submit={handleUpdate}

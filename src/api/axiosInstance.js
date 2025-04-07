@@ -120,7 +120,7 @@ api.interceptors.response.use(
       try {
         console.log("refresh token sented");
         // Send refresh token to backend
-        const { data } = await axios.post("http://127.0.0.1:8000/api/refresh-token/", {
+        const { data } = await axios.post("http://127.0.0.1:8000/api/refresh/", {
           
           refresh : refreshToken,  // Send refresh_token as part of the request body
         },

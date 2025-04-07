@@ -177,10 +177,10 @@ export const customerDelete = async (id, alert) => {
 export const updateStatus = async (id, status) => {
     try {
       const response = await api.patch(`Profile_update_custumer/${id}/`, { status });
+
       return response.data; 
     } catch (error) {
       console.error("Error updating status:", error);
-      throw error;
     }
   };
 
@@ -302,10 +302,12 @@ export const updateCustomer = async (customerId, username, password,discount_ind
         discount_individual
       });
       setIsOpenEdit(false)
-      alert('upadetd')
+      console.log(response, "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+      
+
       return response.data;
     } catch (error) {
-      throw new Error('Error updating customer');
+            console.log(error, "error updating customer");
     }
   };
 
@@ -426,10 +428,10 @@ export const postSliderAd = async (file) => {
 };
 
 
-export const sliderAdDelete = async (id, alert) => {
+export const sliderAdDelete = async (id) => {
     try {
         await api.delete(`slider_Adds/${id}/`);
-        alert('deleted')
+        // alert('deleted')
         return id; 
        
     } catch (error) {

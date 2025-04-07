@@ -9,7 +9,7 @@ import { showToast } from "../../Toast/Toast";
 
 const Table = () => {
   const [productTableData, setProductTableData] = useState([]);
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
@@ -138,6 +138,12 @@ const Table = () => {
       console.log("Upload successful:", response);
       showToast("success", "Created Product Successfully!");
       fetchProductTableList(setProductTableData)
+      setProductName("");
+      setProductCount("");
+      setSelectedCategory([]);
+      setDescription("");
+      setFields([{ id: Date.now(), from: "", to: "", rate: "" }])
+      setSelectedImages([])
       setIsOpen(false)
     } catch (error) {
       console.log(error);
