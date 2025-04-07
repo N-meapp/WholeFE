@@ -14,7 +14,7 @@ export const userLogin = async (username, password) => {
 
 
     if (result.data.user_id && result.data.username) {
-      
+
       localStorage.setItem("accessToken", result.data.access_token);
       localStorage.setItem("refreshToken", result.data.refresh_token);
 
@@ -70,13 +70,19 @@ export const updateUser = async (data, id, imageFile) => {
   formData.append("image", imageFile);
 
   // console.log(data,imageFile,id,'thisis the code ');
-  
+
+
+  console.log(imageFile, 'forrmm dataa');
+
 
   try {
     const result = await api.patch(
-      `${BASE_URL}Profile_update_custumer/${id}/`,
-      formData
-    );
+      `${BASE_URL}Profile_update_custumer/${id}/`,formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     if (result.data) {
       return result.data;
     } else {

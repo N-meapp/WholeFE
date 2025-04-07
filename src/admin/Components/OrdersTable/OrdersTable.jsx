@@ -558,7 +558,7 @@ const OrdersTable = () => {
                                         Reject
                                       </button>
                                     ) : product.order_status === "Accept" ? (
-                                      <p className='text-sm text-[#3abe2f]'>Accepetd</p>
+                                      <p className='text-sm text-[#3abe2f]'>Accepted</p>
                                     ) : (
                                       <p className='text-sm text-[#e92f2f]'>Rejected</p>
                                     )
