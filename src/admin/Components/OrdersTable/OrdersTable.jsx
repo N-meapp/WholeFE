@@ -398,7 +398,8 @@ const OrdersTable = () => {
               )
             })
               :
-              orderData.map((item) => {
+              // orderData 
+              currentItems.map((item) => {
                 const products = item.order_details.order_products;
 
                 // Check order status conditions

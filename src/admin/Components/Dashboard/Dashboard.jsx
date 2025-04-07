@@ -10,16 +10,9 @@ const Dashboard = () => {
 
     useEffect(() => {
         getDashboardData(setDashboardData)
-        // refresh()
     }, [])
 
 
-    // const refresh = ()=>{
-    //     const refreshToken = localStorage.getItem("refreshToken");
-
-    //     const resp = axios.post("http://127.0.0.1:8000/api/refresh-token/", {refresh : refreshToken})
-
-    // }
 
     return (
         <div>
