@@ -93,3 +93,22 @@ export const updateUser = async (data, id, imageFile) => {
     return false;
   }
 };
+
+
+
+export const removeProfileImage = async (id) => {
+
+  try {
+    const result = await api.post(
+      `${BASE_URL}Profile_update_custumer/${id}/`
+    );
+    if (result.data) {
+      return result.data;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};

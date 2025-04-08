@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 
-export default function OrderMap({status}) {
+export default function OrderMap({status,orderId}) {
   const [orderStatus, setOrderStatus] = useState(status);
   useEffect(() => {
-    const orderStatusArray = document.querySelectorAll(`.${orderStatus}`);
+
+    const selectedOrder = document.getElementById(orderId)
+    const orderStatusArray = selectedOrder.querySelectorAll(`.${orderStatus}`);
 
     for (let i = 0; i < orderStatusArray.length; i++) {
       orderStatusArray[i].classList.add("filling-box");
     }
 
-    const orderMap = document.querySelectorAll(".filling-box");
+    const orderMap = selectedOrder.querySelectorAll(".filling-box");
+    console.log(selectedOrder,'selectedd ordder');
+    
 
     let i = 0;
     let interval = setInterval(() => {
@@ -24,6 +28,9 @@ export default function OrderMap({status}) {
 
   return (
     <>
+
+
+
       <div className="mt-16 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -54,14 +61,16 @@ export default function OrderMap({status}) {
           />
         </svg>
 
-        <div className="items-center h-16 justify-center flex">
-          <div className="w-5 h-5 content-center items-center bg-[#e9e8e8] rounded-full accepted packed shipped delivered "></div>
-          <div className="w-1/4 h-[2px] bg-[#e9e8e8] packed shipped delivered"></div>
-          <div className="w-5 h-5 bg-[#e9e8e8] rounded-full packed shipped delivered"></div>
-          <div className="w-1/4 h-[2px] bg-[#e9e8e8] shipped delivered"></div>
-          <div className="w-5 h-5 bg-[#e9e8e8] rounded-full shipped delivered"></div>
-          <div className="w-1/4 h-[2px] bg-[#e9e8e8] delivered"></div>
-          <div className="w-5 h-5 bg-[#e9e8e8] rounded-full delivered"></div>
+        <div className="items-center h-16 justify-center flex" id={orderId}>
+          <div className="w-5 h-5 content-center items-center bg-[#e9e8e8] rounded-full Accept Packed Shipped Delivered"></div>
+          <div className="w-1/4 h-[2px] bg-[#e9e8e8] Packed Shipped Delivered"></div>
+          <div className="w-5 h-5 bg-[#e9e8e8] rounded-full Packed Shipped Delivered"></div>
+          <div className="w-1/4 h-[2px] bg-[#e9e8e8] Shipped Delivered"></div>
+          <div className="w-5 h-5 bg-[#e9e8e8] rounded-full Shipped Delivered"></div>
+          <div className="w-1/4 h-[2px] bg-[#e9e8e8] Delivered"></div>
+          <div className="w-5 h-5 bg-[#e9e8e8] rounded-full Delivered"></div>
+
+          
         </div>
       </div>
     </>

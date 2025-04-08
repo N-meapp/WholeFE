@@ -18,7 +18,7 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
   const [isOrderRecieved,setisOrderRecieved] = useState(false)
 
 
-  console.log(order,'this is an order');
+  console.log(orderStatus,'this is an order');
   
 
   
@@ -71,7 +71,7 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
 
   return (
     <>
-      <div className={`w-full md:h-fit ${orderStatus=='rejected'?'bg-[#ffffff] text-[#c0c0c0]':'bg-[#ffffff] shadow-lg'}   mx-auto rounded-xl mb-2 md:mb-10 md:p-5 p-3 `}>
+      <div className={`w-full md:h-fit ${orderStatus=='Reject'?'bg-[#ffffff] text-[#c0c0c0]':'bg-[#ffffff] shadow-lg'}   mx-auto rounded-xl mb-2 md:mb-10 md:p-5 p-3 `}>
         <div className="flex flex-wrap md:flex-nowrap md:gap-0 gap-5">
           <div className="w-full md:w-3/4">
             <div className="flex flex-wrap gap-3 md:gap-6">
@@ -104,7 +104,7 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
               <h1 className="text-xs md:text-sm">{order?.order_list?.date}</h1>
               <h1 className="text-sm md:text-base">
                 order Id:{" "}
-                <span className={`${orderStatus=='rejected'?'text-[#c0c0c0]':'text-black'}  font-bold`}>
+                <span className={`${orderStatus=='Reject'?'text-[#c0c0c0]':'text-black'}  font-bold`}>
                   {order?.order_list?.order_id}
                 </span>
               </h1>
@@ -117,10 +117,10 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
 
               <OrderStatusButton orderStatus={orderStatus} />
 
-              {orderStatus !== "rejected" && orderStatus!=="pending" ? (
+              {orderStatus !== "Reject" && orderStatus!=="Pending" ? (
                 <div className="md:hidden block">
-                  <OrderMap status={orderStatus} />
-                </div>
+            <OrderMap status={orderStatus} orderId={order?.order_list?.order_id} />
+            </div>
               ) : null}
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
               View
             </button>
 
-            {orderStatus == "shipped" ? (
+            {orderStatus == "Shipped" ? (
               <>
               <button onClick={()=>{
                 setisOrderRecieved(true)
@@ -149,17 +149,13 @@ export default function EachOrder({ order,setIsOrderCanceled }) {
                 Cancel
               </button>
             ) : null}
-            {orderStatus == "rejected" ? (
-              <button className="px-4 py-2 bg-[#5c5c5c] text-[#ffffff] rounded-full w-full border-[#ff5a5442] shadow-md border transition-all hover:text-white">
-                Delete
-              </button>
-            ) :  
-            null}
+            
+
           </div>
         </div>
-        {orderStatus !== "rejected" && orderStatus!=="pending" ? (
+        {orderStatus !== "Reject" && orderStatus!=="Pending" ? (
           <div className="hidden md:block">
-            <OrderMap status={orderStatus} />
+            <OrderMap status={orderStatus} orderId={order?.order_list?.order_id} />
           </div>
         ) : null}
       </div>

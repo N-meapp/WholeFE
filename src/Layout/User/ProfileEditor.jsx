@@ -5,7 +5,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import defaultImage from "../../assets/Images/profile/default.png";
 import { useRef, useState } from "react";
-import { updateUser } from "../../api/userApi";
+import { removeProfileImage, updateUser } from "../../api/userApi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
@@ -25,6 +25,7 @@ export default function ProfileEditor({
   const [imageFile, setImageFile] = useState();
 
   const dispatch = useDispatch();
+  
 
   const [profilePicture, setProfilePicture] = useState(() => {
     if (user.profile_image) {
@@ -56,6 +57,8 @@ export default function ProfileEditor({
 
   const handleRemoveProfilePicture = () => {
     setProfilePicture(defaultImage);
+    removeProfileImage(user.id)
+
   };
 
   const handleAddress = (state) => {

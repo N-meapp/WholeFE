@@ -247,6 +247,7 @@ export default function ProductpriceSection({ card, handleCart, handleOrder }) {
         openModal={isEnquiryClicked}
         setOpenModal={setIsEnquiryClicked}
         handleSend={handleSend}
+        card={card}
       />
             <ToastContainer autoClose={2000} toastClassName="toast-blur" />
 
