@@ -12,7 +12,7 @@ import {
 import ProductDetails from "./Pages/User/ProductDetails";
 import Cart from "./Pages/User/Cart";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Login from "./Pages/User/Login";
 import ProductsList from "./Pages/User/ProductsList";
 import OrderList from "./Pages/User/OrderList";
@@ -28,6 +28,8 @@ function App() {
   const user = useSelector((state) => state.user.user);
   const admin = useSelector((state) => state.admin.admin);
   const accesshToken = localStorage.getItem("accessToken");
+  const dispatch = useDispatch();
+
 
   const {isHomePage,setIsHomePage} = useContext(HomeContext)
   const [data, setData] = useState();
@@ -36,10 +38,18 @@ function App() {
 
   // const admin = true;
 
-  const checkIsUserBlocked = () => {
+  const checkIsUserBlocked = async () => {
     if (user?.token && user?.user) {
-      getUser(setData, user.token).then((res) => {
+     await getUser(setData, user.token).then((res) => {
         setIsBlocked(res.status);
+        dispatch({
+          type: "SET_USER",
+          payload: {
+            user: null,
+            token: null,
+            profile: null,
+          },
+        });
       });
     }
   };
@@ -48,7 +58,7 @@ function App() {
   
   useEffect(() => {
     checkIsUserBlocked();
-  }, []);
+  });
 
   return (
     <>

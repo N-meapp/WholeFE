@@ -426,7 +426,7 @@ const OrdersTable = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 text-sm text-black">{item.order_details.address}</td>
+                    {/* <td className="p-4 text-sm text-black">{item.order_details.address}</td> */}
                     <td className="p-4 text-sm text-black">{item.order_details.order_id}</td>
                     <td className="p-4 text-sm text-black">{item.order_details.date}</td>
                     <td className="p-4 text-sm text-black">{item.order_details.final_amount}</td>
