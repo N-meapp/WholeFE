@@ -60,15 +60,12 @@ export default function ConfirmOrderModal({
       await getCart(setCartItems, user.token).then((res) => {
         if (res) {
           order = {
-            userid: user.token,
-            orders:{
               address: getAddress(),
               order_id: getOrderId(),
               date: getDate(),
               final_amount: price,
               order_track:null,
               products: getProducts(res),
-            },
           };
           
         } else {
