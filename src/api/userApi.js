@@ -10,7 +10,7 @@ export const userLogin = async (username, password) => {
   };
 
   try {
-    const result = await axios.post(`${BASE_URL}Login/`, data);
+    const result = await axios.post(`${BASE_URL}login/`, data);
 
     console.log(result,'rrrreeeees');
     
