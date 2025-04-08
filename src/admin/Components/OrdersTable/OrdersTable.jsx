@@ -426,7 +426,15 @@ const OrdersTable = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 text-sm text-black">{item.order_details.address}</td>
+                    <td className="p-4 text-sm text-black">
+                      {item.order_details.address.housename},&nbsp;
+                      {item.order_details.address.city},&nbsp;
+                      {item.order_details.address.state},&nbsp;
+                      {item.order_details.address.district},&nbsp;
+                      {item.order_details.address.postcode},&nbsp;
+                      {item.order_details.address.roadname},&nbsp;
+                      {item.order_details.address.landmark}
+                      </td>
                     <td className="p-4 text-sm text-black">{item.order_details.order_id}</td>
                     <td className="p-4 text-sm text-black">{item.order_details.date}</td>
                     <td className="p-4 text-sm text-black">{item.order_details.final_amount}</td>
@@ -446,13 +454,9 @@ const OrdersTable = () => {
                             if (value === "Reject" && item.order_details.order_products?.length > 0) {
                               setRejectAllData(item.order_details.order_products);
                             }
-
                             sentUpdateTrackingStatus();
                           }}
                         />
-
-
-                  
 
                       ) : allAccepted ? (
                         // If all products are accepted, show SelectBtnTow
@@ -505,7 +509,6 @@ const OrdersTable = () => {
                       title="Orderd Products"
                       ModelContent={
                         <>
-
 
                           <table className="min-w-full bg-white">
                             <thead className="whitespace-nowrap">
@@ -571,7 +574,12 @@ const OrdersTable = () => {
 
                         </>
                       }
-                      submit={handleSubmit}
+                      // submit={handleSubmit}
+                      submit={
+                        selctOrderdata.some(product => product.order_status === "null")
+                          ? handleSubmit
+                          : undefined
+                      }
                     />
 
                   </tr>
