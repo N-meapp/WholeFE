@@ -97,7 +97,6 @@ const handleDltSlider = async (id) => {
                                     </label>
                                 </div>
 
-                
                             </div>
 
                             <button
