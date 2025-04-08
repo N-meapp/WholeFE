@@ -40,7 +40,7 @@ const SelectBtn = ({ value, onChange }) => {
           onChange={(e) => onChange(e.target.value)} 
           className="block bg-[#3eda68] cursor-pointer text-[#fff] appearance-none w-full hover:border-gray-400 px-4 py-2 pr-8 rounded-xl shadow-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
         >
-          <option value="Select" className="cursor-pointer">
+          <option value="Accept" className="cursor-pointer">
             Select status
           </option>
           <option value="Packed" className="cursor-pointer">

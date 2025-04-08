@@ -121,6 +121,7 @@ const handleDltSlider = async (id) => {
                             </button>
                         </form>
                     </div>
+                    <div className='rounded-xl h-[63vh] overflow-y-auto'>
                     <div className="bg-white shadow-lg rounded-xl overflow-hidden">
                         <ul className="divide-y divide-gray-200">
                             {sliderAd.map((item) => (
@@ -138,6 +139,7 @@ const handleDltSlider = async (id) => {
                                 </li>
                             ))}
                         </ul>
+                    </div>
                     </div>
                 </div>
             </div>

@@ -10,54 +10,54 @@ const CategoryList = () => {
     const [category, setCategory] = useState("");
     const [categoryData, setCategoryData] = useState([])
 
-    
+
 
     useEffect(() => {
         fetchCategorydata(setCategoryData)
     }, [])
 
-const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-};
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
 
 
-const handleInputChange = (event) => {
-    setCategory(event.target.value);
-};
+    const handleInputChange = (event) => {
+        setCategory(event.target.value);
+    };
 
 
-const handleSubmit = async (event) => {
-    event.preventDefault();
-    
-    if (!file || !category) {
-        showToast("info", "Please upload a file and enter a category.");
-        return;
-    }
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-    try {
-        const response = await categoryPostData(file, category);
-          showToast("success", "Login Successfully!");
-          setFile(null)
-          setCategory("")
-        fetchCategorydata(setCategoryData)
-    } catch (error) {
-        console.error("Upload failed:", error);
-        // alert(`Upload failed: ${error.response?.data?.message || "Please try again."}`);
-        showToast("error", `${error.response?.data?.message} somthing wrong create category!`);
-    }
-};
+        if (!file || !category) {
+            showToast("info", "Please upload a file and enter a category.");
+            return;
+        }
 
-const handleDltCategory = async (id) => {
-    try {
-        const deletedId = await categoryDelete(id); 
-        setCategoryData(prevData => prevData.filter(item => item.id !== deletedId));
-        showToast("success", "Category Deleted Successfully!");
-        fetchCategorydata(setCategoryData);
-    } catch (error) {   
-        console.error("Error deleting category", error);
-        showToast("error", "Somthing wrong for delete category");
-    }
-};
+        try {
+            const response = await categoryPostData(file, category);
+            showToast("success", "Login Successfully!");
+            setFile(null)
+            setCategory("")
+            fetchCategorydata(setCategoryData)
+        } catch (error) {
+            console.error("Upload failed:", error);
+            // alert(`Upload failed: ${error.response?.data?.message || "Please try again."}`);
+            showToast("error", `${error.response?.data?.message} somthing wrong create category!`);
+        }
+    };
+
+    const handleDltCategory = async (id) => {
+        try {
+            const deletedId = await categoryDelete(id);
+            setCategoryData(prevData => prevData.filter(item => item.id !== deletedId));
+            showToast("success", "Category Deleted Successfully!");
+            fetchCategorydata(setCategoryData);
+        } catch (error) {
+            console.error("Error deleting category", error);
+            showToast("error", "Somthing wrong for delete category");
+        }
+    };
 
 
     return (
@@ -131,24 +131,26 @@ const handleDltCategory = async (id) => {
                             </button>
                         </form>
                     </div>
-                    <div class="bg-white shadow-lg rounded-xl overflow-hidden">
-                        <ul class="divide-y divide-gray-200">
-                            {categoryData.map((item) => (
-                                <li class="p-3 flex justify-between items-center user-card">
-                                    <div class="flex items-center">
-                                        <img class="w-10 h-10 rounded-full" src={`${item.image}`} alt="Christy" />
-                                        <span class="ml-3 font-medium">{item.category_name}</span>
-                                    </div>
-                                    <div>
-                                        <button onClick={()=> handleDltCategory(item.id)} class="text-gray-500 hover:text-gray-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className='rounded-xl h-[63vh] overflow-y-auto'>
+                        <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+                            <ul class="divide-y divide-gray-200">
+                                {categoryData.map((item) => (
+                                    <li class="p-3 flex justify-between items-center user-card">
+                                        <div class="flex items-center">
+                                            <img class="w-10 h-10 rounded-full" src={`${item.image}`} alt="Christy" />
+                                            <span class="ml-3 font-medium">{item.category_name}</span>
+                                        </div>
+                                        <div>
+                                            <button onClick={() => handleDltCategory(item.id)} class="text-gray-500 hover:text-gray-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
