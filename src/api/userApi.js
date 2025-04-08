@@ -12,8 +12,10 @@ export const userLogin = async (username, password) => {
   try {
     const result = await axios.post(`${BASE_URL}Login/`, data);
 
+    console.log(result,'rrrreeeees');
+    
 
-    if (result.data.user_id && result.data.username) {
+    if (result.data.user_id && result.data.username && result.data.user_type =="customer") {
 
       localStorage.setItem("accessToken", result.data.access_token);
       localStorage.setItem("refreshToken", result.data.refresh_token);

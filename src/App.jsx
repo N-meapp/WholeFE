@@ -42,14 +42,17 @@ function App() {
     if (user?.token && user?.user) {
      await getUser(setData, user.token).then((res) => {
         setIsBlocked(res.status);
-        dispatch({
-          type: "SET_USER",
-          payload: {
-            user: null,
-            token: null,
-            profile: null,
-          },
-        });
+        
+        if(res.status){
+          dispatch({
+            type: "SET_USER",
+            payload: {
+              user: null,
+              token: null,
+              profile: null,
+            },
+          });
+        }
       });
     }
   };
