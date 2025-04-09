@@ -3,7 +3,7 @@
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL ;
 
-const api = axios.create({
+const apiUser = axios.create({
   baseURL: BASE_URL, 
   headers: {
     "Content-Type": "application/json",
@@ -12,7 +12,7 @@ const api = axios.create({
 
 // Add a request interceptor to include the access token
 
-api.interceptors.request.use(
+apiUser.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -102,7 +102,7 @@ api.interceptors.request.use(
 
 
 
-api.interceptors.response.use(
+apiUser.interceptors.response.use(
   async (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -113,10 +113,9 @@ api.interceptors.response.use(
 
       if (!refreshToken) {
         console.log("No refresh token available. Redirect to login.");
-        window.location.href = "/admin"; // Redirect to login if no refresh token
+        window.location.href = "/"; // Redirect to login if no refresh token
         return Promise.reject(error);
       }
-
 
       try {
         console.log("refresh token sented");
@@ -140,14 +139,14 @@ api.interceptors.response.use(
           localStorage.setItem("accessToken", data.access_token);
           localStorage.setItem("refreshToken", data.refresh_token);  // Store new refresh token
           originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
-          return api(originalRequest);
+          return apiUser(originalRequest);
         }
       } catch (refreshError) {
         console.error("Token refresh failed:", refreshError);
         // In case refresh fails, clear tokens and redirect to login
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/admin"; // Redirect to login
+        window.location.href = "/"; // Redirect to login
       }
     }
 
@@ -202,4 +201,4 @@ api.interceptors.response.use(
 
 
 
-export default api;
+export default apiUser;

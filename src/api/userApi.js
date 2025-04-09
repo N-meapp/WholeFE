@@ -1,6 +1,5 @@
 import axios from "axios";
-import Swal from "sweetalert2";
-import api from "./axiosInstance";
+import apiUser from "./axiosInstanceUser";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const userLogin = async (username, password) => {
@@ -33,7 +32,7 @@ export const userLogin = async (username, password) => {
 
 export const getUser = async (setData, id) => {
   try {
-    const result = await api.get(`${BASE_URL}Profile_update_custumer/${id}`);
+    const result = await apiUser.get(`${BASE_URL}Profile_update_custumer/${id}`);
 
     if (result.data) {
       setData(result.data);
@@ -49,7 +48,7 @@ export const getUser = async (setData, id) => {
 
 export const updateAddress = async (address, id) => {
   try {
-    const result = await api.patch(
+    const result = await apiUser.patch(
       `${BASE_URL}Profile_update_custumer/${id}/`,
       { address: address }
     );
@@ -78,7 +77,7 @@ export const updateUser = async (data, id, imageFile) => {
 
 
   try {
-    const result = await api.patch(
+    const result = await apiUser.patch(
       `${BASE_URL}Profile_update_custumer/${id}/`,formData,
       {
         headers: {
@@ -101,7 +100,7 @@ export const updateUser = async (data, id, imageFile) => {
 export const removeProfileImage = async (id) => {
 
   try {
-    const result = await api.post(
+    const result = await apiUser.post(
       `${BASE_URL}Profile_update_custumer/${id}/`
     );
     if (result.data) {

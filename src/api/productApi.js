@@ -1,11 +1,11 @@
-import axios from "axios";
-import api from "./axiosInstance";
+import apiUser from "./axiosInstanceUser";
+
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 
 export const fetchNewlyArrivals = async(setData)=>{
     try {
-        const result = await api.get(`${BASE_URL}Newly_arrived/`);
+        const result = await apiUser.get(`${BASE_URL}Newly_arrived/`);
         
         setData(result.data)
       } catch (err) {
@@ -16,7 +16,7 @@ export const fetchNewlyArrivals = async(setData)=>{
 export const fetchSuggestedProducts = async(setData,userId)=>{
   
   try {
-      const result = await api.get(`${BASE_URL}Search_history/`,{params: { user_id: userId }})
+      const result = await apiUser.get(`${BASE_URL}Search_history/`,{params: { user_id: userId }})
         
       setData(result.data)
       if(result.data){
@@ -34,7 +34,7 @@ export const fetchSuggestedProducts = async(setData,userId)=>{
 
 export const fetchTopProducts = async(setData)=>{
     try {
-        const result = await api.get(`${BASE_URL}Top_products/`);
+        const result = await apiUser.get(`${BASE_URL}Top_products/`);
 
         console.log(result,'top products');
         
@@ -48,7 +48,7 @@ export const fetchTopProducts = async(setData)=>{
 
 export const fetchAllProducts = async(setData)=>{
     try {
-        const result = await api.get(`${BASE_URL}ProduclistView/`);
+        const result = await apiUser.get(`${BASE_URL}ProduclistView/`);
         setData(result.data)
       } catch (err) {
         console.error(err);
@@ -57,7 +57,7 @@ export const fetchAllProducts = async(setData)=>{
 
 export const fetchLimitedProducts = async(setData)=>{
   try {
-      const result = await api.get(`${BASE_URL}ProduclistViewlimit/`);
+      const result = await apiUser.get(`${BASE_URL}ProduclistViewlimit/`);
       
       setData(result.data)
     } catch (err) {
@@ -68,7 +68,7 @@ export const fetchLimitedProducts = async(setData)=>{
 
 export const fetchSliderAdds = async(setData)=>{
   try {
-      const result = await api.get(`${BASE_URL}slider_Adds/`);
+      const result = await apiUser.get(`${BASE_URL}slider_Adds/`);
       if(result){
         
         setData(result.data)
@@ -85,7 +85,7 @@ export const getSearchedOutput = async(setData,value)=>{
   try {
 
     
-      const result = await api.post(`${BASE_URL}Search_all_products/`,{search_term:value});
+      const result = await apiUser.post(`${BASE_URL}Search_all_products/`,{search_term:value});
       
       
       if(result.data.products){
@@ -110,7 +110,7 @@ export const placeOrder = async(userId,value,username)=>{
   
   
   try {
-      const result = await api.post(`${BASE_URL}order_products/`,{orders:value,userid:userId,username:username});
+      const result = await apiUser.post(`${BASE_URL}order_products/`,{orders:value,userid:userId,username:username});
       
       if(result.data){
         return true
@@ -129,7 +129,7 @@ export const placeOrder = async(userId,value,username)=>{
 export const listOrders = async(setData,userId)=>{
   
   try {
-      const result = await api.get(`${BASE_URL}order_products/`,{params:{userid:userId}});
+      const result = await apiUser.get(`${BASE_URL}order_products/`,{params:{userid:userId}});
       
       
       if(result.data){
@@ -160,7 +160,7 @@ export const addToCart = async(productId,count,user)=>{
   
   
   try {
-      const result = await api.post(`${BASE_URL}Adding_cart/`,{products:itemsArray,user_id:user});
+      const result = await apiUser.post(`${BASE_URL}Adding_cart/`,{products:itemsArray,user_id:user});
       
       if(result.data){
         // setData(result.data.results)\
@@ -181,7 +181,7 @@ export const clearCart = async(user)=>{
 
   
   try {
-      const result = await api.post(`${BASE_URL}Delete_all_cart/`,{username:user});
+      const result = await apiUser.post(`${BASE_URL}Delete_all_cart/`,{username:user});
       
       if(result.data){
         // setData(result.data.results)\
@@ -202,7 +202,7 @@ export const clearCart = async(user)=>{
 export const getCart = async(setData,userId)=>{
   
   try {
-      const result = await api.get(`${BASE_URL}Adding_cart/`,{
+      const result = await apiUser.get(`${BASE_URL}Adding_cart/`,{
         params: { userid: userId }
       });
       
@@ -227,7 +227,7 @@ export const fetchCategoryList = async(setData)=>{
   
   
   try {
-      const result = await api.get(`${BASE_URL}product-category/`);
+      const result = await apiUser.get(`${BASE_URL}product-category/`);
             
       if(result.data){
         setData(result.data)
@@ -248,7 +248,7 @@ export const fetchCategoryProducts = async(setData,category)=>{
   
   
   try {
-      const result = await api.post(`${BASE_URL}Category_filter/`,{category_name:category});
+      const result = await apiUser.post(`${BASE_URL}Category_filter/`,{category_name:category});
             
       if(result.data){
         setData(result.data)
@@ -271,7 +271,7 @@ export const updateProductCount  = async(count,productId,userId)=>{
   
   
   try {
-      const result = await api.patch(`${BASE_URL}Count_order_update/`,{count:count,product_id:productId,user_id:userId});
+      const result = await apiUser.patch(`${BASE_URL}Count_order_update/`,{count:count,product_id:productId,user_id:userId});
             
       if(result.data){
         return true
@@ -296,7 +296,7 @@ export const cancelOrderProducts  = async(orderId,productId,userId)=>{
   
   
   try {
-      const result = await api.delete(`${BASE_URL}CancelOrder/`,{data});
+      const result = await apiUser.delete(`${BASE_URL}CancelOrder/`,{data});
 
       
             
@@ -323,7 +323,7 @@ export const cancelOrder  = async(orderId,userId)=>{
   
   
   try {
-      const result = await api.post(`${BASE_URL}CancelOrder/`,data);
+      const result = await apiUser.post(`${BASE_URL}CancelOrder/`,data);
 
       
             
@@ -349,7 +349,7 @@ export const deleteCartProduct  = async(productId,userId)=>{
   
   
   try {
-      const result = await api.delete(`${BASE_URL}Delete_all_cart/`,{data});
+      const result = await apiUser.delete(`${BASE_URL}Delete_all_cart/`,{data});
 
       
             
@@ -370,7 +370,7 @@ export const addToHistory = async(user,category)=>{
 
   
   try {
-      const result = await api.post(`${BASE_URL}Search_history/`,{user_id:user,term:category});
+      const result = await apiUser.post(`${BASE_URL}Search_history/`,{user_id:user,term:category});
       
       if(result.data){
         // setData(result.data.results)
@@ -390,7 +390,7 @@ export const getSingleProduct = async(productId)=>{
 
   
   try {
-      const result = await api.get(`${BASE_URL}Product_updateanddelete/${productId}`);
+      const result = await apiUser.get(`${BASE_URL}Product_updateanddelete/${productId}`);
       
       if(result.data){
         // setData(result.data.results)
@@ -417,7 +417,7 @@ export const sendEnquiry = async(user,productId,message)=>{
   }
   
   try {
-      const result = await api.post(`${BASE_URL}Enquiry_send/`,data);
+      const result = await apiUser.post(`${BASE_URL}Enquiry_send/`,data);
       console.log(result,'enqiry send...');
       
       if(result.data){
