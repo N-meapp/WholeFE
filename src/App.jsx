@@ -70,9 +70,7 @@ function App() {
         <Router>
           <Routes>
           {admin?.token && admin?.admin && accesshToken ?
-          
           <>
-          
             <Route path="/admin_dashboard" element={<AdminHome />} />
             <Route path="*" element={<Navigate to="/admin_dashboard" replace />} />
           </>

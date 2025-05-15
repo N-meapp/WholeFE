@@ -19,7 +19,7 @@ export default function Profile({ setIsEditProfile }) {
         setError(true);
       }
     });
-  }, []);
+  },[]);
 
   // const handleAddress =()=>{
   //   let tempAddress = ''

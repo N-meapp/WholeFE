@@ -407,13 +407,14 @@ export const getSingleProduct = async(productId)=>{
 }
 
 
-export const sendEnquiry = async(user,productId,message)=>{
+export const sendEnquiry = async(user,productId,message,isWhatsapp)=>{
   
 
   const data = {
     user_id:user,
     product_id:productId,
-    message:message
+    message:message,
+    isWhatsapp
   }
   
   try {

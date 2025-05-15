@@ -86,8 +86,8 @@ export default function ProductpriceSection({ card, handleCart, handleOrder }) {
   const handleSetArray = (arr) => {
   };
 
-  const handleSend = (message) => {
-    sendEnquiry(user.token, card.id,message);
+  const handleSend = (message,isWhatsapp) => {
+    sendEnquiry(user.token, card.id,message,isWhatsapp);
     
   };
 

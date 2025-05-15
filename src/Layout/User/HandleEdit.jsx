@@ -20,7 +20,7 @@ export default function HandleEdit({ editProfile, setEditProfile }) {
         setError(true);
       }
     });
-  }, [user.token,]);
+  }, [user.token]);
 
   return (
     <>

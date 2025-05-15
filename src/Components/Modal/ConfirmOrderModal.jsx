@@ -13,6 +13,7 @@ import { getUser } from "../../api/userApi";
 import { useSelector } from "react-redux";
 import AddressRadioButton from "../Others/AddressRadioButton";
 import { getCart, getSingleProduct } from "../../api/productApi";
+import WhatsappEnquiry from "../Buttons/WhatsappEnquiry";
 
 export default function ConfirmOrderModal({
   openModal,
@@ -31,7 +32,8 @@ export default function ConfirmOrderModal({
   const [isEmpty, setIsEmpty] = useState(false);
   const [cartItems, setCartItems] = useState();
   const [address, setAddress] = useState();
-  
+  const [isWhatsapp, setIsWhatsapp] = useState(false);
+
 
   useEffect(() => {
     getUser(setUserData, user.token).then((res) => {
@@ -39,48 +41,48 @@ export default function ConfirmOrderModal({
     });
   }, [openModal]);
 
-  const handleOrder = async() => {
+  const handleOrder = async () => {
     let order = {};
 
-    if(isSingleProduct){
+    if (isSingleProduct) {
 
 
       order = {
-          address: getAddress(),
-          order_id: getOrderId(),
-          date: getDate(),
-          final_amount: price,
-          order_track:null,
-          products: [{product_id:isSingleProduct.productId,count:isSingleProduct.count,total_amount:price,order_status:'null'}],  
+        address: getAddress(),
+        order_id: getOrderId(),
+        date: getDate(),
+        final_amount: price,
+        order_track: null,
+        products: [{ product_id: isSingleProduct.productId, count: isSingleProduct.count, total_amount: price, order_status: 'null' }],
       };
-          
-        
-        
-    }else{
+
+
+
+    } else {
       await getCart(setCartItems, user.token).then((res) => {
         if (res) {
           order = {
-              address: getAddress(),
-              order_id: getOrderId(),
-              date: getDate(),
-              final_amount: price,
-              order_track:null,
-              products: getProducts(res),
+            address: getAddress(),
+            order_id: getOrderId(),
+            date: getDate(),
+            final_amount: price,
+            order_track: null,
+            products: getProducts(res),
           };
-          
+
         } else {
           setIsEmpty(true);
         }
-  
+
       });
     }
 
-    
+
 
     confirmOrder(order);
   };
 
-const getAddress = () => {
+  const getAddress = () => {
     if (currentAddressSelected == -1) {
       return address;
     } else {
@@ -112,7 +114,7 @@ const getAddress = () => {
   };
 
   const getProducts = (array) => {
-    
+
     const tempArray = [];
 
     for (let i = 0; i < array.length; i++) {
@@ -163,6 +165,7 @@ const getAddress = () => {
                 />
               );
             })}
+            
 
             <button
               onClick={() => {
@@ -178,9 +181,15 @@ const getAddress = () => {
               {price} <span className="text-black">₹</span>
             </h1>
             <h1 className="text-xl font-bold ">{message}</h1>
+
             <h3 className="mb-5 mt-5 md:mt-10 text-sm font-normal text-gray-500 dark:text-gray-400">
               {subMessage}
             </h3>
+
+             <div className="w-fit h-fit mt-5 mb-5 mx-auto">
+            <WhatsappEnquiry isWhatsapp={isWhatsapp} setIsWhatsapp={setIsWhatsapp} />
+            </div>
+
             <div className="flex justify-center gap-4">
               <Button
                 className="border-2 border-[#0000006b] text-[black] rounded-full"
@@ -197,6 +206,9 @@ const getAddress = () => {
                 Confirm
               </Button>
             </div>
+
+           
+
           </div>
         </Modal.Body>
       </Modal>

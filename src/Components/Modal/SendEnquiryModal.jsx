@@ -9,7 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import WhatsappEnquiry from "../Buttons/WhatsappEnquiry";
 
 export default function SendEnquiryModal({
   openModal,
@@ -21,6 +22,8 @@ export default function SendEnquiryModal({
 
   const [isEnquirySend, setIsEnquirySend] = useState(false);
 
+  const [isWhatsapp, setIsWhatsapp] = useState(false)
+
   const [message, setMessage] = useState();
 
   const navigate = useNavigate()
@@ -28,20 +31,15 @@ export default function SendEnquiryModal({
   const handleOnclick = () => {
     // setOpenModal(false)
 
-    handleSend(message);
+    handleSend(message, isWhatsapp);
 
     setIsEnquirySend(true);
 
     setTimeout(() => {
       navigate('/')
     }, 500
-  );
+    );
 
-    // const shareUrl = "https://n-meapp.github.io/BuyselImageGalleryTest/image-share.html?v=2";
-    // const message = "text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, !";
-
-    // const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message + " " + shareUrl)}`;
-    // window.open(whatsappUrl, "_blank");
   };
 
   return (
@@ -80,7 +78,8 @@ export default function SendEnquiryModal({
               value={message}
             ></textarea>
           </div>
-          <div className="flex justify-end gap-4 mt-6">
+          <div className="flex justify-between md:gap-14 gap-8 mt-6 items-center">
+            <WhatsappEnquiry isWhatsapp={isWhatsapp} setIsWhatsapp={setIsWhatsapp} />
             {!isEnquirySend ? (
               <Button
                 className="font-bold shadow-md group hover:bg-[#ec7777] hover:border-[#ffffff]"
@@ -101,8 +100,8 @@ export default function SendEnquiryModal({
                   color="gray"
                 >
                   <FontAwesomeIcon
-                   className="text-lg text-[#1e6e86]" 
-                   icon={faCircleCheck} />
+                    className="text-lg text-[#1e6e86]"
+                    icon={faCircleCheck} />
                 </Button>
               </>
             )}
