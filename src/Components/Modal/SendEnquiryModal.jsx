@@ -22,7 +22,7 @@ export default function SendEnquiryModal({
 
   const [isEnquirySend, setIsEnquirySend] = useState(false);
 
-  const [isWhatsapp, setIsWhatsapp] = useState(false)
+  const [isWhatsapp, setIsWhatsapp] = useState(true)
 
   const [message, setMessage] = useState();
 
